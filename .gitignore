@@ -1,0 +1,6 @@
+# node.js installed dependencies
+node_modules/
+
+# vim swp files
+*.swp
+

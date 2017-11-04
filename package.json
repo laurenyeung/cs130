@@ -1,0 +1,23 @@
+{
+  "name": "lurkr",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/laurenyeung/cs130.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/laurenyeung/cs130/issues"
+  },
+  "homepage": "https://github.com/laurenyeung/cs130#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
