@@ -1,6 +1,9 @@
 # node.js installed dependencies
 node_modules/
 
+# sqlite database file
+lurkr.db
+
 # vim swp files
 *.swp
 

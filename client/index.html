@@ -1,7 +1,59 @@
 <!doctype html>
 <html>
-<body>
-<p>Hello world</p>
-</body>
+    <head>
+        <title>Lurkr</title>
+        <script src="./backend.js"></script>
+        <script type="text/javascript">
+            function callback(results) {
+                var textOut = document.getElementById("results");
+                textOut.value = JSON.stringify(results);
+            }
+
+            function onAddSub() {
+                var userId = document.getElementById("userId").value;
+                var platform = document.getElementById("platform").value;
+                var accountUrl = document.getElementById("accountUrl").value;
+                addSubscription(userId, platform, accountUrl, callback);
+            }
+
+            function onRemoveSub() {
+                var userId = document.getElementById("userId").value;
+                var platform = document.getElementById("platform").value;
+                var accountUrl = document.getElementById("accountUrl").value;
+                removeSubscription(userId, platform, accountUrl, callback);
+            }
+
+            function onGetSubs() {
+                var userId = document.getElementById("userId").value;
+                //var platform = document.getElementById("platform").value;
+                getSubscriptions(userId, callback);
+            }
+        </script>
+    </head>
+    <body>
+        <table>
+            <tr>
+                <td><b>User ID</b></td>
+                <td><input type="text" id="userId" value="user1" /></td>
+            </tr>
+            <tr>
+                <td><b>Platform</b></td>
+                <td><input type="text" id="platform" value="youtube" /></td>
+            </tr>
+            <tr>
+                <td><b>Account URL</b></td>
+                <td><input type="text" id="accountUrl" value="http://youtube.com/someone" /></td>
+            </tr>
+        </table>
+        <p>
+            <input type="button" value="Add Subscription" onclick="onAddSub()" />
+            <input type="button" value="Remove Subscription" onclick="onRemoveSub()" />
+            <input type="button" value="Get Subscriptions" onclick="onGetSubs()" />
+        </p>
+        <p>
+            <b>Results:</b><br />
+            <textarea id="results" rows="20" cols="120"></textarea>
+        </p>
+    </body>
 </html>
 

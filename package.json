@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/laurenyeung/cs130#readme",
   "dependencies": {
+    "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "sqlite3": "^3.1.13"
   }

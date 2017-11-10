@@ -8,10 +8,10 @@ class Database {
     // Arguments:
     //   userId - ID of the user who is subscribing
     //   platform - the platform (e.g. youtube)
-    //   subscription - the account being subscribed to
+    //   accountUrl - the account being subscribed to
     //   callback(err) - called when the subscription has been added. If
     //       successful, err is null, otherwise it's an error message string.
-    addSubscription(userId, platform, subscription, callback) {
+    addSubscription(userId, platform, accountUrl, callback) {
         throw "Not implemented";
     }
 
@@ -20,10 +20,10 @@ class Database {
     // Arguments:
     //   userId - ID of the user who is subscribing
     //   platform - the platform (e.g. youtube)
-    //   subscription - the account being subscribed to
+    //   accountUrl - the account being subscribed to
     //   callback(err) - called when the subscription has been added. If
     //       successful, err is null, otherwise it's an error message string.
-    removeSubscription(userId, platform, subscription, callback) {
+    removeSubscription(userId, platform, accountUrl, callback) {
         throw "Not implemented";
     }
 
@@ -36,7 +36,7 @@ class Database {
     //       successful, err is null, and subs is:
     //       [ { platform: "youtube", accountUrl: "http://youtube.com/channel/123blah456" }, {...} ]
     //       otherwise, err is an error message string, and subs is null.
-    getSubscriptions(userId, platform, subscription, callback) {
+    getSubscriptions(userId, platform, callback) {
         throw "Not implemented";
     }
 }

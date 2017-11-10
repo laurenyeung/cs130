@@ -46,17 +46,17 @@ class Sqlite3Database extends database.Database {
     }
 
     // helper method to figure out if a subscription exists
-    _subscriptionExists(userId, platform, subscription, callback) {
+    _subscriptionExists(userId, platform, accountUrl, callback) {
         this.db.all("SELECT * FROM subscriptions WHERE userId=? AND platform=? and accountUrl=?",
-            [userId, platform, subscription],
+            [userId, platform, accountUrl],
             (err, rows) => {
                 callback(err, rows ? rows.length != 0 : undefined);
             }
         );
     }
 
-    addSubscription(userId, platform, subscription, callback) {
-        this._subscriptionExists(userId, platform, subscription, (err, exists) => {
+    addSubscription(userId, platform, accountUrl, callback) {
+        this._subscriptionExists(userId, platform, accountUrl, (err, exists) => {
             // return error if subscription already exists
             if (exists) {
                 return callback("Subscription already exists");
@@ -64,7 +64,7 @@ class Sqlite3Database extends database.Database {
 
             // add the subscription
             this.db.run("INSERT INTO subscriptions(userId, platform, accountUrl) VALUES(?, ?, ?)",
-                [userId, platform, subscription],
+                [userId, platform, accountUrl],
                 (err) => {
                     callback(err ? "Database error: " + err : null);
                 }
@@ -72,8 +72,8 @@ class Sqlite3Database extends database.Database {
         });
     }
 
-    removeSubscription(userId, platform, subscription, callback) {
-        this._subscriptionExists(userId, platform, subscription, (err, exists) => {
+    removeSubscription(userId, platform, accountUrl, callback) {
+        this._subscriptionExists(userId, platform, accountUrl, (err, exists) => {
             // return error if subscription already exists
             if (!exists) {
                 return callback("Subscription does not exist");
@@ -81,7 +81,7 @@ class Sqlite3Database extends database.Database {
 
             // remove the subscription
             this.db.run("DELETE FROM subscriptions WHERE userId=? AND platform=? AND accountUrl=?",
-                [userId, platform, subscription],
+                [userId, platform, accountUrl],
                 (err) => {
                     callback(err ? "Database error: " + err : null);
                 }
