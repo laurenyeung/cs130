@@ -4,6 +4,10 @@ node_modules/
 # sqlite database file
 lurkr.db
 
+# daemon logs
+out.log
+err.log
+
 # vim swp files
 *.swp
 

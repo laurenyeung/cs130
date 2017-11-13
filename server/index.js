@@ -1,5 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var daemon = require('start-stop-daemon');
+
 var app = express();
 
 // serve the 'client' directory as static files at '/'
@@ -106,5 +108,7 @@ app.delete('/api/:userId', (req, res) => {
 });
 
 // serve on port 8888
-app.listen(8888);
+daemon(() => {
+    app.listen(8888);
+});
 
