@@ -24,8 +24,6 @@ function statusChangeCallback(response) {
   console.log(response);
   if (response.status == 'connected') {
     redirectToMainPage();
-  } else if (response.status == 'unknown') {
-    FB.login();
   }
 }
 
