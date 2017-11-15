@@ -1,7 +1,10 @@
-const WebScraper = require('./Scraper.js');
-const Backend = require('./backend.js');
+/*jshint esversion: 6 */
 
-var Platforms = [ new Youtube ]; //Add all platforms here
+// const WebScraper = require('./Scraper.js');
+// const Backend = require('./backend.js');
+const Youtube = require('./platform-youtube');
+
+var Platforms = [ new Youtube() ]; //Add all platforms here
 var youtubeContent;
 var twitterContent;
 var tumblrContent;
@@ -70,21 +73,28 @@ function getContent() {
 }
 */
 
-function getAllContent(userId) {
-    let allContent;
-    for (platform in Platforms) {
-        getSubscriptions(userId, platform, (err, res) => {
-            if (err) {
-                throw "Error getting subsriptions from backend";
-            }
-            else {
-                let platformContent = platform.scrape(platformSubscription);
-                allContent.push(platformContent);
-            }
-        });
-    }
-}
+/**
+ * Not used yet...
+ */
+// function getAllContent(userId) {
+//     let allContent;
+//     for (var platform in Platforms) {
+//         getSubscriptions(userId, platform, (err, res) => {
+//             if (err) {
+//                 throw "Error getting subsriptions from backend";
+//             }
+//             else {
+//                 let platformContent = platform.scrape(platformSubscription);
+//                 allContent.push(platformContent);
+//             }
+//         });
+//     }
+// }
 
-function sortContent() {
+/**
+ * Not used yet...
+ * @return {[type]} [description]
+ */
+// function sortContent() {
 //	sortedContent = sort(content);
-}
+// }

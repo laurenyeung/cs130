@@ -48,8 +48,8 @@ module.exports = {
     // acts sort of like a factory method, but also hides the module loading
     // callback is called on error, or when the database is ready
     createDatabase: function(options, callback) {
-        module = require("./database-"+options.type+".js")
+        module = require("./database-"+options.type+".js");
         return module.createDatabase(options, callback);
     }
-}
+};
 

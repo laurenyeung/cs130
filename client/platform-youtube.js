@@ -1,3 +1,5 @@
+/*jshint esversion: 6 */
+
 // platform-youtube.js - defines the Youtube implementation of the platform class 
 // Use youtube api here
 var platform = require('./platform.js');
@@ -15,6 +17,4 @@ class Youtube extends platform.Platform {
     scrape() { 
         throw "Platform not implemented";
     }
-
-
 }

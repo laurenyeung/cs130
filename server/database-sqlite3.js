@@ -100,7 +100,7 @@ class Sqlite3Database extends database.Database {
             }
         );
     }
-};
+}
 
 module.exports = {
     // acts as a factory method
