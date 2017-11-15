@@ -3,7 +3,7 @@
     <head>
         <title>Lurkr</title>
         <script src="./backend.js"></script>
-        <script src="facebook-login.js"></script>
+        <script src="main.js"></script>
         <script type="text/javascript">
             function callback(results) {
                 var textOut = document.getElementById("results");
@@ -32,9 +32,7 @@
         </script>
     </head>
     <body>
-        <div id="fb-root"></div>
-        <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></div>
-
+        <p onclick="logout()">Log out</p>
         <table>
             <tr>
                 <td><b>User ID</b></td>
