@@ -91,7 +91,7 @@ class Sqlite3Database extends database.Database {
 
     // TODO: platform ignored for now, still need to figure out specifics of the API
     getSubscriptions(userId, platform, callback) {
-        this.db.all("SELECT platform, accountUrl FROM subscriptions WHERE userId=?", [userId],
+        this.db.all("SELECT platform, accountUrl FROM subscriptions WHERE userId=? platform=?", [userId, platform],
             (err, rows) => {
                 if (err)
                     callback("Database error: " + err);
