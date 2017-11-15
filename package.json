@@ -26,5 +26,8 @@
     "request": "latest",
     "sqlite3": "^3.1.13",
     "start-stop-daemon": "^0.1.1"
+  },
+  "devDependencies": {
+    "webpack": "^3.8.1"
   }
 }

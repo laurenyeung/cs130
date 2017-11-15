@@ -4,7 +4,7 @@
 // const Backend = require('./backend.js');
 const Youtube = require('./platform-youtube');
 
-var Platforms = [ new Youtube() ]; //Add all platforms here
+var Platforms = [ Youtube ]; //Add all platforms here
 var youtubeContent;
 var twitterContent;
 var tumblrContent;
@@ -15,18 +15,21 @@ init();
 
 function init() {
     setButtonBehaviors();
-    getAllSubsriptions();
-    getContent();
-    sortContent();
+    // getAllSubsriptions();
+    // getContent();
+    // sortContent();
 }
 
 /**
  * Sets button behavior for all buttons on the homepage
  */
 function setButtonBehaviors() {
-    document.getElementById("addSubscriptionButton").onClick = onAddSub;
-    document.getElementById("removeSubscriptionButton").onClick = onRemoveSub;
-    document.getElementById("getSubscriptionsButton").onClick = onGetSubs;
+    let addSubscriptionButton = document.getElementById("addSubscriptionButton");
+    addSubscriptionButton.onClick = onAddSub;
+    let removeSubscriptionButton = document.getElementById("removeSubscriptionButton");
+    removeSubscriptionButton.onClick = onRemoveSub;
+    let getSubscriptionsButton = document.getElementById("getSubscriptionsButton");
+    getSubscriptionsButton.onClick = onGetSubs;
 }
 
 //These are functions called from index.html ie. by pressing a button
@@ -53,6 +56,8 @@ function onGetSubs() {
     var userId = document.getElementById("userId").value;
     //var platform = document.getElementById("platform").value;
     getSubscriptions(userId, callback);
+    document.getElementById("results").value = "User clicked getSubscriptions";
+    console.log("User clicked getSubscriptions");
 }
 
 function onLoad() {
