@@ -21,6 +21,16 @@ if running on the server. Use `npm stop` and `npm restart` to stop and restart
 the server. Logs will be written to out.log and err.log.
 
 
+## Testing
+Back-end unit tests are written using the mocha framework. To run them:
+
+```
+npm test
+```
+
+The back-end unit tests are located in the test/ directory.
+
+
 ## Other
 
 * Front-end stuff goes in the "client" directory, back-end in "server"
