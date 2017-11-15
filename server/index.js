@@ -28,8 +28,8 @@ var db = require("./database.js").createDatabase(
 //     error: "error message if success was false",
 //     results: [ { platform: "youtube, accountUrl: "..." }, {...} ] // only if successful
 // }
-app.get('/api/:userId', (req, res) => {
-    db.getSubscriptions(req.params["userId"], "", (err, subs) => {
+app.get('/api/:userId/:platform', (req, res) => {
+    db.getSubscriptions(req.params["userId"], req.params["platform"], (err, subs) => {
         if (err) {
             res.send({
                 success: false,
