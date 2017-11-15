@@ -132,7 +132,7 @@ function onGetSubs() {
     console.log("User clicked getSubscriptions");
     var userId = document.getElementById("userId").value;
     var platform = document.getElementById("platform").value;
-    Backend.getSubscriptions(userId, "youtube", callback);
+    Backend.getSubscriptions(userId, platform, callback);
     document.getElementById("results").value = "User clicked getSubscriptions";
 }
 
@@ -275,6 +275,8 @@ module.exports = {
 // platform-youtube.js - defines the Youtube implementation of the platform class 
 // Use youtube api here
 var platform = __webpack_require__(3);
+// var request = require('request');
+// var cheerio = require('cheerio');
 
 class Youtube extends platform.Platform {
     getUrl() {
