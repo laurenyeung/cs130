@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 // database-sqlite3.js - defines the sqlite3 implementation of the database class 
 
 var sqlite3 = require('sqlite3');    //.verbose(); 
