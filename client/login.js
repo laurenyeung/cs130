@@ -9,6 +9,10 @@ window.fbAsyncInit = function() {
   FB.getLoginStatus(function(response) {
       statusChangeCallback(response);
   });
+
+  FB.Event.subscribe('auth.statusChange', function(response) {
+    statusChangeCallback(response);
+  });
 };
 
 (function(d, s, id){
