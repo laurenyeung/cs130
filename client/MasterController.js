@@ -29,8 +29,12 @@ function setButtonBehaviors() {
     document.getElementById("getSubscriptionsButton").onclick = onGetSubs;
 }
 
+/**
+ * A testing method used to dynamically set the content of the embeded video
+ */
 function setTestVideoContent() {
-    document.getElementById("testVideo").src = "https://www.youtube.com/embed/dQw4w9WgXcQ?&autoplay=1";
+    // never gonna give you up...
+    document.getElementById("testVideo").src = "https://www.youtube.com/embed/dQw4w9WgXcQ";
 }
 
 //These are functions called from index.html ie. by pressing a button
