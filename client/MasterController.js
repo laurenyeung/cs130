@@ -8,9 +8,23 @@ var tumblrContent;
 var content;
 var sortedContent;
 
-getAllSubsriptions();
-getContent();
-sortContent();
+init();
+
+function init() {
+    setButtonBehaviors();
+    getAllSubsriptions();
+    getContent();
+    sortContent();
+}
+
+/**
+ * Sets button behavior for all buttons on the homepage
+ */
+function setButtonBehaviors() {
+    document.getElementById("addSubscriptionButton").onClick = onAddSub;
+    document.getElementById("removeSubscriptionButton").onClick = onRemoveSub;
+    document.getElementById("getSubscriptionsButton").onClick = onGetSubs;
+}
 
 //These are functions called from index.html ie. by pressing a button
 function callback(results) {
