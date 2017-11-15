@@ -29,5 +29,6 @@
   "devDependencies": {
     "mocha": "^4.0.1"
     "request": "latest",
+    "webpack": "^3.8.1"
   }
 }
