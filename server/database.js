@@ -1,51 +1,55 @@
 // database.js - Defines the Database "interface" class
 
-// This class acts as the "interface" for all databases. Since javascript does
-// not have interfaces, just return an error for everything
 /**
- * Creates a new Database.
+ * Creates a new Database. Acts as parent class for all databases.
+ * Javascript does not have interfaces, only returns errors for everything.
  * @class
  */
 class Database {
-    // Adds a subscription to the database
-    //
-    // Arguments:
-    //   userId - ID of the user who is subscribing
-    //   platform - the platform (e.g. youtube)
-    //   accountUrl - the account being subscribed to
-    //   callback(err) - called when the subscription has been added. If
-    //       successful, err is null, otherwise it's an error message string.
+
+  
+    /**
+     * Adds a subscription to the database.
+     * @param {number} userId - ID of the user who is subscribing.
+     * @param {number} platform - the platform (e.g. youtube).
+     * @param {number} accountUrl - the account being subscribed to.
+     * @param {error} callback - called when the subscription has been added. If successful, err is null, otherwise it's an error message string.
+     */
     addSubscription(userId, platform, accountUrl, callback) {
         throw "Not implemented";
     }
 
-    // Removes a subscription from the database
-    //
-    // Arguments:
-    //   userId - ID of the user who is subscribing
-    //   platform - the platform (e.g. youtube)
-    //   accountUrl - the account being subscribed to
-    //   callback(err) - called when the subscription has been added. If
-    //       successful, err is null, otherwise it's an error message string.
+    /**
+     * Removes a subscription from the database.
+     * @param {number} userId - ID of the user who is subscribing.
+     * @param {number} platform - the platform (e.g. youtube).
+     * @param {number} accountUrl - the account being subscribed to.
+     * @param {error} callback - called when the subscription has been added.
+     * If successful, err is null, otherwise it's an error message string.
+     */
     removeSubscription(userId, platform, accountUrl, callback) {
         throw "Not implemented";
     }
 
-    // Gets all subscriptions for a particular user
-    //
-    // Arguments:
-    //   userId - ID of the user who is subscribing
-    //   platform - the platform (e.g. youtube)
-    //   callback(err, subs) - called when the subscription has been added. If
-    //       successful, err is null, and subs is:
-    //       [ { platform: "youtube", accountUrl: "http://youtube.com/channel/123blah456" }, {...} ]
-    //       otherwise, err is an error message string, and subs is null.
+    /**
+     * Gets all subscriptions for a particular user.
+     * @param {number} userId - ID of the user who is subscribing.
+     * @param {number} platform - the platform (e.g. youtube).
+     * @param {error, Array<Object>} callback - called when the subscription has been added. If
+     *       successful, err is null, and subs is:
+     *       [ { platform: "youtube", accountUrl: "http://youtube.com/channel/123blah456" }, {...} ]
+     *       otherwise, err is an error message string, and subs is null.
+     */
     getSubscriptions(userId, platform, callback) {
         throw "Not implemented";
     }
 }
 
-// export the abstract Database class from this module
+    /**
+     * Exports abstract database class from this module
+     * @module 
+     */
+     /
 module.exports = {
     Database: Database,
 
