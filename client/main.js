@@ -7,9 +7,19 @@ window.fbAsyncInit = function() {
   });
 
   FB.getLoginStatus(function(response) {
-      statusChangeCallback(response);
+    statusChangeCallback(response);
+  });
+
+  FB.Event.subscribe('auth.statusChange', function(response) {
+    statusChangeCallback(response);
   });
 };
+
+function getLoginStatus() {
+  FB.getLoginStatus(function(response) {
+      statusChangeCallback(response);
+  });
+}
 
 (function(d, s, id){
   var js, fjs = d.getElementsByTagName(s)[0];
@@ -33,6 +43,6 @@ function redirectToLoginPage() {
 
 function logout() {
   FB.logout(function(response) {
-    // Logged out.
+    getLoginStatus();
   });
 }
