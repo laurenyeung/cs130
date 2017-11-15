@@ -35,7 +35,7 @@ class Database {
      * Gets all subscriptions for a particular user.
      * @param {number} userId - ID of the user who is subscribing.
      * @param {number} platform - the platform (e.g. youtube).
-     * @param {error, Array<Object>} callback - called when the subscription has been added. If
+     * @param {error} callback - called when the subscription has been added. If
      *       successful, err is null, and subs is:
      *       [ { platform: "youtube", accountUrl: "http://youtube.com/channel/123blah456" }, {...} ]
      *       otherwise, err is an error message string, and subs is null.
@@ -49,7 +49,6 @@ class Database {
      * Exports abstract database class from this module
      * @module 
      */
-     /
 module.exports = {
     Database: Database,
 
