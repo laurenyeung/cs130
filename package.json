@@ -27,5 +27,7 @@
   },
   "devDependencies": {
     "mocha": "^4.0.1"
+    "request": "latest",
+    "cheerio": "latest"
   }
 }
