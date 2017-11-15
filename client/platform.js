@@ -17,8 +17,8 @@ class Platform {
     }
 }
 
-// export the abstract Database class from this module
+// export the abstract Platform class from this module
 module.exports = {
-    Platform: Platform,
+    Platform: Platform
 }
 

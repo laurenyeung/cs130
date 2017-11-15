@@ -1,7 +1,6 @@
 /*jshint esversion: 6 */
 
-// const WebScraper = require('./Scraper.js');
-// const Backend = require('./backend.js');
+const Backend = require('./backend.js');
 const Youtube = require('./platform-youtube');
 
 var Platforms = [ Youtube ]; //Add all platforms here
@@ -15,7 +14,7 @@ init();
 
 function init() {
     setButtonBehaviors();
-    // getAllSubsriptions();
+    // getAllSubscriptions();
     // getContent();
     // sortContent();
 }
@@ -24,12 +23,9 @@ function init() {
  * Sets button behavior for all buttons on the homepage
  */
 function setButtonBehaviors() {
-    let addSubscriptionButton = document.getElementById("addSubscriptionButton");
-    addSubscriptionButton.onClick = onAddSub;
-    let removeSubscriptionButton = document.getElementById("removeSubscriptionButton");
-    removeSubscriptionButton.onClick = onRemoveSub;
-    let getSubscriptionsButton = document.getElementById("getSubscriptionsButton");
-    getSubscriptionsButton.onClick = onGetSubs;
+    document.getElementById("addSubscriptionButton").onclick = onAddSub;
+    document.getElementById("removeSubscriptionButton").onclick = onRemoveSub;
+    document.getElementById("getSubscriptionsButton").onclick = onGetSubs;
 }
 
 //These are functions called from index.html ie. by pressing a button
@@ -39,6 +35,7 @@ function callback(results) {
 }
 
 function onAddSub() {
+    console.log("Clicked Add subsrciption button");
     var userId = document.getElementById("userId").value;
     var platform = document.getElementById("platform").value;
     var accountUrl = document.getElementById("accountUrl").value;
