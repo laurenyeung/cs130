@@ -78,4 +78,4 @@ module.exports = {
     addSubscription: addSubscription,
     removeSubscription: removeSubscription,
     getSubscriptions: getSubscriptions
-}
+};
