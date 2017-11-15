@@ -22,7 +22,7 @@ window.fbAsyncInit = function() {
 function statusChangeCallback(response) {
   console.log("statusChange");
   console.log(response);
-  if (response.status == 'not_authorized') {
+  if (response.status != 'connected') {
     redirectToLoginPage();
   }
 }
