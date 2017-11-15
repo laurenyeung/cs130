@@ -3,9 +3,18 @@
 ## Setup
 
 Run this command to install node.js dependencies:
-
 ```
 npm install
+```
+
+Then run this command to bundle the client-side javascript:
+```
+./node_modules/webpack/bin/webpack.js
+```
+
+Or, if you installed webpack globally with `npm install webpack -g`:
+```
+webpack
 ```
 
 
@@ -21,19 +30,23 @@ if running on the server. Use `npm stop` and `npm restart` to stop and restart
 the server. Logs will be written to out.log and err.log.
 
 
+## Directory Structure
+* `client/`: Contains all front-end HTML and JavaScript code that is run in the
+  the user's browser
+* `server/`: Contains all back-end JavaScript (Node.JS) code that is run on the
+  server
+* `test/`: Contains unit tests for the back-end code
+
+
 ## Testing
 Back-end unit tests are written using the mocha framework. To run them:
-
 ```
 npm test
 ```
 
-The back-end unit tests are located in the test/ directory.
-
 
 ## Other
 
-* Front-end stuff goes in the "client" directory, back-end in "server"
 * On the cloud server, port 80 is mapped to port 8888 so node doesn't have to
   be run as root. See <https://stackoverflow.com/a/16573737>.
 
