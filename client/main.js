@@ -47,3 +47,9 @@ function logout() {
     // Logged out.
   });
 }
+
+function getUserId(callback) {
+  FB.getLoginStatus(function(response) {
+    callback(response.authResponse.userID);
+  });
+}
