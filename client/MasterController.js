@@ -14,6 +14,7 @@ init();
 
 function init() {
     setButtonBehaviors();
+    setTestVideoContent();
     // getAllSubscriptions();
     // getContent();
     // sortContent();
@@ -28,6 +29,10 @@ function setButtonBehaviors() {
     document.getElementById("getSubscriptionsButton").onclick = onGetSubs;
 }
 
+function setTestVideoContent() {
+    document.getElementById("testVideo").src = "https://www.youtube.com/embed/dQw4w9WgXcQ?&autoplay=1";
+}
+
 //These are functions called from index.html ie. by pressing a button
 function callback(results) {
     var textOut = document.getElementById("results");
@@ -39,22 +44,23 @@ function onAddSub() {
     var userId = document.getElementById("userId").value;
     var platform = document.getElementById("platform").value;
     var accountUrl = document.getElementById("accountUrl").value;
-    addSubscription(userId, platform, accountUrl, callback);
+    Backend.addSubscription(userId, platform, accountUrl, callback);
 }
 
 function onRemoveSub() {
+    console.log("User clicked removeSubscriptions");
     var userId = document.getElementById("userId").value;
     var platform = document.getElementById("platform").value;
     var accountUrl = document.getElementById("accountUrl").value;
-    removeSubscription(userId, platform, accountUrl, callback);
+    Backend.removeSubscription(userId, platform, accountUrl, callback);
 }
 
 function onGetSubs() {
-    var userId = document.getElementById("userId").value;
-    //var platform = document.getElementById("platform").value;
-    getSubscriptions(userId, callback);
-    document.getElementById("results").value = "User clicked getSubscriptions";
     console.log("User clicked getSubscriptions");
+    var userId = document.getElementById("userId").value;
+    var platform = document.getElementById("platform").value;
+    Backend.getSubscriptions(userId, platform, callback);
+    document.getElementById("results").value = "User clicked getSubscriptions";
 }
 
 function onLoad() {
