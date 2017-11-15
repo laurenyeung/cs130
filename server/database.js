@@ -2,6 +2,10 @@
 
 // This class acts as the "interface" for all databases. Since javascript does
 // not have interfaces, just return an error for everything
+/**
+ * Creates a new Database.
+ * @class
+ */
 class Database {
     // Adds a subscription to the database
     //
