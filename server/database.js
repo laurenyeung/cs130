@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 // database.js - Defines the Database "interface" class
 
 /**
