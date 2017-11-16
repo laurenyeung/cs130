@@ -54,7 +54,8 @@ class Youtube extends platform.Platform {
      */
     getContent(accountUrl) {
         // this is a test channel id
-        let channelId = "UCLegnNLfivOIBlM97QUwefQ";
+        //let channelId = "UCLegnNLfivOIBlM97QUwefQ";
+        let channelId = accountUrl;
         let url = "https://www.googleapis.com/youtube/v3/search?order=date&part=snippet&channelId=" + 
             channelId + "&maxResults=25&key=" + apiKey;
         let xhr = new XMLHttpRequest();

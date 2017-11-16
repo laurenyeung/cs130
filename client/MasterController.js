@@ -7,9 +7,9 @@ const Tumblr = require('./platform-tumblr.js');
 const Main = require('./main.js');
 
 var Platforms = {
-    Youtube: new Youtube.Youtube(),
-    Twitter: new Twitter.Twitter(),
-    Tumblr:  new Tumblr.Tumblr(),
+    youtube: new Youtube.Youtube(),
+    twitter: new Twitter.Twitter(),
+    tumblr:  new Tumblr.Tumblr(),
 };
 
 var youtubeContent;
@@ -22,32 +22,21 @@ init();
 
 function init() {
     setButtonBehaviors();
-    setTestVideoContent();
-    Platforms.Youtube.getContent();
+    onPlatformChanged();    // temporary: fill in default accountUrl
     // getAllSubscriptions();
     // getContent();
     // sortContent();
-//    Platforms.Tumblr.getContent('citriccomics');
 }
 
 /**
  * Sets button behavior for all buttons on the homepage
  */
 function setButtonBehaviors() {
-    //using addsubscriptionbutton for testing
-    // document.getElementById("addSubscriptionButton").onclick = Platforms.Youtube.getContent;
+    document.getElementById("platform").onchange = onPlatformChanged;
     document.getElementById("addSubscriptionButton").onclick = onAddSub;
-    document.getElementById("removeSubscriptionButton").onclick = Platforms.Tumblr.getContent('citriccomics');
+    document.getElementById("removeSubscriptionButton").onclick = onRemoveSub;
     document.getElementById("getSubscriptionsButton").onclick = onGetSubs;
     document.getElementById("logOutButton").onclick = Main.logout;
-}
-
-/**
- * A testing method used to dynamically set the content of the embeded video
- */
-function setTestVideoContent() {
-    // never gonna give you up...
-    // document.getElementById("testVideo").src = "https://www.youtube.com/embed/dQw4w9WgXcQ";
 }
 
 //These are functions called from index.html ie. by pressing a button
@@ -56,7 +45,32 @@ function callback(results) {
     textOut.value = JSON.stringify(results);
 }
 
+function onSubscriptionsReceived(results) {
+    callback(results);
+    if (!results.success)
+        return;
+
+    // for now, just call getContent
+    // TODO: store in global array, then sort the array when done
+    for (let sub of results.results) {
+        Platforms[sub.platform].getContent(sub.accountUrl);
+    }
+}
+
+function onPlatformChanged() {
+    // set a default channel for now
+    const defaultAccount = {
+        youtube: "UCLegnNLfivOIBlM97QUwefQ",
+        tumblr: "citriccomics",
+        twitter: ""
+    };
+    let dropDown = document.getElementById("platform");
+    let accountUrl = document.getElementById("accountUrl");
+    accountUrl.value = defaultAccount[dropDown.value];
+}
+
 function onAddSub() {
+    // TODO: verify that the channel we're subscribing to actually exists
     console.log("Clicked Add subscription button");
     Main.getUserId(function(userId) {
         var platform = document.getElementById("platform").value;
@@ -77,7 +91,7 @@ function onRemoveSub() {
 function onGetSubs() {
     console.log("User clicked getSubscriptions");
     Main.getUserId(function(userId) {
-        Backend.getSubscriptions(userId, callback);
+        Backend.getSubscriptions(userId, onSubscriptionsReceived);
         document.getElementById("results").value = "User clicked getSubscriptions";
     });
 }
