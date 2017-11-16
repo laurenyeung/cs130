@@ -27,20 +27,10 @@ function init() {
  * Sets button behavior for all buttons on the homepage
  */
 function setButtonBehaviors() {
-    //using addsubscriptionbutton for testing
-    // document.getElementById("addSubscriptionButton").onclick = Platforms.Youtube.getContent;
     document.getElementById("addSubscriptionButton").onclick = onAddSub;
     document.getElementById("removeSubscriptionButton").onclick = onRemoveSub;
     document.getElementById("getSubscriptionsButton").onclick = onGetSubs;
     document.getElementById("logOutButton").onclick = Main.logout;
-}
-
-/**
- * A testing method used to dynamically set the content of the embeded video
- */
-function setTestVideoContent() {
-    // never gonna give you up...
-    // document.getElementById("testVideo").src = "https://www.youtube.com/embed/dQw4w9WgXcQ";
 }
 
 //These are functions called from index.html ie. by pressing a button
