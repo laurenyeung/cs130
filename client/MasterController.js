@@ -3,9 +3,15 @@
 const Backend = require('./backend.js');
 const Youtube = require('./Youtube');
 const Twitter = require('./twitter.js');
+const Tumblr = require('./platform-tumblr.js');
 const Main = require('./main.js');
 
-var Platforms = { 'Youtube': new Youtube.Youtube(), 'Twitter': new Twitter.Twitter() }; //Add all platforms here
+var Platforms = {
+    Youtube: new Youtube.Youtube(),
+    Twitter: new Twitter.Twitter(),
+    Tumblr:  new Tumblr.Tumblr(),
+};
+
 var youtubeContent;
 var twitterContent;
 var tumblrContent;
@@ -21,6 +27,7 @@ function init() {
     // getAllSubscriptions();
     // getContent();
     // sortContent();
+//    Platforms.Tumblr.getContent('citriccomics');
 }
 
 /**
@@ -30,7 +37,7 @@ function setButtonBehaviors() {
     //using addsubscriptionbutton for testing
     // document.getElementById("addSubscriptionButton").onclick = Platforms.Youtube.getContent;
     document.getElementById("addSubscriptionButton").onclick = onAddSub;
-    document.getElementById("removeSubscriptionButton").onclick = onRemoveSub;
+    document.getElementById("removeSubscriptionButton").onclick = Platforms.Tumblr.getContent('citriccomics');
     document.getElementById("getSubscriptionsButton").onclick = onGetSubs;
     document.getElementById("logOutButton").onclick = Main.logout;
 }

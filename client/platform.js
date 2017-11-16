@@ -32,7 +32,7 @@ class Platform {
 
     /**
      * This method gets the content from a particular account
-      @param  {String} accountUrl - the url of the account we are getting content from
+     * @param  {String} accountUrl - the url of the account we are getting content from
      * @return {Object} - a list of the content grabbed from the account.
      *                    Each object in the list contains the following elements
      *                    contentUrl : the url of a particular post
