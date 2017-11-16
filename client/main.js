@@ -30,10 +30,14 @@ function getLoginStatus() {
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 
+function isOnLocalhost() {
+    return window.location.href.search("localhost") != -1;
+}
+
 function statusChangeCallback(response) {
   console.log("statusChange");
   console.log(response);
-  if (response.status != 'connected') {
+  if (response.status != 'connected' && !isOnLocalhost()) {
     redirectToLoginPage();
   }
 }
@@ -49,9 +53,14 @@ function logout() {
 }
 
 function getUserId(callback) {
-  FB.getLoginStatus(function(response) {
-    callback(response.authResponse.userID);
-  });
+  if (isOnLocalhost()) {
+    callback('12345');  // test user ID
+  }
+  else {
+    FB.getLoginStatus(function(response) {
+      callback(response.authResponse.userID);
+    });
+  }
 }
 
 module.exports = {

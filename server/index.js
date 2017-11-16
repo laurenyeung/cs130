@@ -15,9 +15,10 @@ app.use(express.static('client', {index:false}));
 // the user is logged in
 app.get('/', (req, res) => {
     // assume that the user is logged in if they have a cookie beginning with
-    // "fbsr_"
+    // "fbsr_", or if the host is localhost
     let cookie = req.headers.cookie;
-    if (!cookie || !cookie.match(/fbsr_.+/)) {
+    let host = req.headers.host;
+    if (host.search("localhost") == -1 && (!cookie || !cookie.match(/fbsr_.+/))) {
         res.redirect("/login.html");
     }
     else {
