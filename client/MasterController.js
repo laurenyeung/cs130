@@ -1,11 +1,11 @@
 /*jshint esversion: 6 */
 
 const Backend = require('./backend.js');
-const Youtube = require('./platform-youtube');
+const Youtube = require('./Youtube');
 const Twitter = require('./twitter.js');
 const Main = require('./main.js');
 
-var Platforms = [ Youtube, new Twitter.Twitter() ]; //Add all platforms here
+var Platforms = { 'Youtube': new Youtube.Youtube(), 'Twitter': new Twitter.Twitter() }; //Add all platforms here
 var youtubeContent;
 var twitterContent;
 var tumblrContent;
@@ -17,6 +17,7 @@ init();
 function init() {
     setButtonBehaviors();
     setTestVideoContent();
+    Platforms.Youtube.getContent();
     // getAllSubscriptions();
     // getContent();
     // sortContent();
@@ -26,6 +27,8 @@ function init() {
  * Sets button behavior for all buttons on the homepage
  */
 function setButtonBehaviors() {
+    //using addsubscriptionbutton for testing
+    // document.getElementById("addSubscriptionButton").onclick = Platforms.Youtube.getContent;
     document.getElementById("addSubscriptionButton").onclick = onAddSub;
     document.getElementById("removeSubscriptionButton").onclick = onRemoveSub;
     document.getElementById("getSubscriptionsButton").onclick = onGetSubs;
@@ -37,7 +40,7 @@ function setButtonBehaviors() {
  */
 function setTestVideoContent() {
     // never gonna give you up...
-    document.getElementById("testVideo").src = "https://www.youtube.com/embed/dQw4w9WgXcQ";
+    // document.getElementById("testVideo").src = "https://www.youtube.com/embed/dQw4w9WgXcQ";
 }
 
 //These are functions called from index.html ie. by pressing a button
