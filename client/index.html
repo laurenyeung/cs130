@@ -11,33 +11,33 @@
             }
 
             function onAddSub() {
-                getUserId(function(userId) {
-                    console.log("Got user id");
-                    var platform = document.getElementById("platform").value;
-                    var accountUrl = document.getElementById("accountUrl").value;
-                    addSubscription(userId, platform, accountUrl, callback);
-                });
+                var userId = document.getElementById("userId").value;
+                var platform = document.getElementById("platform").value;
+                var accountUrl = document.getElementById("accountUrl").value;
+                addSubscription(userId, platform, accountUrl, callback);
             }
 
             function onRemoveSub() {
-                getUserId(function(userId) {
-                    var platform = document.getElementById("platform").value;
-                    var accountUrl = document.getElementById("accountUrl").value;
-                    removeSubscription(userId, platform, accountUrl, callback);
-                });
+                var userId = document.getElementById("userId").value;
+                var platform = document.getElementById("platform").value;
+                var accountUrl = document.getElementById("accountUrl").value;
+                removeSubscription(userId, platform, accountUrl, callback);
             }
 
             function onGetSubs() {
+                var userId = document.getElementById("userId").value;
                 //var platform = document.getElementById("platform").value;
-                getUserId(function(userId) {
-                    getSubscriptions(userId, callback);
-                });
+                getSubscriptions(userId, callback);
             }
         </script>
     </head>
     <body>
         <p onclick="logout()">Log out</p>
         <table>
+            <tr>
+                <td><b>User ID</b></td>
+                <td><input type="text" id="userId" value="user1" /></td>
+            </tr>
             <tr>
                 <td><b>Platform</b></td>
                 <td><input type="text" id="platform" value="youtube" /></td>
