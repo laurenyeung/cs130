@@ -2,8 +2,7 @@
 
 // Use youtube api here
 var platform = require('./platform.js');
-var request = require('request');
-var cheerio = require('cheerio');
+//var request = require('request');
 
 /**
  * defines the Youtube implementation of the platform class
