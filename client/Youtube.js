@@ -14,7 +14,7 @@ function formatResponse(response) {
     for(var i in response.items) {
         var item = response.items[i];
         let content = {
-            'videoId': item.id.videoId, 
+            'videoId': item.id.videoId,
             'timestamp': item.snippet.publishedAt,
             'description': item.snippet.description,
             'title': item.snippet.title,
