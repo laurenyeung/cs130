@@ -2,34 +2,6 @@
 <html>
     <head>
         <title>Lurkr</title>
-        <script src="./backend.js"></script>
-        <script src="main.js"></script>
-        <script type="text/javascript">
-            function callback(results) {
-                var textOut = document.getElementById("results");
-                textOut.value = JSON.stringify(results);
-            }
-
-            function onAddSub() {
-                var userId = document.getElementById("userId").value;
-                var platform = document.getElementById("platform").value;
-                var accountUrl = document.getElementById("accountUrl").value;
-                addSubscription(userId, platform, accountUrl, callback);
-            }
-
-            function onRemoveSub() {
-                var userId = document.getElementById("userId").value;
-                var platform = document.getElementById("platform").value;
-                var accountUrl = document.getElementById("accountUrl").value;
-                removeSubscription(userId, platform, accountUrl, callback);
-            }
-
-            function onGetSubs() {
-                var userId = document.getElementById("userId").value;
-                //var platform = document.getElementById("platform").value;
-                getSubscriptions(userId, callback);
-            }
-        </script>
     </head>
     <body>
         <p onclick="logout()">Log out</p>
@@ -48,14 +20,16 @@
             </tr>
         </table>
         <p>
-            <input type="button" value="Add Subscription" onclick="onAddSub()" />
-            <input type="button" value="Remove Subscription" onclick="onRemoveSub()" />
-            <input type="button" value="Get Subscriptions" onclick="onGetSubs()" />
+            <input type="button" id="addSubscriptionButton" value="Add Subscription" />
+            <input type="button" id="removeSubscriptionButton" value="Remove Subscription" />
+            <input type="button" id="getSubscriptionsButton" value="Get Subscriptions" />
         </p>
         <p>
             <b>Results:</b><br />
+            <iframe id="testVideo" width="560" height="315" frameborder="0" allowfullscreen></iframe>
             <textarea id="results" rows="20" cols="120"></textarea>
         </p>
     </body>
+    <script src="./bundle.js"></script>
 </html>
 

@@ -21,11 +21,15 @@
   "homepage": "https://github.com/laurenyeung/cs130#readme",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "cheerio": "latest",
     "express": "^4.16.2",
+    "request": "latest",
     "sqlite3": "^3.1.13",
     "start-stop-daemon": "^0.1.1"
   },
   "devDependencies": {
-    "mocha": "^4.0.1"
+    "mocha": "^4.0.1",
+    "request": "latest",
+    "webpack": "^3.8.1"
   }
 }
