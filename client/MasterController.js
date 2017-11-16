@@ -35,8 +35,6 @@ function setButtonBehaviors() {
 
 //These are functions called from index.html ie. by pressing a button
 function callback(results) {
-    var textOut = document.getElementById("results");
-    textOut.value = JSON.stringify(results);
 }
 
 function onAddSub() {
