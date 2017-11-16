@@ -53,3 +53,8 @@ function getUserId(callback) {
     callback(response.authResponse.userID);
   });
 }
+
+module.exports = {
+  getUserId: getUserId,
+  logout: logout
+};

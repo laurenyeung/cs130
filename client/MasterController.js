@@ -2,6 +2,7 @@
 
 const Backend = require('./backend.js');
 const Youtube = require('./platform-youtube');
+const Main = require('./main.js');
 
 var Platforms = [ Youtube ]; //Add all platforms here
 var youtubeContent;
@@ -27,6 +28,7 @@ function setButtonBehaviors() {
     document.getElementById("addSubscriptionButton").onclick = onAddSub;
     document.getElementById("removeSubscriptionButton").onclick = onRemoveSub;
     document.getElementById("getSubscriptionsButton").onclick = onGetSubs;
+    document.getElementById("logOutButton").onclick = Main.logout;
 }
 
 /**
@@ -44,27 +46,30 @@ function callback(results) {
 }
 
 function onAddSub() {
-    console.log("Clicked Add subsrciption button");
-    var userId = document.getElementById("userId").value;
-    var platform = document.getElementById("platform").value;
-    var accountUrl = document.getElementById("accountUrl").value;
-    Backend.addSubscription(userId, platform, accountUrl, callback);
+    console.log("Clicked Add subscription button");
+    Main.getUserId(function(userId) {
+        var platform = document.getElementById("platform").value;
+        var accountUrl = document.getElementById("accountUrl").value;
+        Backend.addSubscription(userId, platform, accountUrl, callback);
+    });
 }
 
 function onRemoveSub() {
     console.log("User clicked removeSubscriptions");
-    var userId = document.getElementById("userId").value;
-    var platform = document.getElementById("platform").value;
-    var accountUrl = document.getElementById("accountUrl").value;
-    Backend.removeSubscription(userId, platform, accountUrl, callback);
+    Main.getUserId(function(userId) {
+        var platform = document.getElementById("platform").value;
+        var accountUrl = document.getElementById("accountUrl").value;
+        Backend.removeSubscription(userId, platform, accountUrl, callback);
+    });
 }
 
 function onGetSubs() {
     console.log("User clicked getSubscriptions");
-    var userId = document.getElementById("userId").value;
-    var platform = document.getElementById("platform").value;
-    Backend.getSubscriptions(userId, platform, callback);
-    document.getElementById("results").value = "User clicked getSubscriptions";
+    Main.getUserId(function(userId) {
+        var platform = document.getElementById("platform").value;
+        Backend.getSubscriptions(userId, platform, callback);
+        document.getElementById("results").value = "User clicked getSubscriptions";
+    });
 }
 
 function onLoad() {
