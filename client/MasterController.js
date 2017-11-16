@@ -1,11 +1,11 @@
 /*jshint esversion: 6 */
 
 const Backend = require('./backend.js');
-const Youtube = require('./platform-youtube');
+const Youtube = require('./Youtube');
 const Twitter = require('./twitter.js');
 const Main = require('./main.js');
 
-var Platforms = [ Youtube, new Twitter.Twitter() ]; //Add all platforms here
+var Platforms = [ new Youtube.Youtube(), new Twitter.Twitter() ]; //Add all platforms here
 var youtubeContent;
 var twitterContent;
 var tumblrContent;
@@ -26,7 +26,9 @@ function init() {
  * Sets button behavior for all buttons on the homepage
  */
 function setButtonBehaviors() {
-    document.getElementById("addSubscriptionButton").onclick = onAddSub;
+    //using addsubscriptionbutton for testing
+    document.getElementById("addSubscriptionButton").onclick = new Youtube.Youtube().getContent;
+    // document.getElementById("addSubscriptionButton").onclick = onAddSub;
     document.getElementById("removeSubscriptionButton").onclick = onRemoveSub;
     document.getElementById("getSubscriptionsButton").onclick = onGetSubs;
     document.getElementById("logOutButton").onclick = Main.logout;

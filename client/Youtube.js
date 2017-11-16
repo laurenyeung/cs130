@@ -1,7 +1,12 @@
 /*jshint esversion: 6 */
 
 // Use youtube api here
+let apiKey = "AIzaSyDQTSeTpYobZJ_dvQd_Ps_MCP90gXtjyXA";
 var platform = require('./platform.js');
+
+function formatResponse(response) {
+    console.log(response);
+}
 
 /**
  * defines the Youtube implementation of the platform class
@@ -18,7 +23,14 @@ class Youtube extends platform.Platform {
      *                    platform : what platform the post came from
      */
     getContent(accountUrl) {
-
+        // this is a test channel id
+        let channelId = "UCLegnNLfivOIBlM97QUwefQ";
+        let url = "https://www.googleapis.com/youtube/v3/search?order=date&part=snippet&channelId=" + 
+            channelId + "&maxResults=25&key=" + apiKey;
+        let xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = super.createXmlHttpReqCallback(formatResponse);
+        xhr.open("GET", url, true);
+        xhr.send();
     }
 
     /**
@@ -28,4 +40,9 @@ class Youtube extends platform.Platform {
     embed(contentUrl) {
     
     }
+
 }
+
+module.exports = {
+    Youtube: Youtube
+};
