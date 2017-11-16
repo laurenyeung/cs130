@@ -2,9 +2,10 @@
 
 const Backend = require('./backend.js');
 const Youtube = require('./platform-youtube');
+const Twitter = require('./twitter.js');
 const Main = require('./main.js');
 
-var Platforms = [ Youtube ]; //Add all platforms here
+var Platforms = [ Youtube, new Twitter.Twitter() ]; //Add all platforms here
 var youtubeContent;
 var twitterContent;
 var tumblrContent;

@@ -1,22 +1,31 @@
 /*jshint esversion: 6 */
 
-// platform-youtube.js - defines the Youtube implementation of the platform class 
 // Use youtube api here
 var platform = require('./platform.js');
-// var request = require('request');
-// var cheerio = require('cheerio');
 
+/**
+ * defines the Youtube implementation of the platform class
+ */
 class Youtube extends platform.Platform {
-    getUrl() {
-        return "https://youtube.com/user/";
-        //return "https://www.youtube.com/embed/VIDEO_ID"
+    
+    /**
+     * This method gets the content from a particular account
+      @param  {String} accountUrl - the url of the account we are getting content from
+     * @return {Object} - a list of the content grabbed from the account.
+     *                    Each object in the list contains the following elements
+     *                    contentUrl : the url of a particular post
+     *                    timeStamp : the timestamp of the post
+     *                    platform : what platform the post came from
+     */
+    getContent(accountUrl) {
+
     }
 
-    embed() {
-        throw "Platform not implemented";
-    }
-
-    scrape() { 
-        throw "Platform not implemented";
+    /**
+     * This method embeds a given url to the application at the bottom of the page.
+     * @param  {String} contentUrl - the content url to be embedded
+     */
+    embed(contentUrl) {
+    
     }
 }
