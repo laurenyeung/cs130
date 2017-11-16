@@ -43,10 +43,10 @@ function embed(contentList) {
         let h3 = document.createElement('h3');
         h3.innerHTML = contentList[i].title;
 
-        let ul2 = document.createElement('ul');
-        ul2.innerHTML = contentList[i].description;
+        let p = document.createElement('p');
+        p.innerHTML = contentList[i].description;
         div.appendChild(h3);
-        div.appendChild(ul2);
+        div.appendChild(p);
         div.appendChild(iframe);
         document.body.appendChild(div);
     }
@@ -83,11 +83,6 @@ class Youtube extends platform.Platform {
     //  * @param  {String} contentUrl - the content url to be embedded
     //  */
     // embed(contentUrl) {
-    //     let iframe = document.createElement('iframe');
-    //     iframe.src = "https://www.youtube.com/embed/" + contentUrl[0].videoId;
-    //     iframe.width = "560";
-    //     iframe.height = "315";
-    //     document.body.appendChild(iframe);
     // }
 
 }
