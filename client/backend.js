@@ -64,12 +64,12 @@ function removeSubscription(userId, platform, accountUrl, callback) {
 //           error: "Error message if failed",
 //           results: [ { platform: "...", accountUrl: "..." }, {...} ]
 //       }
-function getSubscriptions(userId, platform, callback) {
+function getSubscriptions(userId, callback) {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = createXmlHttpReqCallback(callback);
 
     // TODO: maybe make sure userId doesn't contain invalid characters?
-    xhr.open("GET", "/api/" + userId + "/" + platform);
+    xhr.open("GET", "/api/" + userId);
     xhr.send();
 }
 

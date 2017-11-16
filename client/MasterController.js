@@ -66,8 +66,7 @@ function onRemoveSub() {
 function onGetSubs() {
     console.log("User clicked getSubscriptions");
     Main.getUserId(function(userId) {
-        var platform = document.getElementById("platform").value;
-        Backend.getSubscriptions(userId, platform, callback);
+        Backend.getSubscriptions(userId, callback);
         document.getElementById("results").value = "User clicked getSubscriptions";
     });
 }

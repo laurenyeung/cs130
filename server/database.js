@@ -41,7 +41,7 @@ class Database {
      *       [ { platform: "youtube", accountUrl: "http://youtube.com/channel/123blah456" }, {...} ]
      *       otherwise, err is an error message string, and subs is null.
      */
-    getSubscriptions(userId, platform, callback) {
+    getSubscriptions(userId, callback) {
         throw "Not implemented";
     }
 }
