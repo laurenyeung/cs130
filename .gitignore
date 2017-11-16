@@ -8,6 +8,9 @@ lurkr.db
 out.log
 err.log
 
+# generated documentation
+docs/
+
 # vim swp files
 *.swp
 

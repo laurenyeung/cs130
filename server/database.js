@@ -1,5 +1,9 @@
 /*jshint esversion: 6 */
-// database.js - Defines the Database "interface" class
+
+/**
+ * Defines the abstract {@link Database} "interface" class
+ * @module 
+ */
 
 /**
  * Creates a new Database. Acts as parent class for all databases.
@@ -8,13 +12,19 @@
  */
 class Database {
 
+    /**
+     * @callback Database~callback
+     * @param {string} err - The error message if there was an error, or `null` otherwise.
+     * @param {object} results - Additional results, if applicable. For operations that
+     *   only have a success/fail result, this is `undefined`.
+     */
   
     /**
      * Adds a subscription to the database.
      * @param {number} userId - ID of the user who is subscribing.
      * @param {number} platform - the platform (e.g. youtube).
      * @param {number} accountUrl - the account being subscribed to.
-     * @param {error} callback - called when the subscription has been added. If successful, err is null, otherwise it's an error message string.
+     * @param {Database~callback} callback - Called when the database operation finishes
      */
     addSubscription(userId, platform, accountUrl, callback) {
         throw "Not implemented";
@@ -25,8 +35,7 @@ class Database {
      * @param {number} userId - ID of the user who is subscribing.
      * @param {number} platform - the platform (e.g. youtube).
      * @param {number} accountUrl - the account being subscribed to.
-     * @param {error} callback - called when the subscription has been added.
-     * If successful, err is null, otherwise it's an error message string.
+     * @param {Database~callback} callback - Called when the database operation finishes
      */
     removeSubscription(userId, platform, accountUrl, callback) {
         throw "Not implemented";
@@ -35,21 +44,15 @@ class Database {
     /**
      * Gets all subscriptions for a particular user.
      * @param {number} userId - ID of the user who is subscribing.
-     * @param {number} platform - the platform (e.g. youtube).
-     * @param {error} callback - called when the subscription has been added. If
-     *       successful, err is null, and subs is:
-     *       [ { platform: "youtube", accountUrl: "http://youtube.com/channel/123blah456" }, {...} ]
-     *       otherwise, err is an error message string, and subs is null.
+     * @param {Database~callback} callback - called once all subscriptions have been
+     *   retrieved. If successful, `results` is an array of objects 
+     *   `{platform: "...", accountUrl: "..."}`, otherwise it's `undefined`.
      */
     getSubscriptions(userId, callback) {
         throw "Not implemented";
     }
 }
 
-    /**
-     * Exports abstract database class from this module
-     * @module 
-     */
 module.exports = {
     Database: Database,
 

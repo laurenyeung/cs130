@@ -1,5 +1,9 @@
 /*jshint esversion: 6 */
-// database-sqlite3.js - defines the sqlite3 implementation of the database class 
+
+/**
+ * Defines the sqlite3 implementation of the {@link Database} class
+ * @module 
+ */
 
 var sqlite3 = require('sqlite3');    //.verbose(); 
 var database = require('./database.js');
@@ -12,8 +16,8 @@ class Sqlite3Database extends database.Database {
 
     /**
      * Constructs an instance of SQLite3 database
-     * @param {string} filename
-     * @param {error} callback - called when the subscription has been added. If successful, err is null, otherwise it's an error message string.
+     * @param {string} filename - A path to the file containing the database.
+     * @param {Database~callback} callback - called when the database is ready.
      */
     constructor(filename, callback) {
         super();
@@ -61,7 +65,9 @@ class Sqlite3Database extends database.Database {
      * @param {number} userId - ID of the user who is subscribing.
      * @param {number} platform - the platform (e.g. youtube).
      * @param {number} accountUrl - the account being subscribed to.
-     * @param {error} callback - called when the subscription has been added. If successful, err is null, otherwise it's an error message string.
+     * @param {Database~callback} callback - called when the result has been
+     *   computed. `results` is a `true` if the subscription exists, `false`
+     *   otherwise.
      */
     _subscriptionExists(userId, platform, accountUrl, callback) {
         this.db.all("SELECT * FROM subscriptions WHERE userId=? AND platform=? and accountUrl=?",
@@ -77,7 +83,7 @@ class Sqlite3Database extends database.Database {
      * @param {number} userId - ID of the user who is subscribing.
      * @param {number} platform - the platform (e.g. youtube).
      * @param {number} accountUrl - the account being subscribed to.
-     * @param {error} callback - called when the subscription has been added. If successful, err is null, otherwise it's an error message string.
+     * @param {Database~callback} callback - called when the subscription has been added
      */
     addSubscription(userId, platform, accountUrl, callback) {
         this._subscriptionExists(userId, platform, accountUrl, (err, exists) => {
@@ -101,7 +107,7 @@ class Sqlite3Database extends database.Database {
      * @param {number} userId - ID of the user who is subscribing.
      * @param {number} platform - the platform (e.g. youtube).
      * @param {number} accountUrl - the account being subscribed to.
-     * @param {error} callback - called when the subscription has been added.
+     * @param {Database~callback} callback - called when the subscription has been removed.
      * If successful, err is null, otherwise it's an error message string.
      */
     removeSubscription(userId, platform, accountUrl, callback) {
@@ -124,9 +130,8 @@ class Sqlite3Database extends database.Database {
     /**
      * Get all subscriptions for a user.
      * @param {number} userId - ID of the user who is subscribing.
-     * @param {error} callback - called when the subscription has been added.
-     * If successful, err is null, otherwise it's an error message string.
-     * @todo platform ignored for now, still need to figure out specifics of the API
+     * @param {Database~callback} callback - called when finished. See 
+     *   {@link Database#getSubscriptions} for more details.
      */
    
     getSubscriptions(userId, callback) {

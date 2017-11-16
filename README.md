@@ -36,6 +36,21 @@ the server. Logs will be written to out.log and err.log.
 * `server/`: Contains all back-end JavaScript (Node.JS) code that is run on the
   server
 * `test/`: Contains unit tests for the back-end code
+* `docs/`: Contains the documentation if it has been generated
+
+
+## Documentation
+To generate documentation, you first need to install jsdoc:
+```
+npm install -g jsdoc
+```
+
+Then simply run the provided script:
+```
+./generate-docs.sh
+```
+
+The generated HTML documentation will be in the `docs/` directory.
 
 
 ## Testing
