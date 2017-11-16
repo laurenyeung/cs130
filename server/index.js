@@ -4,13 +4,19 @@ var daemon = require('start-stop-daemon');
 
 var app = express();
 
-// serve the 'client' directory as static files at '/'
+/**
+ * Serve the 'client' directory as static files at '/'
+ */
 app.use(express.static('client'));
 
-// allow us to get the JSON request bodies
+/**
+ * Allow us to get the JSON request bodies
+ */
 app.use(bodyParser.json());
 
-// initialize the database
+/**
+ * Initialize database
+ */
 var db = require("./database.js").createDatabase(
     { type: "sqlite3", filename: "lurkr.db" },
     (err) => {
@@ -21,6 +27,7 @@ var db = require("./database.js").createDatabase(
         console.log("Successfully initialized database connection");
     });
 
+
 // GET /api/:userId: gets the list of subscriptions for a user
 // Returns the following JSON:
 // {
@@ -28,6 +35,9 @@ var db = require("./database.js").createDatabase(
 //     error: "error message if success was false",
 //     results: [ { platform: "youtube, accountUrl: "..." }, {...} ] // only if successful
 // }
+/** 
+ * Returns JSON with success, error, and results.
+ */
 app.get('/api/:userId', (req, res) => {
     db.getSubscriptions(req.params["userId"], (err, subs) => {
         if (err) {
@@ -56,6 +66,9 @@ app.get('/api/:userId', (req, res) => {
 //     "success": true/false,
 //     "error": "Error message if failed"
 // }
+/** 
+ * Returns JSON with success and error.
+ */
 app.post('/api/:userId', (req, res) => {
     var platform = req.body.platform;
     var accountUrl = req.body.accountUrl;
@@ -83,6 +96,9 @@ app.post('/api/:userId', (req, res) => {
 // DELETE /api/:userId: removes a subscription for a user
 // The body of the request and the response will both be similar to those of
 // the add subscription request above.
+/** 
+ * Removes subscription for a user.
+ */
 app.delete('/api/:userId', (req, res) => {
     var platform = req.body.platform;
     var accountUrl = req.body.accountUrl;
