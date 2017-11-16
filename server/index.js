@@ -2,13 +2,28 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var daemon = require('start-stop-daemon');
 
+// initialize express
 var app = express();
-
-// serve the 'client' directory as static files at '/'
-app.use(express.static('client'));
 
 // allow us to get the JSON request bodies
 app.use(bodyParser.json());
+
+// serve the 'client' directory as static files at '/'
+app.use(express.static('client', {index:false}));
+
+// route '/' to either /index.html or /login.html depending on weather or not
+// the user is logged in
+app.get('/', (req, res) => {
+    // assume that the user is logged in if they have a cookie beginning with
+    // "fbsr_"
+    let cookie = req.headers.cookie;
+    if (!cookie || !cookie.match(/fbsr_.+/)) {
+        res.redirect("/login.html");
+    }
+    else {
+        res.redirect("/index.html");
+    }
+});
 
 // initialize the database
 var db = require("./database.js").createDatabase(
