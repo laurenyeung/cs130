@@ -83,7 +83,7 @@ function embed(contentList) {
         div.appendChild(link);
         div.appendChild(timestamp);
         div.setAttribute('class', 'tumblr-post');
-        document.body.appendChild(div);
+        document.getElementById('contentFeed').appendChild(div);
     }
 }
 
@@ -130,7 +130,7 @@ class Tumblr extends platform.Platform {
         })
         */
         var api_key = 'dwx5GBbm3Pghx2Dn8P78tfnXRSJFcYdXHNr3bpD4ffpXTzb1uD';
-        var limit = 20;
+        var limit = 5;
         var url = 'https://api.tumblr.com/v2/blog/' + accountUrl + '.tumblr.com/posts?api_key=' + 
                     api_key + '&limit=' + limit;
         var xhr = new XMLHttpRequest();

@@ -53,6 +53,9 @@ function onSubscriptionsReceived(results) {
     if (!results.success)
         return;
 
+    //clear feed
+    document.getElementById('contentFeed').innerHTML = '';
+
     // for now, just call getContent
     // TODO: store in global array, then sort the array when done
     for (let sub of results.results) {
