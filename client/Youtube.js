@@ -21,6 +21,8 @@ function formatResponse(response) {
         let content = {
             'videoId': item.id.videoId, 
             'timestamp': item.snippet.publishedAt, 
+            'title': item.snippet.title,
+            'description': item.snippet.description,
             'platform': "youtube"
         };
         contentList.push(content);
@@ -34,12 +36,23 @@ function formatResponse(response) {
  * @param  {Array} contentList - A list of the content to be embeded
  */
 function embed(contentList) {
-    for (var i in contentList) {
+    for (let content of contentList) {
+        let videoId = content.videoId;
+        let title = content.title;
+        let description = content.description;
+        let div = document.createElement('div');
+        let h3 = document.createElement('h3');
+        let p = document.createElement('p');
         let iframe = document.createElement('iframe');
-        iframe.src = "https://www.youtube.com/embed/" + contentList[i].videoId;
+        h3.innerText = title;
+        p.innerText = description;
+        iframe.src = "https://www.youtube.com/embed/" + content.videoId;
         iframe.width = "560";
         iframe.height = "315";
-        document.body.appendChild(iframe);
+        div.appendChild(h3);
+        div.appendChild(p);
+        div.appendChild(iframe);
+        document.body.appendChild(div);
     }
 }
 
@@ -55,11 +68,10 @@ class Youtube extends platform.Platform {
      *   See {@link module:client/platform~Content}
      */
     getContent(accountUrl) {
-        // this is a test channel id
-        //let channelId = "UCLegnNLfivOIBlM97QUwefQ";
         let channelId = accountUrl;
+        let maxResults = 5;
         let url = "https://www.googleapis.com/youtube/v3/search?order=date&part=snippet&channelId=" + 
-            channelId + "&maxResults=25&key=" + apiKey;
+            channelId + "&maxResults=" + maxResults + "&key=" + apiKey;
         let xhr = new XMLHttpRequest();
         xhr.onreadystatechange = super.createXmlHttpReqCallback(formatResponse);
         xhr.open("GET", url, true);
