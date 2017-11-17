@@ -1,5 +1,10 @@
 /*jshint esversion: 6 */
 
+/**
+ * Defined the Youtube implementation of the Platform class
+ * @module
+ */
+
 // Use youtube api here
 let apiKey = "AIzaSyDQTSeTpYobZJ_dvQd_Ps_MCP90gXtjyXA";
 var platform = require('./platform.js');
@@ -43,14 +48,11 @@ function embed(contentList) {
  */
 class Youtube extends platform.Platform {
     
-    /**
+     /**
      * This method gets the content from a particular account
-      @param  {String} accountUrl - the url of the account we are getting content from
-     * @return {Object} - a list of the content grabbed from the account.
-     *                    Each object in the list contains the following elements
-     *                    contentUrl : the url of a particular post
-     *                    timeStamp : the timestamp of the post
-     *                    platform : what platform the post came from
+     * @param  {string} accountUrl - the url of the account we are getting content from
+     * @return {module:client/platform~Content[]} - A list of the content grabbed from the account.
+     *   See {@link module:client/platform~Content}
      */
     getContent(accountUrl) {
         // this is a test channel id

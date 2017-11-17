@@ -1,5 +1,10 @@
 /*jshint esversion: 6 */
 
+/**
+ * Defines the Tumblr implementation of the Platform class.
+ * @module
+ */
+
 // Use Tumblr api here
 const platform = require('./platform.js');
 //const request = require('request-promise')
@@ -89,12 +94,9 @@ class Tumblr extends platform.Platform {
 
     /**
      * This method gets the content from a particular account
-     * @param  {String} accountUrl - the url of the account we are getting content from
-     * @return {Object} - a list of the content grabbed from the account.
-     *                    Each object in the list contains the following elements
-     *                    contentUrl : the url of a particular post
-     *                    timeStamp : the timestamp of the post
-     *                    platform : what platform the post came from
+     * @param  {string} accountUrl - the url of the account we are getting content from
+     * @return {module:client/platform~Content[]} - A list of the content grabbed from the account.
+     *   See {@link module:client/platform~Content}
      */
     getContent(accountUrl) {
         //https://api.tumblr.com/v2/blog/citriccomics.tumblr.com/posts?api_key=dwx5GBbm3Pghx2Dn8P78tfnXRSJFcYdXHNr3bpD4ffpXTzb1uD&limit=20

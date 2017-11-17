@@ -3,7 +3,11 @@
  * @module
  */
 
-// Helper function to create the callback function for the XMLHttpRequest
+/**
+ * Helper function to create the callback function for the XMLHttpRequest
+ * @param  {Function} callback - The method to be called once the request returns a response.
+ * @return {function} - a wrapper callback method with error handling
+ */
 function createXmlHttpReqCallback(callback) {
     return function() {
         // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/readyState
