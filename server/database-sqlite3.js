@@ -62,9 +62,9 @@ class Sqlite3Database extends database.Database {
     
     /**
      * Helper method to check if subscription is in database.
-     * @param {number} userId - ID of the user who is subscribing.
-     * @param {number} platform - the platform (e.g. youtube).
-     * @param {number} accountUrl - the account being subscribed to.
+     * @param {string} userId - ID of the user who is subscribing.
+     * @param {string} platform - the platform (e.g. youtube).
+     * @param {string} accountUrl - the account being subscribed to.
      * @param {Database~callback} callback - called when the result has been
      *   computed. `results` is a `true` if the subscription exists, `false`
      *   otherwise.
@@ -80,9 +80,9 @@ class Sqlite3Database extends database.Database {
 
     /**
      * Adds a subscription to the database.
-     * @param {number} userId - ID of the user who is subscribing.
-     * @param {number} platform - the platform (e.g. youtube).
-     * @param {number} accountUrl - the account being subscribed to.
+     * @param {string} userId - ID of the user who is subscribing.
+     * @param {string} platform - the platform (e.g. youtube).
+     * @param {string} accountUrl - the account being subscribed to.
      * @param {Database~callback} callback - called when the subscription has been added
      */
     addSubscription(userId, platform, accountUrl, callback) {
@@ -104,9 +104,9 @@ class Sqlite3Database extends database.Database {
 
     /**
      * Removes a subscription from the database.
-     * @param {number} userId - ID of the user who is subscribing.
-     * @param {number} platform - the platform (e.g. youtube).
-     * @param {number} accountUrl - the account being subscribed to.
+     * @param {string} userId - ID of the user who is subscribing.
+     * @param {string} platform - the platform (e.g. youtube).
+     * @param {string} accountUrl - the account being subscribed to.
      * @param {Database~callback} callback - called when the subscription has been removed.
      * If successful, err is null, otherwise it's an error message string.
      */
@@ -129,7 +129,7 @@ class Sqlite3Database extends database.Database {
 
     /**
      * Get all subscriptions for a user.
-     * @param {number} userId - ID of the user who is subscribing.
+     * @param {string} userId - ID of the user who is subscribing.
      * @param {Database~callback} callback - called when finished. See 
      *   {@link Database#getSubscriptions} for more details.
      */
@@ -147,7 +147,12 @@ class Sqlite3Database extends database.Database {
 }
 
 module.exports = {
-    // acts as a factory method
+    /**
+     * Acts as a factory method to construct an Sqlite3Database
+     * @param {object} options - An object of the form `{filename: "lurkr.db"}`
+     * @param {Database~callback} callback - Called once the database object
+     *   has finished initializing
+     */
     createDatabase: function(options, callback) {
         return new Sqlite3Database(options.filename, callback);
     },

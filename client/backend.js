@@ -1,4 +1,7 @@
-// backend.js - Client-side javascript to handle communication with the back-end
+/**
+ * Client-side wrapper functions to handle communication with the back-end
+ * @module
+ */
 
 // Helper function to create the callback function for the XMLHttpRequest
 function createXmlHttpReqCallback(callback) {
@@ -19,14 +22,13 @@ function createXmlHttpReqCallback(callback) {
     };
 }
 
-// Adds a new subscription
-// Arguments:
-//   userId, platform, accountUrl - see server/database.js
-//   callback(results) - callback function, where results is:
-//       {
-//           success: true/false,
-//           error: "Error message if failed"
-//       }
+/**
+ * Adds a new subscription
+ * @param {string} userId - ID of the user who is subscribing.
+ * @param {string} platform - the platform (e.g. youtube).
+ * @param {string} accountUrl - the account being subscribed to.
+ * @param {function} callback - called when the operation finishes
+ */
 function addSubscription(userId, platform, accountUrl, callback) {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = createXmlHttpReqCallback(callback);
@@ -40,8 +42,13 @@ function addSubscription(userId, platform, accountUrl, callback) {
     }));
 }
 
-// Removes a subscription
-// Arguments: same as addSubscription
+/**
+ * Removes an existing subscription
+ * @param {string} userId - ID of the user who is subscribing.
+ * @param {string} platform - the platform (e.g. youtube).
+ * @param {string} accountUrl - the account being subscribed to.
+ * @param {function} callback - called when the operation finishes
+ */
 function removeSubscription(userId, platform, accountUrl, callback) {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = createXmlHttpReqCallback(callback);
@@ -55,15 +62,11 @@ function removeSubscription(userId, platform, accountUrl, callback) {
     }));
 }
 
-// Gets the subscriptions for a user
-// Arguments:
-//   userId - see server/database.js
-//   callback(results) - callback function, results is:
-//       {
-//           success: true/false,
-//           error: "Error message if failed",
-//           results: [ { platform: "...", accountUrl: "..." }, {...} ]
-//       }
+/**
+ * Gets all subscriptions of a particular user
+ * @param {string} userId - ID of the user who is subscribing.
+ * @param {function} callback - called when the operation finishes
+ */
 function getSubscriptions(userId, callback) {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = createXmlHttpReqCallback(callback);

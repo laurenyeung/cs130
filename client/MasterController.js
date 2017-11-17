@@ -1,5 +1,11 @@
 /*jshint esversion: 6 */
 
+/**
+ * The main center of control for the application. Handles user input events,
+ * and initiates the retrieval of content.
+ * @module
+ */
+
 const Backend = require('./backend.js');
 const Youtube = require('./Youtube');
 const Twitter = require('./twitter.js');
@@ -12,9 +18,6 @@ var Platforms = {
     tumblr:  new Tumblr.Tumblr(),
 };
 
-var youtubeContent;
-var twitterContent;
-var tumblrContent;
 var content;
 var sortedContent;
 
@@ -69,6 +72,9 @@ function onPlatformChanged() {
     accountUrl.value = defaultAccount[dropDown.value];
 }
 
+/**
+ * Called when the user wants to add a new subscription
+ */
 function onAddSub() {
     // TODO: verify that the channel we're subscribing to actually exists
     console.log("Clicked Add subscription button");
@@ -79,6 +85,9 @@ function onAddSub() {
     });
 }
 
+/**
+ * Called when the user wants to delete an existing subscription
+ */
 function onRemoveSub() {
     console.log("User clicked removeSubscriptions");
     Main.getUserId(function(userId) {
@@ -88,6 +97,9 @@ function onRemoveSub() {
     });
 }
 
+/**
+ * Called when the user wants to retrieve their subscriptions
+ */
 function onGetSubs() {
     console.log("User clicked getSubscriptions");
     Main.getUserId(function(userId) {

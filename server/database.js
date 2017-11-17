@@ -21,9 +21,9 @@ class Database {
   
     /**
      * Adds a subscription to the database.
-     * @param {number} userId - ID of the user who is subscribing.
-     * @param {number} platform - the platform (e.g. youtube).
-     * @param {number} accountUrl - the account being subscribed to.
+     * @param {string} userId - ID of the user who is subscribing.
+     * @param {string} platform - the platform (e.g. youtube).
+     * @param {string} accountUrl - the account being subscribed to.
      * @param {Database~callback} callback - Called when the database operation finishes
      */
     addSubscription(userId, platform, accountUrl, callback) {
@@ -32,9 +32,9 @@ class Database {
 
     /**
      * Removes a subscription from the database.
-     * @param {number} userId - ID of the user who is subscribing.
-     * @param {number} platform - the platform (e.g. youtube).
-     * @param {number} accountUrl - the account being subscribed to.
+     * @param {string} userId - ID of the user who is subscribing.
+     * @param {string} platform - the platform (e.g. youtube).
+     * @param {string} accountUrl - the account being subscribed to.
      * @param {Database~callback} callback - Called when the database operation finishes
      */
     removeSubscription(userId, platform, accountUrl, callback) {
@@ -43,7 +43,7 @@ class Database {
 
     /**
      * Gets all subscriptions for a particular user.
-     * @param {number} userId - ID of the user who is subscribing.
+     * @param {string} userId - ID of the user who is subscribing.
      * @param {Database~callback} callback - called once all subscriptions have been
      *   retrieved. If successful, `results` is an array of objects 
      *   `{platform: "...", accountUrl: "..."}`, otherwise it's `undefined`.
@@ -56,8 +56,18 @@ class Database {
 module.exports = {
     Database: Database,
 
-    // acts sort of like a factory method, but also hides the module loading
-    // callback is called on error, or when the database is ready
+    /**
+     * Acts as a factory method for constructing Databases. Also encapsulates
+     * loading the module containing the database implementation.
+     * @param {object} options - An object of the form:
+     * ```
+     * {
+     *   type: "sqlite3|mysql",
+     *   // implementation specific options go here
+     *   filename: "lurkr.db"
+     * }
+     * ```
+     */
     createDatabase: function(options, callback) {
         module = require("./database-"+options.type+".js");
         return module.createDatabase(options, callback);
