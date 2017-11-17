@@ -9,7 +9,7 @@
 const Backend = require('./backend.js');
 const Youtube = require('./Youtube');
 const Twitter = require('./twitter.js');
-const Tumblr = require('./platform-tumblr.js');
+const Tumblr = require('./Tumblr.js');
 const ProfileManager = require('./ProfileManager.js');
 
 var Platforms = {
