@@ -10,12 +10,9 @@ const platform = require('./platform.js');
 */
 function formatResponse(response) {
     var contentList = [];
-    console.log(response);
     for (let i in response.response.posts) {
         let post = response.response.posts[i];
-        console.log(post);
-        let oneContent = { 'contentUrl': post.post_url, 'timestamp': post.timestamp, 'platform': 'Tumblr'};
-        contentList.push(oneContent);
+        contentList.push(post);
     }
     embed(contentList);
 }
@@ -26,12 +23,61 @@ function formatResponse(response) {
  */
 function embed(contentList) {
     for (let i in contentList) {
+        var post = '';
+
+        //https://gist.github.com/interstateone/6744507
+        // The post variable holds the HTML that will be placed into the page
+        // Use the relevant post variables for each type from the docs
+        switch (contentList[i].type) {
+            case "text":
+                if (this["regular-title"]) {
+                post += "<h3>" + contentList[i].title + "</h3>";
+            }
+                post += "<p>" + contentList[i].body + "</p>";
+                break;
+            case "link":
+                post = "<h3><a href='" + contentList[i].url + "'>" + contentList[i].title + "</a></h3>";
+                break;
+            case "quote":
+                post = "<p>" + contentList[i].text + "</p>";
+                break;
+            case "photo":
+                console.log(contentList[i].photos[0].original_size.url);
+                post = "<img src=" + contentList[i].photos[0].original_size.url + ">";
+                if (contentList[i].caption) {
+                    post += "<p>" + contentList[i].caption + "</p>";
+                }
+                break;
+            case "video":
+                post = contentList[i].player.embed_code + "<p>" + contentList[i].caption + "</p>";
+                break;
+            case "audio":
+                post = contentList[i].embed;
+                if (contentList[i].artist && contentList[i].track_name) {
+                    post += "<p class='ap-info'><span class='artist'>" + contentList[i].artist + "</span> – <span class='track'>" + contentList[i].track_name + "</span></p>";
+                } else {
+                    if (contentList[i].track_name) {
+                    post += "<p class='ap-info'><span class='track'>" + contentList[i].track_name + "</span></p>";
+                    }
+                }
+                if (contentList[i].caption) {
+                    post += contentList[i].caption;
+                }
+                break;
+        }
+
+        let link = document.createElement('a');
+        link.setAttribute('href', contentList[i].post_url);
+        link.innerHTML = contentList[i].post_url;
+
+        let timestamp = document.createElement('p');
+        timestamp.innerHTML = "Timestamp: " + contentList[i].timestamp;
+
         let div = document.createElement('div');
-        let node = document.createElement('a');
-        node.setAttribute('class', 'tumblr-post');
-        node.setAttribute('href', contentList[i].contentUrl);
-        node.innerHTML = contentList[i].contentUrl + " Timestamp: " + contentList[i].timestamp;
-        div.appendChild(node);
+        div.insertAdjacentHTML( 'beforeend', post );
+        div.appendChild(link);
+        div.appendChild(timestamp);
+        div.setAttribute('class', 'tumblr-post');
         document.body.appendChild(div);
     }
 }
