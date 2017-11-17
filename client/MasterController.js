@@ -10,7 +10,7 @@ const Backend = require('./backend.js');
 const Youtube = require('./Youtube');
 const Twitter = require('./twitter.js');
 const Tumblr = require('./platform-tumblr.js');
-const Main = require('./main.js');
+const ProfileManager = require('./ProfileManager.js');
 
 var Platforms = {
     youtube: new Youtube.Youtube(),
@@ -39,7 +39,7 @@ function setButtonBehaviors() {
     document.getElementById("addSubscriptionButton").onclick = onAddSub;
     document.getElementById("removeSubscriptionButton").onclick = onRemoveSub;
     document.getElementById("getSubscriptionsButton").onclick = onGetSubs;
-    document.getElementById("logOutButton").onclick = Main.logout;
+    document.getElementById("logOutButton").onclick = ProfileManager.logout;
 }
 
 //These are functions called from index.html ie. by pressing a button
@@ -78,7 +78,7 @@ function onPlatformChanged() {
 function onAddSub() {
     // TODO: verify that the channel we're subscribing to actually exists
     console.log("Clicked Add subscription button");
-    Main.getUserId(function(userId) {
+    ProfileManager.getUserId(function(userId) {
         var platform = document.getElementById("platform").value;
         var accountUrl = document.getElementById("accountUrl").value;
         Backend.addSubscription(userId, platform, accountUrl, callback);
@@ -90,7 +90,7 @@ function onAddSub() {
  */
 function onRemoveSub() {
     console.log("User clicked removeSubscriptions");
-    Main.getUserId(function(userId) {
+    ProfileManager.getUserId(function(userId) {
         var platform = document.getElementById("platform").value;
         var accountUrl = document.getElementById("accountUrl").value;
         Backend.removeSubscription(userId, platform, accountUrl, callback);
@@ -102,7 +102,7 @@ function onRemoveSub() {
  */
 function onGetSubs() {
     console.log("User clicked getSubscriptions");
-    Main.getUserId(function(userId) {
+    ProfileManager.getUserId(function(userId) {
         Backend.getSubscriptions(userId, onSubscriptionsReceived);
         document.getElementById("results").value = "User clicked getSubscriptions";
     });
