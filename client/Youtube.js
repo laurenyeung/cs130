@@ -52,7 +52,7 @@ function embed(contentList) {
         div.appendChild(h3);
         div.appendChild(p);
         div.appendChild(iframe);
-        document.body.appendChild(div);
+        document.getElementById('contentFeed').appendChild(div);
     }
 }
 
