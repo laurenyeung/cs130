@@ -22,43 +22,28 @@
 class Platform {
 
     /**
-     * Helper function to create the callback function for the XMLHttpRequest
-     * @param  {Function} callback - The method to be called once the request returns a response.
-     * @return {function} - a wrapper callback method with error handling
+     * The callback used for `Platform` methods
+     * @callback callback
+     * @param {string} error - The error message, if there was one, or `null` otherwise
+     * @param {varies} results - The results of the callback if there was no error. The type
+     *   of `results` varies depending on what method was called.
      */
-    createXmlHttpReqCallback(callback) {
-        return function() {
-            // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/readyState
-            if (this.readyState != 4)
-                return;
-
-            if (this.status == 200) {
-                callback(JSON.parse(this.responseText));
-            }
-            else {
-                callback({
-                    success: false,
-                    error: "API failure"
-                });
-            }
-        };
-    }
 
     /**
      * This method gets the content from a particular account
      * @param  {string} accountUrl - the url of the account we are getting content from
-     * @return {module:client/platform~Content[]} - A list of the content grabbed from the account.
-     *   See {@link module:client/platform~Content}
+     * @param  {module:client/platform~callback} callback - Called when the content has been
+     *   retrieved. The `results` argument is of type {@link module:client/platform~Content|Content}.
      */
-    getContent(accountUrl) {
+    getContent(accountUrl, callback) {
         throw "Platform not implemented";
     }
 
     /**
      * This method embeds a given url to the application at the bottom of the page.
-     * @param  {String} contentUrl - the content url to be embedded
+     * @param  {module:client/platform~Content} content - the content to be embedded
      */
-    embed(contentUrl) {
+    embed(content) {
         throw "Platform not implemented";
     }
 }

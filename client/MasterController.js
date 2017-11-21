@@ -18,8 +18,17 @@ var Platforms = {
     tumblr:  new Tumblr.Tumblr(),
 };
 
-var content;
-var sortedContent;
+var contentState  = {
+    // if this is `true`, then it means the content is currently being updated
+    locked: false,
+
+    // list of all content
+    content: [],
+
+    // used to keep track of receiving content asynchronously
+    subsDone: -1,
+    totalSubs: -1
+};
 
 init();
 
@@ -43,23 +52,70 @@ function setButtonBehaviors() {
 }
 
 //These are functions called from index.html ie. by pressing a button
-function callback(results) {
+function callback(err, results) {
     var textOut = document.getElementById("results");
-    textOut.value = JSON.stringify(results);
+    textOut.value = err ? err : JSON.stringify(results);
 }
 
-function onSubscriptionsReceived(results) {
-    callback(results);
-    if (!results.success)
+function onSubscriptionsReceived(err, results) {
+    if (contentState.locked) {
+        callback("content locked\n"+err+"\n"+results);
+        return;
+    }
+
+    callback(err, results);
+    if (err || !results.success)
         return;
 
     //clear feed
     document.getElementById('contentFeed').innerHTML = '';
 
+    // setup contentState
+    contentState.locked = true;
+    contentState.totalSubs = results.results.length;
+    contentState.subsDone = 0;
+
     // for now, just call getContent
     // TODO: store in global array, then sort the array when done
     for (let sub of results.results) {
-        Platforms[sub.platform].getContent(sub.accountUrl);
+        Platforms[sub.platform].getContent(sub.accountUrl, onRecvContent);
+    }
+}
+
+function onRecvContent(err, res) {
+    // regardless of if there was an error, we need to increment this
+    contentState.subsDone += 1;
+
+    if (err) {
+        // TODO: print an error message like "Failed to get content for..."
+        // do not return here
+    }
+    else {
+        // add the content to the list of content
+        contentState.content = contentState.content.concat(res);
+    }
+
+    if (contentState.subsDone == contentState.totalSubs) {
+        // we finally received all of the content
+        contentState.subsDone = -1;
+        contentState.totalSubs = -1;
+        contentState.locked = false;
+
+        // display the content for the user
+        displayContent();
+    }
+    console.log(contentState);
+}
+
+function displayContent() {
+    // TODO: sort conentState.content by timestamp
+
+    console.log(contentState.content);
+
+    // embed all of the content
+    // TODO: only embed a few at a time, or when the user requests more
+    for (let content of contentState.content) {
+        Platforms[content.platform].embed(content);
     }
 }
 

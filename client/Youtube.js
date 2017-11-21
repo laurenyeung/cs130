@@ -7,11 +7,13 @@
 
 // Use youtube api here
 let apiKey = "AIzaSyDQTSeTpYobZJ_dvQd_Ps_MCP90gXtjyXA";
-var platform = require('./platform.js');
+const platform = require('./platform.js');
+const xhr = require('./xhr.js');
 
 /**
  * Grabs the useful information from the api response
  * @param  {object} response - contains all of the data received from the Youtube server
+ * @return {module:client/platform~Content[]} - The content contained in `response`
  */
 function formatResponse(response) {
     var contentList = [];
@@ -27,16 +29,37 @@ function formatResponse(response) {
         };
         contentList.push(content);
     }
-    // console.log(output);
-    embed(contentList);
+    
+    return contentList;
 }
 
 /**
- * Places all content in the contentList at the bottom of the webpage
- * @param  {Array} contentList - A list of the content to be embeded
+ * defines the Youtube implementation of the platform class
  */
-function embed(contentList) {
-    for (let content of contentList) {
+class Youtube extends platform.Platform {
+    
+     /**
+     * This method gets the content from a particular account
+     * @param  {string} accountUrl - the url of the account we are getting content from
+     * @param  {module:client/platform~callback} callback - Called when the content has been
+     *   retrieved. The `results` argument is of type {@link module:client/platform~Content|Content}.
+     */
+    getContent(accountUrl, callback) {
+        let channelId = accountUrl;
+        let maxResults = 5;
+        let url = "https://www.googleapis.com/youtube/v3/search?order=date&part=snippet&channelId=" + 
+            channelId + "&maxResults=" + maxResults + "&key=" + apiKey;
+
+        xhr.send("GET", url, null, (err, res) => {
+            callback(err, err ? undefined : formatResponse(res));
+        });
+    }
+
+    /**
+     * This method embeds a given url to the application at the bottom of the page.
+     * @param  {module:client/platform~Content} content - the content to be embedded
+     */
+    embed(content) {
         let videoId = content.videoId;
         let title = content.title;
         let description = content.description;
@@ -53,29 +76,6 @@ function embed(contentList) {
         div.appendChild(p);
         div.appendChild(iframe);
         document.getElementById('contentFeed').appendChild(div);
-    }
-}
-
-/**
- * defines the Youtube implementation of the platform class
- */
-class Youtube extends platform.Platform {
-    
-     /**
-     * This method gets the content from a particular account
-     * @param  {string} accountUrl - the url of the account we are getting content from
-     * @return {module:client/platform~Content[]} - A list of the content grabbed from the account.
-     *   See {@link module:client/platform~Content}
-     */
-    getContent(accountUrl) {
-        let channelId = accountUrl;
-        let maxResults = 5;
-        let url = "https://www.googleapis.com/youtube/v3/search?order=date&part=snippet&channelId=" + 
-            channelId + "&maxResults=" + maxResults + "&key=" + apiKey;
-        let xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = super.createXmlHttpReqCallback(formatResponse);
-        xhr.open("GET", url, true);
-        xhr.send();
     }
 
     // /**
