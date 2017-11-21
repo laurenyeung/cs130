@@ -22,7 +22,7 @@ function formatResponse(response) {
         var item = response.items[i];
         let content = {
             'videoId': item.id.videoId, 
-            'timestamp': item.snippet.publishedAt, 
+            'timestamp': Date.parse(item.snippet.publishedAt)/1000,
             'title': item.snippet.title,
             'description': item.snippet.description,
             'platform': "youtube"

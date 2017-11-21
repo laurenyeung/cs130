@@ -69,6 +69,7 @@ function onSubscriptionsReceived(err, results) {
 
     //clear feed
     document.getElementById('contentFeed').innerHTML = '';
+    contentState.content = [];
 
     // setup contentState
     contentState.locked = true;
@@ -108,9 +109,8 @@ function onRecvContent(err, res) {
 }
 
 function displayContent() {
-    // TODO: sort conentState.content by timestamp
-
-    console.log(contentState.content);
+    // sort by timestamp
+    contentState.content.sort((a, b) => { return b.timestamp - a.timestamp; });
 
     // embed all of the content
     // TODO: only embed a few at a time, or when the user requests more
