@@ -13,18 +13,19 @@
 class Database {
 
     /**
-     * @callback Database~callback
+     * @callback callback
      * @param {string} err - The error message if there was an error, or `null` otherwise.
      * @param {object} results - Additional results, if applicable. For operations that
      *   only have a success/fail result, this is `undefined`.
      */
-  
+
     /**
      * Adds a subscription to the database.
      * @param {string} userId - ID of the user who is subscribing.
      * @param {string} platform - the platform (e.g. youtube).
      * @param {string} accountUrl - the account being subscribed to.
-     * @param {Database~callback} callback - Called when the database operation finishes
+     * @param {module:server/database~callback} callback - Called when the database operation
+     *   finishes
      */
     addSubscription(userId, platform, accountUrl, callback) {
         throw "Not implemented";
@@ -35,7 +36,8 @@ class Database {
      * @param {string} userId - ID of the user who is subscribing.
      * @param {string} platform - the platform (e.g. youtube).
      * @param {string} accountUrl - the account being subscribed to.
-     * @param {Database~callback} callback - Called when the database operation finishes
+     * @param {module:server/database~callback} callback - Called when the database operation
+     *   finishes
      */
     removeSubscription(userId, platform, accountUrl, callback) {
         throw "Not implemented";
@@ -44,8 +46,8 @@ class Database {
     /**
      * Gets all subscriptions for a particular user.
      * @param {string} userId - ID of the user who is subscribing.
-     * @param {Database~callback} callback - called once all subscriptions have been
-     *   retrieved. If successful, `results` is an array of objects 
+     * @param {module:server/database~callback} callback - called once all subscriptions have been
+     *   retrieved. If successful, `results` is an array of objects
      *   `{platform: "...", accountUrl: "..."}`, otherwise it's `undefined`.
      */
     getSubscriptions(userId, callback) {

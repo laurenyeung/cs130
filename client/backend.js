@@ -3,28 +3,7 @@
  * @module
  */
 
-/**
- * Helper function to create the callback function for the XMLHttpRequest
- * @param  {Function} callback - The method to be called once the request returns a response.
- * @return {function} - a wrapper callback method with error handling
- */
-function createXmlHttpReqCallback(callback) {
-    return function() {
-        // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/readyState
-        if (this.readyState != 4)
-            return;
-
-        if (this.status == 200) {
-            callback(JSON.parse(this.responseText));
-        }
-        else {
-            callback({
-                success: false,
-                error: "Error connecting to back-end server"
-            });
-        }
-    };
-}
+const xhr = require("./xhr.js");
 
 /**
  * Adds a new subscription
@@ -34,16 +13,11 @@ function createXmlHttpReqCallback(callback) {
  * @param {function} callback - called when the operation finishes
  */
 function addSubscription(userId, platform, accountUrl, callback) {
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = createXmlHttpReqCallback(callback);
-
-    // TODO: maybe make sure userId doesn't contain invalid characters?
-    xhr.open("POST", "/api/" + userId);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.send(JSON.stringify({
+    let body = {
         platform: platform,
         accountUrl: accountUrl
-    }));
+    };
+    xhr.send("POST", "/api/" + userId, body, callback);
 }
 
 /**
@@ -54,16 +28,11 @@ function addSubscription(userId, platform, accountUrl, callback) {
  * @param {function} callback - called when the operation finishes
  */
 function removeSubscription(userId, platform, accountUrl, callback) {
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = createXmlHttpReqCallback(callback);
-
-    // TODO: maybe make sure userId doesn't contain invalid characters?
-    xhr.open("DELETE", "/api/" + userId);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.send(JSON.stringify({
+    let body = {
         platform: platform,
         accountUrl: accountUrl
-    }));
+    };
+    xhr.send("DELETE", "/api/" + userId, body, callback);
 }
 
 /**
@@ -72,12 +41,7 @@ function removeSubscription(userId, platform, accountUrl, callback) {
  * @param {function} callback - called when the operation finishes
  */
 function getSubscriptions(userId, callback) {
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = createXmlHttpReqCallback(callback);
-
-    // TODO: maybe make sure userId doesn't contain invalid characters?
-    xhr.open("GET", "/api/" + userId);
-    xhr.send();
+    xhr.send("GET", "/api/" + userId, null, callback);
 }
 
 
