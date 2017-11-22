@@ -28,7 +28,7 @@ var contentState = {};
 /**
  * Clears all retrieved content
  */
-function resetContent() {
+function resetContentState() {
     contentState = {
         // if this is `true`, then it means the content is currently being updated
         locked: false,
@@ -54,11 +54,11 @@ function resetContent() {
 
         // used to keep track of receiving content asynchronously
         subsDone: -1,
-        totalSubs: -1
-    };
+        totalSubs: -1,
 
-    //clear feed
-    document.getElementById('contentFeed').innerHTML = '';
+        // all subscriptions, cached here so we don't have to keep calling the back-end
+        subscriptions: null
+    };
 };
 
 init();
@@ -79,8 +79,8 @@ function setButtonBehaviors() {
     document.getElementById("platform").onchange = onPlatformChanged;
     document.getElementById("addSubscriptionButton").onclick = onAddSub;
     document.getElementById("removeSubscriptionButton").onclick = onRemoveSub;
-    document.getElementById("getSubscriptionsButton").onclick = onGetSubs;
-    document.getElementById("clearContentButton").onclick = resetContent;
+    document.getElementById("getSubscriptionsButton").onclick = updateContent;
+    document.getElementById("resetContentButton").onclick = resetContent;
     document.getElementById("logOutButton").onclick = ProfileManager.logout;
 }
 
@@ -88,23 +88,47 @@ function setButtonBehaviors() {
 function callback(err, results) {
     var textOut = document.getElementById("results");
     textOut.value = err ? err : JSON.stringify(results);
+
+    // reset content on add/remove subscription
+    if (!err)
+        resetContent();
+}
+
+/**
+ * Called when getting subscriptions for the first time, or after the subscriptions
+ * have changed.
+ */
+function resetContent() {
+    resetContentState();
+
+    // clear feed
+    document.getElementById('contentFeed').innerHTML = '';
+
+    // get subscriptions
+    ProfileManager.getUserId(function(userId) {
+        // onSubscriptionsReceived will automatically call updateContent()
+        Backend.getSubscriptions(userId, onSubscriptionsReceived);
+    });
 }
 
 /**
  * Called when the list of subscriptions are received from the server
  */
 function onSubscriptionsReceived(err, results) {
-    callback(err, results);
+    var textOut = document.getElementById("results");
+    textOut.value = err ? err : JSON.stringify(results);
     if (err || !results.success)
         return;
 
-    updateContent(results.results);
+    contentState.subscriptions = results.results;
+    updateContent();
 }
 
 /**
  * Given a list of subscriptions, loads the next RESULTS_PER_PAGE posts
  */
-function updateContent(subs) {
+function updateContent() {
+    let subs = contentState.subscriptions;
     if (subs.length == 0) {
         return;
     }
@@ -260,34 +284,5 @@ function onRemoveSub() {
     });
 }
 
-/**
- * Called when the user wants to retrieve their subscriptions
- */
-function onGetSubs() {
-    console.log("User clicked getSubscriptions");
-    ProfileManager.getUserId(function(userId) {
-        Backend.getSubscriptions(userId, onSubscriptionsReceived);
-        document.getElementById("results").value = "User clicked getSubscriptions";
-    });
-}
 
-// These are functions for scraping
-
-/**
- * Not used yet...
- */
-// function getAllContent(userId) {
-//     let allContent;
-//     for (var platform in Platforms) {
-//         getSubscriptions(userId, platform, (err, res) => {
-//             if (err) {
-//                 throw "Error getting subsriptions from backend";
-//             }
-//             else {
-//                 let platformContent = platform.scrape(platformSubscription);
-//                 allContent.push(platformContent);
-//             }
-//         });
-//     }
-// }
 
