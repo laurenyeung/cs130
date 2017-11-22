@@ -1,5 +1,7 @@
 /*jshint esversion: 6 */
 
+var initCallback = null;
+
 /**
  * Handles user logout and profile on the main page. Provides profile
  * information to MasterController.
@@ -55,6 +57,9 @@ function statusChangeCallback(response) {
   if (response.status != 'connected' && !isOnLocalhost()) {
     redirectToLoginPage();
   }
+
+  if (initCallback)
+      initCallback();
 }
 
 /**
@@ -87,7 +92,18 @@ function getUserId(callback) {
   }
 }
 
+/**
+ * Sets the function to be called when facebook is initialized
+ */
+function setInitCallback(callback) {
+  if (isOnLocalhost())
+    callback();
+  else
+    initCallback = callback;
+}
+
 module.exports = {
   getUserId: getUserId,
-  logout: logout
+  logout: logout,
+  setInitCallback,
 };

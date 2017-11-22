@@ -61,8 +61,6 @@ function resetContentState() {
     };
 };
 
-init();
-
 function init() {
     resetContent();
     setButtonBehaviors();
@@ -71,6 +69,10 @@ function init() {
     // getContent();
     // sortContent();
 }
+
+// Have ProfileManager call init() once facebook is done loading. Do this
+// because we need the facebook ID before we can get subscriptions
+ProfileManager.setInitCallback(init);
 
 /**
  * Sets button behavior for all buttons on the homepage
