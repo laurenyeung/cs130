@@ -13,14 +13,17 @@ const xhr = require('./xhr.js');
 /**
  * Grabs the useful information from the api response
  * @param  {object} response - contains all of the data received from the Tumblr server
+ * @param  {number} offset - The index of the first response (i.e. the "offset" argument
+ *   sent to the tumblr API)
  * @return {module:client/platform~Content[]} - The content contained in `response`
 */
-function formatResponse(response) {
+function formatResponse(response, offset) {
     console.log(response);
     var contentList = [];
     for (let i in response.response.posts) {
         let post = response.response.posts[i];
         post.platform = "tumblr";
+        post.index = offset + parseInt(i);  // typeof i is "string" for some dumb reason
         contentList.push(post);
     }
 
@@ -35,10 +38,15 @@ class Tumblr extends platform.Platform {
     /**
      * This method gets the content from a particular account
      * @param  {string} accountUrl - the url of the account we are getting content from
+     * @param  {module:client/platform~Content} after - Defines the piece of content to
+     *   start searching after. For example, if we had previously received the first 10
+     *   results in `var content`, then to get the next 10 results we would pass in `content[9]`
+     *   to `after`. If `null`, then `getContent` will get the first `maxResults` results.
+     * @param  {number} maxResults - The maximum number of results to return.
      * @param  {module:client/platform~callback} callback - Called when the content has been
      *   retrieved. The `results` argument is of type {@link module:client/platform~Content|Content}.
      */
-    getContent(accountUrl, callback) {
+    getContent(accountUrl, after, maxResults, callback) {
         //https://api.tumblr.com/v2/blog/citriccomics.tumblr.com/posts?api_key=dwx5GBbm3Pghx2Dn8P78tfnXRSJFcYdXHNr3bpD4ffpXTzb1uD&limit=20
         //api.tumblr.com/v2/blog/{blog-identifier}/posts[/type]?api_key={key}&[optional-params=]
         /*
@@ -69,13 +77,13 @@ class Tumblr extends platform.Platform {
             throw "Error getting content from Tumblr";
         })
         */
+        let offset = after == null ? 0 : after.index + 1;
         var api_key = 'dwx5GBbm3Pghx2Dn8P78tfnXRSJFcYdXHNr3bpD4ffpXTzb1uD';
-        var limit = 5;
         var url = 'https://api.tumblr.com/v2/blog/' + accountUrl + '.tumblr.com/posts?api_key=' + 
-                    api_key + '&limit=' + limit;
+                    api_key + '&limit=' + maxResults + "&offset=" + offset;
 
         xhr.send("GET", url, null, (err, res) => {
-            callback(err, err ? undefined : formatResponse(res));
+            callback(err, err ? undefined : formatResponse(res, offset));
         });
     }
 

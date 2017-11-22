@@ -60,6 +60,8 @@ function send(method, url, body, callback) {
         xhr.send(body);
     else
         xhr.send();
+
+    return xhr;
 }
 
 module.exports = {

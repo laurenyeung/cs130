@@ -41,14 +41,21 @@ class Youtube extends platform.Platform {
      /**
      * This method gets the content from a particular account
      * @param  {string} accountUrl - the url of the account we are getting content from
+     * @param  {module:client/platform~Content} after - Defines the piece of content to
+     *   start searching after. For example, if we had previously received the first 10
+     *   results in `var content`, then to get the next 10 results we would pass in `content[9]`
+     *   to `after`. If `null`, then `getContent` will get the first `maxResults` results.
+     * @param  {number} maxResults - The maximum number of results to return.
      * @param  {module:client/platform~callback} callback - Called when the content has been
      *   retrieved. The `results` argument is of type {@link module:client/platform~Content|Content}.
      */
-    getContent(accountUrl, callback) {
+    getContent(accountUrl, after, maxResults, callback) {
         let channelId = accountUrl;
-        let maxResults = 5;
         let url = "https://www.googleapis.com/youtube/v3/search?order=date&part=snippet&channelId=" + 
             channelId + "&maxResults=" + maxResults + "&key=" + apiKey;
+        if (after != null)
+            url += "&publishedBefore=" +
+                encodeURIComponent(new Date((after.timestamp - 1)*1000).toISOString());
 
         xhr.send("GET", url, null, (err, res) => {
             callback(err, err ? undefined : formatResponse(res));
