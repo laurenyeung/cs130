@@ -36,13 +36,13 @@ function resetContentState() {
         // list of content currently being displayed
         dispContent: [],
 
-        // content sorted by subscription
+        // content that hasn't been displayed yet, sorted by subscription
         // format:
         // {
-        //   "platform:channelID": [content array],
+        //   "platform:channelID": [content array sorted by oldest first],
         //   ...
         // }
-        contentBySub: {},
+        newContentQueues: {},
 
         // for each subscription, the last Content that was displayed
         // format:
@@ -50,7 +50,7 @@ function resetContentState() {
         //   "platform:channelID": {content object},
         //   ...
         // }
-        last: {},
+        lastDisplayed: {},
 
         // used to keep track of receiving content asynchronously
         subsDone: -1,
@@ -151,17 +151,17 @@ function updateContent() {
     for (let sub of subs) {
         // get (or create) the list of content we already have for this subscription
         let key = sub.platform + ":" + sub.accountUrl;
-        let bySub = contentState.contentBySub;
-        if (!bySub[key])
-            bySub[key] = [];
+        let queues = contentState.newContentQueues;
+        if (!queues[key])
+            queues[key] = [];
 
         // if the number of posts we already have is less than RESULTS_PER_PAGE, get more
         // content until we have RESULTS_PER_PAGE posts (in the worst case, all recent
         // posts will be from a single subscription)
-        let numLoaded = bySub[key].length;
+        let numLoaded = queues[key].length;
         if (numLoaded < RESULTS_PER_PAGE) {
             let p = Platforms[sub.platform];
-            let after = contentState.last[key] || null;
+            let after = contentState.lastDisplayed[key] || null;
             p.getContent(sub.accountUrl, after, RESULTS_PER_PAGE - numLoaded, (err, res) => {
                 onRecvContent(err, res, key);
             });
@@ -177,7 +177,7 @@ function updateContent() {
  * Callback for when content is received from a platform
  * @param {string} err - The error message if there was one
  * @param {object} res - The array of content that was received from a platform
- * @param {string} key - The key into contentState.contentBySub and contentState.last
+ * @param {string} key - The key into contentState.newContentQueues and contentState.lastDisplayed
  */
 function onRecvContent(err, res, key) {
     // regardless of if there was an error, we need to increment this
@@ -188,13 +188,13 @@ function onRecvContent(err, res, key) {
         // do not return here
     }
     else {
-        let bySub = contentState.contentBySub;
-        if (!bySub[key])
-            bySub[key] = [];
+        let queues = contentState.newContentQueues;
+        if (!queues[key])
+            queues[key] = [];
 
         // insert in reverse sorted order (oldest first)
         res.sort((a, b) => { return a.timestamp - b.timestamp; });
-        bySub[key] = res.concat(bySub[key]);
+        queues[key] = res.concat(queues[key]);
     }
 
     if (contentState.subsDone == contentState.totalSubs) {
@@ -211,7 +211,7 @@ function onRecvContent(err, res, key) {
  * Displays (embeds) RESULTS_PER_PAGE of the newest posts
  */
 function displayContent() {
-    let bySub = contentState.contentBySub;
+    let queues = contentState.newContentQueues;
     let newContentList = [];
 
     for (let i = 0; i < RESULTS_PER_PAGE; i++) {
@@ -219,12 +219,12 @@ function displayContent() {
         let newest = null;
 
         // for each subscription
-        for (let key in bySub) {
-            let sub = bySub[key];
-            if (sub.length == 0)
+        for (let key in queues) {
+            let q = queues[key];
+            if (q.length == 0)
                 continue;
 
-            let content = sub[sub.length - 1];
+            let content = q[q.length - 1];
             if (newest == null || content.timestamp > newest.content.timestamp) {
                 newest = { content: content, key: key };
             }
@@ -234,10 +234,10 @@ function displayContent() {
         if (newest == null)
             break;
 
-        // put the newest content in newContentList, pop from contentState.contentBySub[key]
-        let newContent = bySub[newest.key].pop();
+        // put the newest content in newContentList, pop from queues[key]
+        let newContent = queues[newest.key].pop();
         newContentList.push(newContent);
-        contentState.last[newest.key] = newContent;
+        contentState.lastDisplayed[newest.key] = newContent;
     }
 
     // embed all of the content
