@@ -1,40 +1,59 @@
 <!doctype html>
 <html>
-    <head>
-        <title>Lurkr</title>
-    </head>
-    <body>
-        <h1>Lurkr</h1>
-        <p id="logOutButton">Log out</p>
-        <table>
+  <head>
+    <title>Lurkr</title>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap Css -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous"> 
+  </head>
+  <body>
+    <h1>Lurkr</h1>
+    <p id="logOutButton">Log out</p>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3">
+          <table>
             <tr>
-                <td><b>Platform</b></td>
-                <td>
-                    <select id="platform">
-                        <option value="youtube">Youtube</option>
-                        <option value="twitter">Twitter</option>
-                        <option value="tumblr">Tumblr</option>
-                    </select>
-                </td>
+              <td><b>Platform</b></td>
+              <td>
+                <select id="platform">
+                  <option value="youtube">Youtube</option>
+                  <option value="twitter">Twitter</option>
+                  <option value="tumblr">Tumblr</option>
+                </select>
+              </td>
             </tr>
             <tr>
-                <td><b>Account URL</b></td>
-                <td><input type="text" id="accountUrl" /></td>
+              <td><b>Account URL</b></td>
+              <td><input type="text" id="accountUrl" /></td>
             </tr>
-        </table>
-        <p>
+          </table>
+          <p>
             <input type="button" id="addSubscriptionButton" value="Add Subscription" />
             <input type="button" id="removeSubscriptionButton" value="Remove Subscription" />
-            <input type="button" id="resetContentButton" value="Reset Content" />
-        </p>
-        <p>
-            <b>Results:</b><br />
-            <textarea id="results" rows="20" cols="120"></textarea>
-        </p>
-        <div id="contentFeed"></div>
-        <input type="button" id="getSubscriptionsButton" value="Load More Subscriptions" />
-        <p>TODO: automatically load more subscriptions when the user scrolls to the bottom</p>
-    </body>
-    <script src="./bundle.js"></script>
+          </p>
+        </div>
+        <div class="col-sm-9" style="background-color:red">
+          <div id="contentFeed"></div>
+        </div>
+      </div>
+    </div>
+
+
+    <div id="contentFeed"></div>
+    <input type="button" id="getSubscriptionsButton" value="Load More Subscriptions" />
+    <p>TODO: automatically load more subscriptions when the user scrolls to the bottom</p>
+  </body>
+  <script src="./bundle.js"></script>
+
+  <!-- bootstrap -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 </html>
 

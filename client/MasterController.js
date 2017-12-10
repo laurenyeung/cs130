@@ -82,17 +82,15 @@ function setButtonBehaviors() {
     document.getElementById("addSubscriptionButton").onclick = onAddSub;
     document.getElementById("removeSubscriptionButton").onclick = onRemoveSub;
     document.getElementById("getSubscriptionsButton").onclick = updateContent;
-    document.getElementById("resetContentButton").onclick = resetContent;
     document.getElementById("logOutButton").onclick = ProfileManager.logout;
 }
 
 //These are functions called from index.html ie. by pressing a button
 function callback(err, results) {
-    var textOut = document.getElementById("results");
-    textOut.value = err ? err : JSON.stringify(results);
-
-    // reset content on add/remove subscription
-    if (!err)
+    // TODO: display error to the user if there was one
+    if (err)
+        console.error(err);
+    else
         resetContent();
 }
 
@@ -117,10 +115,10 @@ function resetContent() {
  * Called when the list of subscriptions are received from the server
  */
 function onSubscriptionsReceived(err, results) {
-    var textOut = document.getElementById("results");
-    textOut.value = err ? err : JSON.stringify(results);
-    if (err || !results.success)
+    if (err || !results.success) {
+        console.error(err ? err : JSON.stringify(results));
         return;
+    }
 
     contentState.subscriptions = results.results;
     updateContent();
