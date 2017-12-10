@@ -20,10 +20,13 @@ function formatResponse(response, offset) {
     console.log(response);
     var contentList = [];
     for (let i in response.response.posts) {
-        let post = response.response.posts[i];
-        post.platform = "tumblr";
-        post.index = offset + parseInt(i);  // typeof i is "string" for some dumb reason
-        contentList.push(post);
+        var content = {};
+        content.platform = "tumblr";
+        content.index = offset + parseInt(i);  // typeof i is "string" for some dumb reason
+        content.post = response.response.posts[i];
+        content.url = content.post.post_url;
+        content.timestamp = content.post.timestamp;
+        contentList.push(content);
     }
 
     return contentList;
@@ -48,34 +51,7 @@ class Tumblr extends platform.Platform {
     getContent(accountUrl, after, maxResults, callback) {
         //https://api.tumblr.com/v2/blog/citriccomics.tumblr.com/posts?api_key=dwx5GBbm3Pghx2Dn8P78tfnXRSJFcYdXHNr3bpD4ffpXTzb1uD&limit=20
         //api.tumblr.com/v2/blog/{blog-identifier}/posts[/type]?api_key={key}&[optional-params=]
-        /*
-        const options = {
-            method: 'GET',
-            uri: 'https://api.tumblr.com/v2/blog/' + accountUrl + '.tumblr.com/posts',
-            qs: {
-                api_key: dwx5GBbm3Pghx2Dn8P78tfnXRSJFcYdXHNr3bpD4ffpXTzb1uD,
-                limit: 20
-            },
-            json: true
-        }
 
-        request(options)
-        .then(function (response) {
-            // Request was successful, use the response object at will
-            console.log(response);
-            if (response.statusCode == 200) {
-                return { "platform": "tumblr", "content": response.response.posts }
-            }
-            else {
-                console.log("Status code from Tumblr was " + response.statusCode);
-                throw "Error getting content from Tumblr";
-            }
-        })
-        .catch(function (err) {
-            // Something bad happened, handle the error
-            throw "Error getting content from Tumblr";
-        })
-        */
         let offset = after == null ? 0 : after.index + 1;
         var api_key = 'dwx5GBbm3Pghx2Dn8P78tfnXRSJFcYdXHNr3bpD4ffpXTzb1uD';
         var url = 'https://api.tumblr.com/v2/blog/' + accountUrl + '.tumblr.com/posts?api_key=' + 
@@ -95,71 +71,70 @@ class Tumblr extends platform.Platform {
         var post = '';
 //        console.log(content);
         post += "--------------------"
-        post += "<p>Content type: " + content.type + "</p>";
+        post += "<p>Content type: " + content.post.type + "</p>";
         //https://gist.github.com/interstateone/6744507
         // The post variable holds the HTML that will be placed into the page
         // Use the relevant post variables for each type from the docs
-        switch (content.type) {
+        switch (content.post.type) {
             case "text":
                 if (this["regular-title"]) {
-                    post += "<h3>" + content.title + "</h3>";
+                    post += "<h3>" + content.post.title + "</h3>";
                 }
-                post += "<p>" + content.body + "</p>";
+                post += "<p>" + content.post.body + "</p>";
                 break;
             case "photo":
-//                console.log(content.photos[0].original_size.url);
-                post += "<img src=" + content.photos[0].original_size.url + ">";
-                if (content.caption) {
-                    post += "<p>" + content.caption + "</p>";
+                post += "<img src=" + content.post.photos[0].original_size.url + ">";
+                if (content.post.caption) {
+                    post += "<p>" + content.post.caption + "</p>";
                 }
                 break;
             case "quote":
-                post += "<p>" + content.text + "</p>";
-                post += "<p>" + content.source + "</p>";
+                post += "<p>" + content.post.text + "</p>";
+                post += "<p>" + content.post.source + "</p>";
                 break;
             case "link":
-                post += "<h3><a href='" + content.url + "'>" + content.title + "</a></h3>";
+                post += "<h3><a href='" + content.post.url + "'>" + content.post.title + "</a></h3>";
                 break;
             case "chat":
-                for (let i in content.dialogue) {
+                for (let i in content.post.dialogue) {
                     post += "<p>";
-                    post += "<b>" + content.dialogue[i].label + "</b>" + content.dialogue[i].phrase;
+                    post += "<b>" + content.post.dialogue[i].label + "</b>" + content.post.dialogue[i].phrase;
                     post += "</p>";
                 }
                 break;
             case "audio":
-                post += content.embed;
-                if (content.artist && content.track_name) {
-                    post += "<p class='ap-info'><span class='artist'>" + content.artist + "</span> – <span class='track'>" + content.track_name + "</span></p>";
-                } else if (content.track_name) {
-                    post += "<p class='ap-info'><span class='track'>" + content.track_name + "</span></p>";
+                post += content.post.embed;
+                if (content.post.artist && content.post.track_name) {
+                    post += "<p class='ap-info'><span class='artist'>" + content.post.artist + "</span> – <span class='track'>" + content.post.track_name + "</span></p>";
+                } else if (content.post.track_name) {
+                    post += "<p class='ap-info'><span class='track'>" + content.post.track_name + "</span></p>";
                 }
-                if (content.caption) {
-                    post += "Caption:" + content.caption;
+                if (content.post.caption) {
+                    post += "Caption:" + content.post.caption;
                 }
                 break;
             case "video":
-                if (content.player[0].embed_code) {
-                    post += "<p>" + content.player[0].embed_code + "</p>";
+                if (content.post.player[0].embed_code) {
+                    post += "<p>" + content.post.player[0].embed_code + "</p>";
                 }
                 else {
                     post += "<p>Video is unavailable. May have been removed by user</p>";
                 }
-                if (content.caption) {
-                    post += "<p>" + content.caption + "</p>";
+                if (content.post.caption) {
+                    post += "<p>" + content.post.caption + "</p>";
                 }
                 break;
             case "answer":
-                post += "<p><b>Question: </b>" + content.question + "</p>";
-                post += "<p><b>Answer: </b>" + content.answer + "</p>";
+                post += "<p><b>Question: </b>" + content.post.question + "</p>";
+                post += "<p><b>Answer: </b>" + content.post.answer + "</p>";
                 break;
             default:
                 post += "Error: Unknown Tumblr post type";
         }
 
         let link = document.createElement('a');
-        link.setAttribute('href', content.post_url);
-        link.innerHTML = content.post_url;
+        link.setAttribute('href', content.url);
+        link.innerHTML = content.url;
 
         let timestamp = document.createElement('p');
         timestamp.innerHTML = "Timestamp: " + content.timestamp;
