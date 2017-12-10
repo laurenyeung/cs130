@@ -7,21 +7,33 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap Css -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous"> 
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+    <!-- lurkr CSS -->
+    <link rel="stylesheet" href="lurkr.css">
   </head>
   <body>
-    <h1>Lurkr</h1>
-    <p id="logOutButton">Log out</p>
-
-    <div class="container-fluid">
+    <div class="fixed-top container-fluid" id="lurkr-top">
       <div class="row">
+        <div class="col-sm-9">
+          <h1>Lurkr</h1>
+        </div>
         <div class="col-sm-3">
+          <p align="right" id="logOutButton">Log out</p>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid">
+
+      <div class="row">
+        <div class="col-sm-3" id="lurkr-left">
+          <br/><!-- spacing -->
           <table>
             <tr>
-              <td><b>Platform</b></td>
               <td>
                 <select id="platform">
+                  <option value="" disabled selected>Select Platform</option>
                   <option value="youtube">Youtube</option>
                   <option value="twitter">Twitter</option>
                   <option value="tumblr">Tumblr</option>
@@ -29,8 +41,7 @@
               </td>
             </tr>
             <tr>
-              <td><b>Account URL</b></td>
-              <td><input type="text" id="accountUrl" /></td>
+              <td><input type="text" id="accountUrl" placeholder="Account URL"/></td>
             </tr>
           </table>
           <p>
@@ -38,16 +49,16 @@
             <input type="button" id="removeSubscriptionButton" value="Remove Subscription" />
           </p>
         </div>
-        <div class="col-sm-9" style="background-color:red">
+        <div class="col-sm-9">
+          <br/><!-- spacing -->
           <div id="contentFeed"></div>
+          <input type="button" id="getSubscriptionsButton" value="Load More Subscriptions" />
+          <p>TODO: automatically load more subscriptions when the user scrolls to the bottom</p>
         </div>
       </div>
     </div>
 
 
-    <div id="contentFeed"></div>
-    <input type="button" id="getSubscriptionsButton" value="Load More Subscriptions" />
-    <p>TODO: automatically load more subscriptions when the user scrolls to the bottom</p>
   </body>
   <script src="./bundle.js"></script>
 

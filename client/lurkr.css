@@ -1,0 +1,14 @@
+/* make room for the top fixed bar thing */
+body {
+  padding-top: 57px;  
+}
+
+#lurkr-top {
+  background-color: #c0c0c0;
+  border-bottom: 1px solid #808080;
+}
+
+#lurkr-left {
+  border-right: 1px solid #808080;
+}
+
