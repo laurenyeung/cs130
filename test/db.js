@@ -60,7 +60,7 @@ describe('Database', () => {
 
     describe('#getSubscriptions()', ()=> {
         it('should return an empty list if there are no subscriptions for a user', (done) => {
-            db.getSubscriptions("blahblahblah", "", (err, res) => {
+            db.getSubscriptions("blahblahblah", (err, res) => {
                 assert(res && res.length == 0);
                 done(err);
             });
@@ -71,7 +71,7 @@ describe('Database', () => {
                 if (err) done(err);
                 db.addSubscription("user", "b", "b", (err) => {
                     if (err) done(err);
-                    db.getSubscriptions("user", "", (err, res) => {
+                    db.getSubscriptions("user", (err, res) => {
                         if (err) done(err);
 
                         assert(res && res.length == 2);
