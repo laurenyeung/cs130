@@ -8,7 +8,6 @@
 // Use Tumblr api here
 const platform = require('./platform.js');
 const xhr = require('./xhr.js');
-//const request = require('request-promise')
 
 /**
  * Grabs the useful information from the api response
@@ -94,7 +93,9 @@ class Tumblr extends platform.Platform {
      */
     embed(content) {
         var post = '';
-
+//        console.log(content);
+        post += "--------------------"
+        post += "<p>Content type: " + content.type + "</p>";
         //https://gist.github.com/interstateone/6744507
         // The post variable holds the HTML that will be placed into the page
         // Use the relevant post variables for each type from the docs
@@ -105,35 +106,48 @@ class Tumblr extends platform.Platform {
                 }
                 post += "<p>" + content.body + "</p>";
                 break;
-            case "link":
-                post = "<h3><a href='" + content.url + "'>" + content.title + "</a></h3>";
-                break;
-            case "quote":
-                post = "<p>" + content.text + "</p>";
-                break;
             case "photo":
-                console.log(content.photos[0].original_size.url);
-                post = "<img src=" + content.photos[0].original_size.url + ">";
+//                console.log(content.photos[0].original_size.url);
+                post += "<img src=" + content.photos[0].original_size.url + ">";
                 if (content.caption) {
                     post += "<p>" + content.caption + "</p>";
                 }
                 break;
-            case "video":
-                post = content.player.embed_code + "<p>" + content.caption + "</p>";
+            case "quote":
+                post += "<p>" + content.text + "</p>";
+                post += "<p>" + content.source + "</p>";
+                break;
+            case "link":
+                post += "<h3><a href='" + content.url + "'>" + content.title + "</a></h3>";
+                break;
+            case "chat":
                 break;
             case "audio":
-                post = content.embed;
+                post += content.embed;
                 if (content.artist && content.track_name) {
                     post += "<p class='ap-info'><span class='artist'>" + content.artist + "</span> – <span class='track'>" + content.track_name + "</span></p>";
-                } else {
-                    if (content.track_name) {
+                } else if (content.track_name) {
                     post += "<p class='ap-info'><span class='track'>" + content.track_name + "</span></p>";
-                    }
                 }
                 if (content.caption) {
-                    post += content.caption;
+                    post += "Caption:" + content.caption;
                 }
                 break;
+            case "video":
+                if (content.player[0].embed_code) {
+                    post += "<p>" + content.player[0].embed_code + "</p>";
+                }
+                else {
+                    post += "<p>Video is unavailable. May have been removed by user</p>";
+                }
+                if (content.caption) {
+                    post += "<p>" + content.caption + "</p>";
+                }
+                break;
+            case "answer":
+                break;
+            default:
+                post += "Error: Unknown Tumblr post type";
         }
 
         let link = document.createElement('a');
