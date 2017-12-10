@@ -121,6 +121,11 @@ class Tumblr extends platform.Platform {
                 post += "<h3><a href='" + content.url + "'>" + content.title + "</a></h3>";
                 break;
             case "chat":
+                for (let i in content.dialogue) {
+                    post += "<p>";
+                    post += "<b>" + content.dialogue[i].label + "</b>" + content.dialogue[i].phrase;
+                    post += "</p>";
+                }
                 break;
             case "audio":
                 post += content.embed;
@@ -145,6 +150,8 @@ class Tumblr extends platform.Platform {
                 }
                 break;
             case "answer":
+                post += "<p><b>Question: </b>" + content.question + "</p>";
+                post += "<p><b>Answer: </b>" + content.answer + "</p>";
                 break;
             default:
                 post += "Error: Unknown Tumblr post type";
