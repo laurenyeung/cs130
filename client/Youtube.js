@@ -69,17 +69,19 @@ class Youtube extends platform.Platform {
      */
     embed(content, where) {
         let videoId = content.videoId;
-        let title = content.title;
         let description = content.description;
         let div = where;
+        let title = document.createElement('h5');
         let p = document.createElement('p');
         let iframe = document.createElement('iframe');
+        title.innerText = content.title;
         p.innerText = description;
         iframe.src = "https://www.youtube.com/embed/" + content.videoId;
         iframe.width = "560";
         iframe.height = "315";
-        div.appendChild(p);
+        div.appendChild(title);
         div.appendChild(iframe);
+        div.appendChild(p);
         document.getElementById('contentFeed').appendChild(div);
     }
 

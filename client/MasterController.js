@@ -163,7 +163,8 @@ function updateContent() {
             let p = Platforms[sub.platform];
             let after = contentState.lastDisplayed[key] || null;
             p.getContent(sub.accountUrl, after, RESULTS_PER_PAGE - numLoaded, (err, res) => {
-                onRecvContent(err, res, key);
+                onRecvContent(err, res, key, sub.accountUrl);
+                // TODO: replace sub.accountUrl with a human-readable name
             });
 
             // increment this so that onRecvContent knows when it received the content
@@ -178,8 +179,9 @@ function updateContent() {
  * @param {string} err - The error message if there was one
  * @param {object} res - The array of content that was received from a platform
  * @param {string} key - The key into contentState.newContentQueues and contentState.lastDisplayed
+ * @param {string} accountName - A human readable account name
  */
-function onRecvContent(err, res, key) {
+function onRecvContent(err, res, key, accountName) {
     // regardless of if there was an error, we need to increment this
     contentState.subsDone += 1;
 
@@ -191,6 +193,11 @@ function onRecvContent(err, res, key) {
         let queues = contentState.newContentQueues;
         if (!queues[key])
             queues[key] = [];
+
+        // tag on accountName for each content
+        // FIXME: this is a sort of hack for getting the account name in the title
+        for (let i = 0; i < res.length; ++i)
+            res[i].accountName = accountName;
 
         // insert in reverse sorted order (oldest first)
         res.sort((a, b) => { return a.timestamp - b.timestamp; });
@@ -251,17 +258,15 @@ function displayNewContent() {
 
 // adds one piece of content
 function addContentToWindow(content) {
+    console.log(content);
     let contentFeed = document.getElementById("contentFeed");
 
     let outer = document.createElement("div");
     outer.className = "lurkr-content";
 
-    // <h3>title</h3>
+    // <h3>Platform: user</h3>
     let title = document.createElement("h3");
-    if (content.title)
-        title.innerHTML = content.title;
-    else
-        title.innerHTML = "[title unknown]";
+    title.innerHTML = content.platform + ": " + content.accountName;
 
     // <div>[embedded stuff goes here]</div>
     let inner = document.createElement("div");
