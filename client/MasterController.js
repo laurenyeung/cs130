@@ -130,6 +130,8 @@ function onSubscriptionsReceived(err, results) {
 function updateContent() {
     let subs = contentState.subscriptions;
     if (subs.length == 0) {
+        let contentFeed = document.getElementById("contentFeed");
+        contentFeed.innerHTML = "<p>You don't have any subscriptions!</p>";
         return;
     }
 
@@ -201,14 +203,14 @@ function onRecvContent(err, res, key) {
         contentState.totalSubs = -1;
 
         // display the content for the user
-        displayContent();
+        displayNewContent();
     }
 }
 
 /**
  * Displays (embeds) RESULTS_PER_PAGE of the newest posts
  */
-function displayContent() {
+function displayNewContent() {
     let queues = contentState.newContentQueues;
     let newContentList = [];
 
@@ -240,11 +242,66 @@ function displayContent() {
 
     // embed all of the content
     for (let content of newContentList) {
-        Platforms[content.platform].embed(content);
+        addContentToWindow(content);
     }
 
     contentState.dispContent = contentState.dispContent.concat(newContentList);
     contentState.locked = false;
+}
+
+// adds one piece of content
+function addContentToWindow(content) {
+    let contentFeed = document.getElementById("contentFeed");
+
+    let outer = document.createElement("div");
+    outer.className = "lurkr-content";
+
+    // <h3>title</h3>
+    let title = document.createElement("h3");
+    if (content.title)
+        title.innerHTML = content.title;
+    else
+        title.innerHTML = "[title unknown]";
+
+    // <div>[embedded stuff goes here]</div>
+    let inner = document.createElement("div");
+    Platforms[content.platform].embed(content, inner);
+
+    // <p>Sun Dec 10 2017 (3 hours ago)</p>
+    let time = document.createElement("p");
+    time.className = "lurkr-timeStr";
+    time.innerHTML = createTimeStr(content.timestamp);
+
+    outer.appendChild(title);
+    outer.appendChild(inner);
+    outer.appendChild(time);
+
+    contentFeed.appendChild(outer);
+}
+
+// given a timestamp, outputs a string of the form:
+// [day-of-week] [month] [day] [year] (x [seconds/minutes/hours/days/years] ago)
+function createTimeStr(timestamp) {
+    let a = new Date(timestamp * 1000);
+    let timeStr = a.toDateString();
+
+    function makeAgoStr(n, s) {
+        return String(n) + " " + s + (n == 1 ? "" : "s") + " ago";
+    }
+
+    let agoStr;
+    let now = new Date().getTime() / 1000;
+    let diff = now - timestamp;
+    if (diff < 120)
+        agoStr = "just now";
+    else if (diff < 3600)
+        agoStr = makeAgoStr(Math.floor(diff/60), "minute");
+    else if (diff < 3600*24)
+        agoStr = makeAgoStr(Math.floor(diff/3600), "hour");
+    else
+        agoStr = makeAgoStr(Math.floor(diff/86400), "day");
+
+    return "Published " + timeStr + " (" + agoStr + ")";
 }
 
 function onPlatformChanged() {

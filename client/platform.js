@@ -46,8 +46,9 @@ class Platform {
     /**
      * This method embeds a given url to the application at the bottom of the page.
      * @param  {module:client/platform~Content} content - the content to be embedded
+     * @param  {object} where - a DOM element where the content should be embedded
      */
-    embed(content) {
+    embed(content, where) {
         throw "Platform not implemented";
     }
 }

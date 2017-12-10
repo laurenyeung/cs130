@@ -65,21 +65,19 @@ class Youtube extends platform.Platform {
     /**
      * This method embeds a given url to the application at the bottom of the page.
      * @param  {module:client/platform~Content} content - the content to be embedded
+     * @param  {object} where - a DOM element where the content should be embedded
      */
-    embed(content) {
+    embed(content, where) {
         let videoId = content.videoId;
         let title = content.title;
         let description = content.description;
-        let div = document.createElement('div');
-        let h3 = document.createElement('h3');
+        let div = where;
         let p = document.createElement('p');
         let iframe = document.createElement('iframe');
-        h3.innerText = title;
         p.innerText = description;
         iframe.src = "https://www.youtube.com/embed/" + content.videoId;
         iframe.width = "560";
         iframe.height = "315";
-        div.appendChild(h3);
         div.appendChild(p);
         div.appendChild(iframe);
         document.getElementById('contentFeed').appendChild(div);

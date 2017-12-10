@@ -66,11 +66,11 @@ class Tumblr extends platform.Platform {
     /**
      * This method embeds a given url to the application at the bottom of the page.
      * @param  {module:client/platform~Content} content - the content to be embedded
+     * @param  {object} where - a DOM element where the content should be embedded
      */
-    embed(content) {
+    embed(content, where) {
         var post = '';
 //        console.log(content);
-        post += "--------------------"
         post += "<p>Content type: " + content.post.type + "</p>";
         //https://gist.github.com/interstateone/6744507
         // The post variable holds the HTML that will be placed into the page
@@ -136,13 +136,13 @@ class Tumblr extends platform.Platform {
         link.setAttribute('href', content.url);
         link.innerHTML = content.url;
 
-        let timestamp = document.createElement('p');
-        timestamp.innerHTML = "Timestamp: " + content.timestamp;
+        //let timestamp = document.createElement('p');
+        //timestamp.innerHTML = "Timestamp: " + content.timestamp;
 
-        let div = document.createElement('div');
+        let div = where;
         div.insertAdjacentHTML( 'beforeend', post );
         div.appendChild(link);
-        div.appendChild(timestamp);
+        //div.appendChild(timestamp);
         div.setAttribute('class', 'tumblr-post');
         document.getElementById('contentFeed').appendChild(div);
     }
