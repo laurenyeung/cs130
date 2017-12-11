@@ -21,13 +21,13 @@ const placeholder = "Search Tumblr by tag";
 function formatResponse(response, offset) {
     //console.log(response);
     var contentList = [];
-    for (let i in response.response.posts) {
+    for (let i in response.posts) {
         var content = {};
         content.platform = "tumblr";
         content.index = offset + parseInt(i);  // typeof i is "string" for some dumb reason
-        content.post = response.response.posts[i];
-        content.url = content.post.post_url;
-        content.timestamp = content.post.timestamp;
+        content.post = response.posts[i];
+        content.url = response.posts[i].post_url;
+        content.timestamp = response.posts[i].timestamp;
         contentList.push(content);
     }
 
@@ -84,7 +84,7 @@ class Tumblr extends platform.Platform {
                     api_key + '&limit=' + maxResults + "&offset=" + offset;
 
         xhr.send("GET", url, null, (err, res) => {
-            callback(err, err ? undefined : formatResponse(res, offset));
+            callback(err, err ? undefined : formatResponse(res.response, offset));
         });
     }
 
