@@ -8,6 +8,8 @@
 // Use Tumblr api here
 const platform = require('./platform.js');
 const xhr = require('./xhr.js');
+const api_key = 'dwx5GBbm3Pghx2Dn8P78tfnXRSJFcYdXHNr3bpD4ffpXTzb1uD';
+const placeholder = "Search Tumblr by tag";
 
 /**
  * Grabs the useful information from the api response
@@ -32,10 +34,35 @@ function formatResponse(response, offset) {
     return contentList;
 }
 
+function populateSearchList(err, response) {
+    //console.log(response);
+    if (err) {
+        console.log("Error response in Tumblr for searching by tag");
+        console.log(err);
+    }
+    else {
+        var dataList = document.getElementById('search-list');
+        dataList.innerHTML = '';
+        var uniqueSet = {};
+        for (let i in response) {
+            if (!(response[i].blog_name in uniqueSet)) {
+                uniqueSet[response[i].blog_name] = true;
+                var option = document.createElement('option');
+                option.value = response[i].blog_name;
+                console.log(option.value);
+                dataList.appendChild(option);
+            }
+        }
+    }
+}
+
 /**
  * defines the Tumblr implementation of the platform class
  */
 class Tumblr extends platform.Platform {
+    getPlaceholder() {
+        return placeholder;
+    }
 
     /**
      * This method gets the content from a particular account
@@ -53,7 +80,6 @@ class Tumblr extends platform.Platform {
         //api.tumblr.com/v2/blog/{blog-identifier}/posts[/type]?api_key={key}&[optional-params=]
 
         let offset = after == null ? 0 : after.index + 1;
-        var api_key = 'dwx5GBbm3Pghx2Dn8P78tfnXRSJFcYdXHNr3bpD4ffpXTzb1uD';
         var url = 'https://api.tumblr.com/v2/blog/' + accountUrl + '.tumblr.com/posts?api_key=' + 
                     api_key + '&limit=' + maxResults + "&offset=" + offset;
 
@@ -152,6 +178,20 @@ class Tumblr extends platform.Platform {
         div.appendChild(link);
         div.setAttribute('class', 'tumblr-post');
         document.getElementById('contentFeed').appendChild(div);
+    }
+
+    getSearch() {
+        console.log("in getSearch");
+        var searchText = document.getElementById('accountUrl').value;
+        console.log(searchText);
+
+        var dataList = document.getElementById('search-list');
+        dataList.innerHTML = '';
+        if (searchText) {
+            var maxSearchSuggestions = 5;
+            var url = 'https://api.tumblr.com/v2/tagged?tag=' + searchText + '&api_key=' + api_key + '&limit=' + maxSearchSuggestions;
+            xhr.send("GET", url, null, (err, res) => { populateSearchList(err, res.response); });
+        }
     }
 }
 

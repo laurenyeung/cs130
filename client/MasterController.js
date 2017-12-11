@@ -325,8 +325,15 @@ function onPlatformChanged() {
     };
     let dropDown = document.getElementById("platform");
     let accountUrl = document.getElementById("accountUrl");
-    if (dropDown.value != "")
+
+    if (dropDown.value != "") {
         accountUrl.value = defaultAccount[dropDown.value];
+        accountUrl.onkeyup = Platforms[dropDown.value].getSearch;
+
+        var input = document.getElementById('accountUrl');
+        input.placeholder = Platforms[dropDown.value].getPlaceholder();
+    }
+
 }
 
 /**
