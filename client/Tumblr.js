@@ -41,16 +41,16 @@ function populateSearchList(err, response) {
         console.log(err);
     }
     else {
-        var dataList = document.getElementById('search-list');
-        dataList.innerHTML = '';
+        var searchList = document.getElementById('search-list');
+        searchList.innerHTML = '';
         var uniqueSet = {};
         for (let i in response) {
             if (!(response[i].blog_name in uniqueSet)) {
                 uniqueSet[response[i].blog_name] = true;
-                var option = document.createElement('option');
-                option.value = response[i].blog_name;
-                console.log(option.value);
-                dataList.appendChild(option);
+                var option = document.createElement('li');
+                var textnode = document.createTextNode(response[i].blog_name);
+                option.appendChild(textnode);
+                searchList.appendChild(option);
             }
         }
     }
@@ -185,10 +185,10 @@ class Tumblr extends platform.Platform {
         var searchText = document.getElementById('accountUrl').value;
         console.log(searchText);
 
-        var dataList = document.getElementById('search-list');
-        dataList.innerHTML = '';
+        var searchList = document.getElementById('search-list');
+        searchList.innerHTML = '';
         if (searchText) {
-            var maxSearchSuggestions = 5;
+            var maxSearchSuggestions = 10;
             var url = 'https://api.tumblr.com/v2/tagged?tag=' + searchText + '&api_key=' + api_key + '&limit=' + maxSearchSuggestions;
             xhr.send("GET", url, null, (err, res) => { populateSearchList(err, res.response); });
         }
