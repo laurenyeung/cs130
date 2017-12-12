@@ -88,7 +88,6 @@ function setButtonBehaviors() {
     document.getElementById("platform").onchange = onPlatformChanged;
     document.getElementById("addSubscriptionButton").onclick = onAddSub;
     document.getElementById("removeSubscriptionButton").onclick = onRemoveSub;
-    document.getElementById("getSubscriptionsButton").onclick = updateContent;
     document.getElementById("logOutButton").onclick = ProfileManager.logout;
 }
 
@@ -137,8 +136,7 @@ function onSubscriptionsReceived(err, results) {
 function updateContent() {
     let subs = contentState.subscriptions;
     if (subs.length == 0) {
-        let contentFeed = document.getElementById("contentFeed");
-        contentFeed.innerHTML = "<p>You don't have any subscriptions!</p>";
+        document.getElementById("scrollMsg").innerText = "You don't have any subscriptions!";
         return;
     }
 
@@ -149,6 +147,7 @@ function updateContent() {
         return;
     }
     contentState.locked = true;
+    document.getElementById("scrollMsg").innerText = "Loading...";
 
     // setup contentState
     contentState.subsDone = 0;
@@ -261,6 +260,7 @@ function displayNewContent() {
 
     contentState.dispContent = contentState.dispContent.concat(newContentList);
     contentState.locked = false;
+    document.getElementById("scrollMsg").innerText = "Scroll down to load more content";
 }
 
 // adds one piece of content
@@ -375,6 +375,14 @@ function onRemoveSub() {
         Backend.removeSubscription(userId, platform, accountUrl, callback);
     });
 }
+
+$(window).on("scroll", function() {
+  var scrollHeight = $(document).height();
+  var scrollPosition = $(window).height() + $(window).scrollTop();
+  if ((scrollHeight - scrollPosition) / scrollHeight === 0) {
+    updateContent();
+  }
+});
 
 
 
