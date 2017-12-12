@@ -41,7 +41,7 @@ class Youtube extends platform.Platform {
     
      /**
      * This method gets the content from a particular account
-     * @param  {string} accountUrl - the url of the account we are getting content from
+     * @param  {string} accountId - the ID of the account we are getting content from
      * @param  {module:client/platform~Content} after - Defines the piece of content to
      *   start searching after. For example, if we had previously received the first 10
      *   results in `var content`, then to get the next 10 results we would pass in `content[9]`
@@ -50,8 +50,8 @@ class Youtube extends platform.Platform {
      * @param  {module:client/platform~callback} callback - Called when the content has been
      *   retrieved. The `results` argument is of type {@link module:client/platform~Content|Content}.
      */
-    getContent(accountUrl, after, maxResults, callback) {
-        let channelId = accountUrl;
+    getContent(accountId, after, maxResults, callback) {
+        let channelId = accountId;
         let url = "https://www.googleapis.com/youtube/v3/search?order=date&part=snippet&channelId=" + 
             channelId + "&maxResults=" + maxResults + "&key=" + apiKey;
         if (after != null)
@@ -98,6 +98,14 @@ class Youtube extends platform.Platform {
     //     document.body.appendChild(iframe);
     // }
 
+    /**
+     * Converts an account ID into a URL
+     * @param {string} accountId - The ID of the account
+     * @returns {string} The URL of the account (e.g. youtube channel)
+     */
+    getAccountUrl(accountId) {
+        return "https://youtube.com/channel/" + accountId;
+    }
 }
 
 module.exports = {

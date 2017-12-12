@@ -9,13 +9,13 @@ const xhr = require("./xhr.js");
  * Adds a new subscription
  * @param {string} userId - ID of the user who is subscribing.
  * @param {string} platform - the platform (e.g. youtube).
- * @param {string} accountUrl - the account being subscribed to.
+ * @param {string} accountId - the account being subscribed to.
  * @param {function} callback - called when the operation finishes
  */
-function addSubscription(userId, platform, accountUrl, callback) {
+function addSubscription(userId, platform, accountId, callback) {
     let body = {
         platform: platform,
-        accountUrl: accountUrl
+        accountId: accountId
     };
     xhr.send("POST", "/api/" + userId, body, callback);
 }
@@ -24,13 +24,13 @@ function addSubscription(userId, platform, accountUrl, callback) {
  * Removes an existing subscription
  * @param {string} userId - ID of the user who is subscribing.
  * @param {string} platform - the platform (e.g. youtube).
- * @param {string} accountUrl - the account being subscribed to.
+ * @param {string} accountId - the account being subscribed to.
  * @param {function} callback - called when the operation finishes
  */
-function removeSubscription(userId, platform, accountUrl, callback) {
+function removeSubscription(userId, platform, accountId, callback) {
     let body = {
         platform: platform,
-        accountUrl: accountUrl
+        accountId: accountId
     };
     xhr.send("DELETE", "/api/" + userId, body, callback);
 }

@@ -41,14 +41,14 @@ class Sqlite3Database extends database.Database {
                     this.db.run(`CREATE TABLE subscriptions(
                         userId     TEXT,
                         platform   TEXT,
-                        accountUrl TEXT,
+                        accountId TEXT,
 
-                        UNIQUE(userId, platform, accountUrl)
+                        UNIQUE(userId, platform, accountId)
                     )`);
 
                     // create an index on userId for faster access
                     this.db.run("CREATE INDEX idx1 ON subscriptions(userId)");
-                    this.db.run("CREATE INDEX idx2 ON subscriptions(userId, platform, accountUrl)",
+                    this.db.run("CREATE INDEX idx2 ON subscriptions(userId, platform, accountId)",
                         (err) => {
                             // should now be safe to parallelize
                             this.db.parallelize();
@@ -64,14 +64,14 @@ class Sqlite3Database extends database.Database {
      * Helper method to check if subscription is in database.
      * @param {string} userId - ID of the user who is subscribing.
      * @param {string} platform - the platform (e.g. youtube).
-     * @param {string} accountUrl - the account being subscribed to.
+     * @param {string} accountId - the account being subscribed to.
      * @param {module:server/database~callback} callback - called when the result has been
      *   computed. `results` is a `true` if the subscription exists, `false`
      *   otherwise.
      */
-    _subscriptionExists(userId, platform, accountUrl, callback) {
-        this.db.all("SELECT * FROM subscriptions WHERE userId=? AND platform=? and accountUrl=?",
-            [userId, platform, accountUrl],
+    _subscriptionExists(userId, platform, accountId, callback) {
+        this.db.all("SELECT * FROM subscriptions WHERE userId=? AND platform=? and accountId=?",
+            [userId, platform, accountId],
             (err, rows) => {
                 callback(err, rows ? rows.length != 0 : undefined);
             }
@@ -82,19 +82,19 @@ class Sqlite3Database extends database.Database {
      * Adds a subscription to the database.
      * @param {string} userId - ID of the user who is subscribing.
      * @param {string} platform - the platform (e.g. youtube).
-     * @param {string} accountUrl - the account being subscribed to.
+     * @param {string} accountId - the account being subscribed to.
      * @param {module:server/database~callback} callback - called when the subscription has been added
      */
-    addSubscription(userId, platform, accountUrl, callback) {
-        this._subscriptionExists(userId, platform, accountUrl, (err, exists) => {
+    addSubscription(userId, platform, accountId, callback) {
+        this._subscriptionExists(userId, platform, accountId, (err, exists) => {
             // return error if subscription already exists
             if (exists) {
                 return callback("Subscription already exists");
             }
 
             // add the subscription
-            this.db.run("INSERT INTO subscriptions(userId, platform, accountUrl) VALUES(?, ?, ?)",
-                [userId, platform, accountUrl],
+            this.db.run("INSERT INTO subscriptions(userId, platform, accountId) VALUES(?, ?, ?)",
+                [userId, platform, accountId],
                 (err) => {
                     callback(err ? "Database error: " + err : null);
                 }
@@ -106,20 +106,20 @@ class Sqlite3Database extends database.Database {
      * Removes a subscription from the database.
      * @param {string} userId - ID of the user who is subscribing.
      * @param {string} platform - the platform (e.g. youtube).
-     * @param {string} accountUrl - the account being subscribed to.
+     * @param {string} accountId - the account being subscribed to.
      * @param {module:server/database~callback} callback - called when the subscription has been removed.
      * If successful, err is null, otherwise it's an error message string.
      */
-    removeSubscription(userId, platform, accountUrl, callback) {
-        this._subscriptionExists(userId, platform, accountUrl, (err, exists) => {
+    removeSubscription(userId, platform, accountId, callback) {
+        this._subscriptionExists(userId, platform, accountId, (err, exists) => {
             // return error if subscription already exists
             if (!exists) {
                 return callback("Subscription does not exist");
             }
 
             // remove the subscription
-            this.db.run("DELETE FROM subscriptions WHERE userId=? AND platform=? AND accountUrl=?",
-                [userId, platform, accountUrl],
+            this.db.run("DELETE FROM subscriptions WHERE userId=? AND platform=? AND accountId=?",
+                [userId, platform, accountId],
                 (err) => {
                     callback(err ? "Database error: " + err : null);
                 }
@@ -135,7 +135,7 @@ class Sqlite3Database extends database.Database {
      */
    
     getSubscriptions(userId, callback) {
-        this.db.all("SELECT platform, accountUrl FROM subscriptions WHERE userId=?", [userId],
+        this.db.all("SELECT platform, accountId FROM subscriptions WHERE userId=?", [userId],
             (err, rows) => {
                 if (err)
                     callback("Database error: " + err);

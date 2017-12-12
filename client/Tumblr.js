@@ -75,7 +75,7 @@ class Tumblr extends platform.Platform {
 
     /**
      * This method gets the content from a particular account
-     * @param  {string} accountUrl - the url of the account we are getting content from
+     * @param  {string} accountId - the ID of the account we are getting content from
      * @param  {module:client/platform~Content} after - Defines the piece of content to
      *   start searching after. For example, if we had previously received the first 10
      *   results in `var content`, then to get the next 10 results we would pass in `content[9]`
@@ -84,12 +84,12 @@ class Tumblr extends platform.Platform {
      * @param  {module:client/platform~callback} callback - Called when the content has been
      *   retrieved. The `results` argument is of type {@link module:client/platform~Content|Content}.
      */
-    getContent(accountUrl, after, maxResults, callback) {
+    getContent(accountId, after, maxResults, callback) {
         //https://api.tumblr.com/v2/blog/citriccomics.tumblr.com/posts?api_key=dwx5GBbm3Pghx2Dn8P78tfnXRSJFcYdXHNr3bpD4ffpXTzb1uD&limit=20
         //api.tumblr.com/v2/blog/{blog-identifier}/posts[/type]?api_key={key}&[optional-params=]
 
         let offset = after == null ? 0 : after.index + 1;
-        var url = 'https://api.tumblr.com/v2/blog/' + accountUrl + '.tumblr.com/posts?api_key=' + 
+        var url = 'https://api.tumblr.com/v2/blog/' + accountId + '.tumblr.com/posts?api_key=' + 
                     api_key + '&limit=' + maxResults + "&offset=" + offset;
 
         xhr.send("GET", url, null, (err, res) => {
@@ -186,7 +186,7 @@ class Tumblr extends platform.Platform {
      * This method gets the search suggestions for a particular search input
      */
     getSearch() {
-        var searchText = document.getElementById('accountUrl').value;
+        var searchText = document.getElementById('accountId').value;
 
         var searchList = document.getElementById('search-list');
         searchList.innerHTML = '';
@@ -195,6 +195,15 @@ class Tumblr extends platform.Platform {
             var url = 'https://api.tumblr.com/v2/tagged?tag=' + searchText + '&api_key=' + api_key + '&limit=' + maxSearchSuggestions;
             xhr.send("GET", url, null, (err, res) => { populateSearchList(err, res.response); });
         }
+    }
+
+    /**
+     * Converts an account ID into a URL
+     * @param {string} accountId - The ID of the account
+     * @returns {string} The URL of the account (e.g. youtube channel)
+     */
+    getAccountUrl(accountId) {
+        return "https://" + accountId + ".tumblr.com";
     }
 }
 

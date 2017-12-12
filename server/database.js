@@ -23,11 +23,11 @@ class Database {
      * Adds a subscription to the database.
      * @param {string} userId - ID of the user who is subscribing.
      * @param {string} platform - the platform (e.g. youtube).
-     * @param {string} accountUrl - the account being subscribed to.
+     * @param {string} accountId - the account being subscribed to.
      * @param {module:server/database~callback} callback - Called when the database operation
      *   finishes
      */
-    addSubscription(userId, platform, accountUrl, callback) {
+    addSubscription(userId, platform, accountId, callback) {
         throw "Not implemented";
     }
 
@@ -35,11 +35,11 @@ class Database {
      * Removes a subscription from the database.
      * @param {string} userId - ID of the user who is subscribing.
      * @param {string} platform - the platform (e.g. youtube).
-     * @param {string} accountUrl - the account being subscribed to.
+     * @param {string} accountId - the account being subscribed to.
      * @param {module:server/database~callback} callback - Called when the database operation
      *   finishes
      */
-    removeSubscription(userId, platform, accountUrl, callback) {
+    removeSubscription(userId, platform, accountId, callback) {
         throw "Not implemented";
     }
 
@@ -48,7 +48,7 @@ class Database {
      * @param {string} userId - ID of the user who is subscribing.
      * @param {module:server/database~callback} callback - called once all subscriptions have been
      *   retrieved. If successful, `results` is an array of objects
-     *   `{platform: "...", accountUrl: "..."}`, otherwise it's `undefined`.
+     *   `{platform: "...", accountId: "..."}`, otherwise it's `undefined`.
      */
     getSubscriptions(userId, callback) {
         throw "Not implemented";

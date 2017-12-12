@@ -43,7 +43,7 @@ var db = require("./database.js").createDatabase(
 // {
 //     success: true/false,
 //     error: "error message if success was false",
-//     results: [ { platform: "youtube, accountUrl: "..." }, {...} ] // only if successful
+//     results: [ { platform: "youtube, accountId: "..." }, {...} ] // only if successful
 // }
 /** 
  * Returns JSON with success, error, and results.
@@ -69,7 +69,7 @@ app.get('/api/:userId', (req, res) => {
 // The body of the request should be JSON of the following form:
 // {
 //     "platform": "youtube",
-//     "accountUrl": "http://..."
+//     "accountId": "http://..."
 // }
 // The response will be JSON of the following form:
 // {
@@ -81,15 +81,15 @@ app.get('/api/:userId', (req, res) => {
  */
 app.post('/api/:userId', (req, res) => {
     var platform = req.body.platform;
-    var accountUrl = req.body.accountUrl;
-    if (!platform || !accountUrl) {
+    var accountId = req.body.accountId;
+    if (!platform || !accountId) {
         res.send({
             success: false,
             error: "Invalid request body"
         });
     }
     else {
-        db.addSubscription(req.params["userId"], platform, accountUrl, (err) => {
+        db.addSubscription(req.params["userId"], platform, accountId, (err) => {
             if (err) {
                 res.send({
                     success: false,
@@ -111,15 +111,15 @@ app.post('/api/:userId', (req, res) => {
  */
 app.delete('/api/:userId', (req, res) => {
     var platform = req.body.platform;
-    var accountUrl = req.body.accountUrl;
-    if (!platform || !accountUrl) {
+    var accountId = req.body.accountId;
+    if (!platform || !accountId) {
         res.send({
             success: false,
             error: "Invalid request body"
         });
     }
     else {
-        db.removeSubscription(req.params["userId"], platform, accountUrl, (err) => {
+        db.removeSubscription(req.params["userId"], platform, accountId, (err) => {
             if (err) {
                 res.send({
                     success: false,

@@ -83,7 +83,17 @@ ul{
   margin-bottom: 0.5em;
 }
 
-.lurkr-sub-list-group ul li:hover {
+#subscriptionsList ul li:hover {
   background-color: #f8f8f8;
+}
+
+#subscriptionsList a, #subscriptionsList a:hover {
+  color: #000000;
+}
+
+.lurkr-sub-list-group-title a, .lurkr-sub-list-group-title a:hover {
+  font-size: 1.1em;
+  font-weight: bold;
+  text-decoration: none;
 }
 

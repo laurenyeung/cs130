@@ -71,7 +71,7 @@ function resetContentState() {
 function init() {
     resetContent();
     setButtonBehaviors();
-    onPlatformChanged();    // temporary: fill in default accountUrl
+    onPlatformChanged();    // temporary: fill in default accountId
     // getAllSubscriptions();
     // getContent();
     // sortContent();
@@ -137,18 +137,18 @@ function onSubscriptionsReceived(err, results) {
     // sort by platform
     let sortedSubs = {};
     for (let sub of subs) {
-      if (sortedSubs[sub.platform] === undefined)
-        sortedSubs[sub.platform] = [];
+        if (sortedSubs[sub.platform] === undefined)
+            sortedSubs[sub.platform] = [];
 
-      sortedSubs[sub.platform].push(sub);
+        sortedSubs[sub.platform].push(sub);
     }
     for (let platform in sortedSubs) {
-      // sort alphabetically-ish
-      let psubs = sortedSubs[platform];
-      psubs.sort((a, b) => { return a.accountUrl < b.accountUrl ? -1 : 1 });
+        // sort alphabetically-ish
+        let psubs = sortedSubs[platform];
+        psubs.sort((a, b) => { return a.accountId < b.accountId ? -1 : 1 });
 
-      // call this function to do all the hard work
-      addToSubscriptionsList(platform, psubs);
+        // call this function to do all the hard work
+        addToSubscriptionsList(platform, psubs);
     }
 }
 
@@ -178,7 +178,7 @@ function updateContent() {
     // for each subscription
     for (let sub of subs) {
         // get (or create) the list of content we already have for this subscription
-        let key = sub.platform + ":" + sub.accountUrl;
+        let key = sub.platform + ":" + sub.accountId;
         let queues = contentState.newContentQueues;
         if (!queues[key])
             queues[key] = [];
@@ -190,9 +190,9 @@ function updateContent() {
         if (numLoaded < RESULTS_PER_PAGE) {
             let p = Platforms[sub.platform];
             let after = contentState.lastDisplayed[key] || null;
-            p.getContent(sub.accountUrl, after, RESULTS_PER_PAGE - numLoaded, (err, res) => {
-                onRecvContent(err, res, key, sub.accountUrl);
-                // TODO: replace sub.accountUrl with a human-readable name
+            p.getContent(sub.accountId, after, RESULTS_PER_PAGE - numLoaded, (err, res) => {
+                onRecvContent(err, res, key, sub.accountId);
+                // TODO: replace sub.accountId with a human-readable name
             });
 
             // increment this so that onRecvContent knows when it received the content
@@ -367,13 +367,13 @@ function onPlatformChanged() {
         twitter: ""
     };
     let dropDown = document.getElementById("platform");
-    let accountUrl = document.getElementById("accountUrl");
+    let accountId = document.getElementById("accountId");
 
     if (dropDown.value != "") {
-        accountUrl.value = defaultAccount[dropDown.value];
-        accountUrl.onkeyup = Platforms[dropDown.value].getSearch;
+        accountId.value = defaultAccount[dropDown.value];
+        accountId.onkeyup = Platforms[dropDown.value].getSearch;
 
-        var input = document.getElementById('accountUrl');
+        var input = document.getElementById('accountId');
         input.placeholder = Platforms[dropDown.value].getPlaceholder();
     }
 
@@ -387,8 +387,8 @@ function onAddSub() {
     console.log("Clicked Add subscription button");
     ProfileManager.getUserId(function(userId) {
         var platform = document.getElementById("platform").value;
-        var accountUrl = document.getElementById("accountUrl").value;
-        Backend.addSubscription(userId, platform, accountUrl, callback);
+        var accountId = document.getElementById("accountId").value;
+        Backend.addSubscription(userId, platform, accountId, callback);
     });
 }
 
@@ -399,63 +399,68 @@ function onRemoveSub() {
     console.log("User clicked removeSubscriptions");
     ProfileManager.getUserId(function(userId) {
         var platform = document.getElementById("platform").value;
-        var accountUrl = document.getElementById("accountUrl").value;
-        Backend.removeSubscription(userId, platform, accountUrl, callback);
+        var accountId = document.getElementById("accountId").value;
+        Backend.removeSubscription(userId, platform, accountId, callback);
     });
 }
 
 // event listener for scrolling
 $(window).on("scroll", function() {
-  var scrollHeight = $(document).height();
-  var scrollPosition = $(window).height() + $(window).scrollTop();
+    var scrollHeight = $(document).height();
+    var scrollPosition = $(window).height() + $(window).scrollTop();
 
-  // if scrolled to the bottom, get more content
-  if ((scrollHeight - scrollPosition) / scrollHeight === 0) {
-    updateContent();
-  }
+    // if scrolled to the bottom, get more content
+    if ((scrollHeight - scrollPosition) / scrollHeight === 0) {
+        updateContent();
+    }
 });
 
 // helper for the next function
 function createDiv(className) {
-  let div = document.createElement("div");
-  div.className = className;
-  return div;
+    let div = document.createElement("div");
+    div.className = className;
+    return div;
 }
 
 // called to add a group of subscriptions to the subscriptions list
-function addToSubscriptionsList(platform, subs) {
-  let sl = document.getElementById("subscriptionsList");
+function addToSubscriptionsList(pname, subs) {
+    let platform = Platforms[pname];
+    let printablePname = PlatformPrintableNames[pname];
+    let sl = document.getElementById("subscriptionsList");
 
-  let group = createDiv("lurkr-sub-list-group");
-  let title = createDiv("lurkr-sub-list-group-title");
-  let a = document.createElement("a");
-  a.id = "subscriptionsListTitle-" + platform;
-  a.setAttribute("data-toggle", "collapse");
-  a.setAttribute("href", "#subscriptionsList-" + platform);
-  a.innerHTML = "\u25bc" + platform;
-  title.appendChild(a);
-  group.appendChild(title);
+    let group = createDiv("lurkr-sub-list-group");
+    let title = createDiv("lurkr-sub-list-group-title");
+    let a = document.createElement("a");
+    a.id = "subscriptionsListTitle-" + pname;
+    a.setAttribute("data-toggle", "collapse");
+    a.setAttribute("href", "#subscriptionsList-" + pname);
+    a.innerText = "\u25bc" + printablePname;
+    title.appendChild(a);
+    group.appendChild(title);
 
-  let list = document.createElement("ul");
-  list.id = "subscriptionsList-" + platform;
-  list.className = "collapse show";
+    let list = document.createElement("ul");
+    list.id = "subscriptionsList-" + pname;
+    list.className = "collapse show";
 
-  // add individual subscriptions
-  for (s of subs) {
-    let listItem = document.createElement("li");
-    listItem.innerText = s.accountUrl;
-    list.appendChild(listItem);
-  }
+    // add individual subscriptions
+    for (s of subs) {
+        let listItem = document.createElement("li");
+        let link = document.createElement("a");
+        link.innerText = s.accountId;   // TODO: platform.getHumanReadableName(s.accountId);
+        link.href = platform.getAccountUrl(s.accountId);
+        listItem.appendChild(link);
+        list.appendChild(listItem);
+    }
 
-  group.appendChild(list);
-  sl.appendChild(group);
+    group.appendChild(list);
+    sl.appendChild(group);
 
-  // event listeners so that we can change the arrow
-  $("#subscriptionsList-" + platform).on("hide.bs.collapse", () => {
-    document.getElementById("subscriptionsListTitle-" + platform).innerText = "\u25ba" + platform;
-  });
-  $("#subscriptionsList-" + platform).on("show.bs.collapse", () => {
-    document.getElementById("subscriptionsListTitle-" + platform).innerText = "\u25bc" + platform;
-  });
+    // event listeners so that we can change the arrow
+    $("#subscriptionsList-" + pname).on("hide.bs.collapse", () => {
+        document.getElementById("subscriptionsListTitle-" + pname).innerText = "\u25ba" + printablePname;
+    });
+    $("#subscriptionsList-" + pname).on("show.bs.collapse", () => {
+        document.getElementById("subscriptionsListTitle-" + pname).innerText = "\u25bc" + printablePname;
+    });
 }
 
