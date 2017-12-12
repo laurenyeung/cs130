@@ -22,6 +22,7 @@ function formatResponse(response) {
         var item = response.items[i];
         let content = {
             'videoId': item.id.videoId, 
+            'url': "https://youtube.com/watch?v=" + item.id.videoId,
             'timestamp': Date.parse(item.snippet.publishedAt)/1000,
             'title': item.snippet.title,
             'description': item.snippet.description,

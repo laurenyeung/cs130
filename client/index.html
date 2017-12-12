@@ -25,32 +25,27 @@
       </div>
     </div>
     <div class="container-fluid">
-
       <div class="row">
+
+        <!-- left bar -->
         <div class="col-sm-3" id="lurkr-left">
-          <table>
-            <tr>
-              <td>
-                <select id="platform">
-                  <option value="" disabled selected>Select Platform</option>
-                  <option value="youtube">Youtube</option>
-                  <option value="twitter">Twitter</option>
-                  <option value="tumblr">Tumblr</option>
-                </select>
-              </td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="text" id="accountUrl"/>
-                    <ul id="search-list"></ul>
-                </td>
-            </tr>
-          </table>
+          <select id="platform">
+            <option value="" disabled selected>Select Platform</option>
+            <option value="youtube">Youtube</option>
+            <option value="twitter">Twitter</option>
+            <option value="tumblr">Tumblr</option>
+          </select>
+          <input type="text" id="accountUrl"/>
+          <ul id="search-list"></ul>
           <p>
             <input type="button" id="addSubscriptionButton" value="Add Subscription" />
             <input type="button" id="removeSubscriptionButton" value="Remove Subscription" />
           </p>
+          <h5>Your Subscriptions</h5>
+          <div id="subscriptionsList">Loading...</div>
         </div>
+
+        <!-- main content area -->
         <div class="col-sm-9" id="lurkr-main">
           <div id="contentFeed"></div>
           <p id="scrollMsg">Scroll down to load more content</p>

@@ -128,6 +128,28 @@ function onSubscriptionsReceived(err, results) {
 
     contentState.subscriptions = results.results;
     updateContent();
+
+    // update list of subscriptions
+    let sl = document.getElementById("subscriptionsList");
+    sl.innerHTML = "";
+    let subs = results.results;
+
+    // sort by platform
+    let sortedSubs = {};
+    for (let sub of subs) {
+      if (sortedSubs[sub.platform] === undefined)
+        sortedSubs[sub.platform] = [];
+
+      sortedSubs[sub.platform].push(sub);
+    }
+    for (let platform in sortedSubs) {
+      // sort alphabetically-ish
+      let psubs = sortedSubs[platform];
+      psubs.sort((a, b) => { return a.accountUrl < b.accountUrl ? -1 : 1 });
+
+      // call this function to do all the hard work
+      addToSubscriptionsList(platform, psubs);
+    }
 }
 
 /**
@@ -265,12 +287,13 @@ function displayNewContent() {
 
 // adds one piece of content
 function addContentToWindow(content) {
-    console.log(content);
     let contentFeed = document.getElementById("contentFeed");
 
+    // <div class="lurkr-content">
     let outer = document.createElement("div");
     outer.className = "lurkr-content";
 
+    // <div class="content-main">
     let main = document.createElement("div");
     main.className = "content-main";
 
@@ -282,6 +305,14 @@ function addContentToWindow(content) {
     let embed = document.createElement("div");
     Platforms[content.platform].embed(content, embed);
 
+    // </div>
+    main.appendChild(title);
+    main.appendChild(embed);
+
+    // <div class="content-footer"> 
+    let footer = document.createElement('div');
+    footer.className = "content-footer";
+
     // <p>Sun Dec 10 2017 (3 hours ago)</p>
     let time = document.createElement("p");
     time.className = "lurkr-timeStr";
@@ -292,14 +323,11 @@ function addContentToWindow(content) {
     link.setAttribute("href", content.url);
     link.innerHTML = content.url;
 
-    let footer = document.createElement('div');
-    footer.className = "content-footer";
+    // </div>
     footer.appendChild(time);
     footer.appendChild(link);
 
-    main.appendChild(title);
-    main.appendChild(embed);
-
+    // </div>
     outer.appendChild(main);
     outer.appendChild(footer);
 
@@ -376,13 +404,58 @@ function onRemoveSub() {
     });
 }
 
+// event listener for scrolling
 $(window).on("scroll", function() {
   var scrollHeight = $(document).height();
   var scrollPosition = $(window).height() + $(window).scrollTop();
+
+  // if scrolled to the bottom, get more content
   if ((scrollHeight - scrollPosition) / scrollHeight === 0) {
     updateContent();
   }
 });
 
+// helper for the next function
+function createDiv(className) {
+  let div = document.createElement("div");
+  div.className = className;
+  return div;
+}
 
+// called to add a group of subscriptions to the subscriptions list
+function addToSubscriptionsList(platform, subs) {
+  let sl = document.getElementById("subscriptionsList");
+
+  let group = createDiv("lurkr-sub-list-group");
+  let title = createDiv("lurkr-sub-list-group-title");
+  let a = document.createElement("a");
+  a.id = "subscriptionsListTitle-" + platform;
+  a.setAttribute("data-toggle", "collapse");
+  a.setAttribute("href", "#subscriptionsList-" + platform);
+  a.innerHTML = "\u25bc" + platform;
+  title.appendChild(a);
+  group.appendChild(title);
+
+  let list = document.createElement("ul");
+  list.id = "subscriptionsList-" + platform;
+  list.className = "collapse show";
+
+  // add individual subscriptions
+  for (s of subs) {
+    let listItem = document.createElement("li");
+    listItem.innerText = s.accountUrl;
+    list.appendChild(listItem);
+  }
+
+  group.appendChild(list);
+  sl.appendChild(group);
+
+  // event listeners so that we can change the arrow
+  $("#subscriptionsList-" + platform).on("hide.bs.collapse", () => {
+    document.getElementById("subscriptionsListTitle-" + platform).innerText = "\u25ba" + platform;
+  });
+  $("#subscriptionsList-" + platform).on("show.bs.collapse", () => {
+    document.getElementById("subscriptionsListTitle-" + platform).innerText = "\u25bc" + platform;
+  });
+}
 
