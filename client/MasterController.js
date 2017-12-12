@@ -22,6 +22,13 @@ var Platforms = {
     tumblr:  new Tumblr.Tumblr(),
 };
 
+// Platform names used for printing purposes on front-end
+var PlatformPrintableNames = {
+    youtube: "Youtube",
+    twitter: "Twitter",
+    tumblr: "Tumblr"
+}
+
 // keeps track of the content that has been retrieved
 var contentState = {};
 
@@ -266,7 +273,7 @@ function addContentToWindow(content) {
 
     // <h3>Platform: user</h3>
     let title = document.createElement("h3");
-    title.innerHTML = content.platform + ": " + content.accountName;
+    title.innerHTML = PlatformPrintableNames[content.platform] + ": " + content.accountName;
 
     // <div>[embedded stuff goes here]</div>
     let inner = document.createElement("div");

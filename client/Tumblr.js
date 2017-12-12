@@ -17,7 +17,7 @@ const xhr = require('./xhr.js');
  * @return {module:client/platform~Content[]} - The content contained in `response`
 */
 function formatResponse(response, offset) {
-    console.log(response);
+    //console.log(response);
     var contentList = [];
     for (let i in response.response.posts) {
         var content = {};
@@ -71,7 +71,6 @@ class Tumblr extends platform.Platform {
     embed(content, where) {
         var post = '';
 //        console.log(content);
-        post += "<p>Content type: " + content.post.type + "</p>";
         //https://gist.github.com/interstateone/6744507
         // The post variable holds the HTML that will be placed into the page
         // Use the relevant post variables for each type from the docs
@@ -83,7 +82,16 @@ class Tumblr extends platform.Platform {
                 post += "<p>" + content.post.body + "</p>";
                 break;
             case "photo":
-                post += "<img src=" + content.post.photos[0].original_size.url + ">";
+                var photo = content.post.photos[0];
+                for (let i in photo.alt_sizes) {
+                    if (photo.alt_sizes[i].width < 800) {
+                        post += "<img src=" + photo.alt_sizes[i].url + ">";
+                        break;
+                    }
+                }
+                if (!post) {
+                    post += "<img src=" + photo.original_size.url + ">";
+                }
                 if (content.post.caption) {
                     post += "<p>" + content.post.caption + "</p>";
                 }
@@ -142,7 +150,6 @@ class Tumblr extends platform.Platform {
         let div = where;
         div.insertAdjacentHTML( 'beforeend', post );
         div.appendChild(link);
-        //div.appendChild(timestamp);
         div.setAttribute('class', 'tumblr-post');
         document.getElementById('contentFeed').appendChild(div);
     }
