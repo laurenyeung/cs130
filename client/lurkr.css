@@ -10,6 +10,11 @@ body {
 
 #lurkr-left {
   border-right: 1px solid #808080;
+  padding: 1em;
+}
+
+#lurkr-main {
+  padding: 1em;
 }
 
 .lurkr-content {
@@ -24,16 +29,18 @@ body {
       flex-direction: column;
   min-width: 0;
   word-wrap: break-word;
-  background-color: #fff;
+  background-color: #f8f8f8;
   background-clip: border-box;
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 0.25rem;
   margin-bottom: 1.5rem !important;
+  padding: 1em;
 }
 
 .lurkr-timeStr {
   color: #808080;
   font-style: italic;
+  margin: 0;
 }
 
 ul{
