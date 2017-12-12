@@ -34,6 +34,11 @@ function formatResponse(response, offset) {
     return contentList;
 }
 
+/**
+ * Grabs search suggestions from Tumblr api response and displays them on main page
+ * @param {*} err 
+ * @param {*object} response - contains all of the data received from the Tumblr server 
+ */
 function populateSearchList(err, response) {
     //console.log(response);
     if (err) {
@@ -60,6 +65,10 @@ function populateSearchList(err, response) {
  * defines the Tumblr implementation of the platform class
  */
 class Tumblr extends platform.Platform {
+    /**
+     * Return the placeholder text that should appear in the search bar for a specific placeholder
+     * @returns {String} - Platform's placeholder txt
+     */
     getPlaceholder() {
         return placeholder;
     }
@@ -180,6 +189,9 @@ class Tumblr extends platform.Platform {
         document.getElementById('contentFeed').appendChild(div);
     }
 
+    /**
+     * This method gets the search suggestions for a particular search input
+     */
     getSearch() {
         console.log("in getSearch");
         var searchText = document.getElementById('accountUrl').value;
