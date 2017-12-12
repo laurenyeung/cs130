@@ -51,12 +51,16 @@ ul{
 .tumblr-post {
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
-  padding: 1.25rem;
 
   /*Center tumblr-posts. Doesnt look that good
   margin: auto;
   display: block;
   */
+}
+
+.tumblr-post img {
+  margin-bottom: 1em;
+  border: 1px solid black;
 }
 
 .content-main {
@@ -70,6 +74,6 @@ ul{
 }
 
 .lurkr-content p {
-  margin: 0;
+  margin-bottom: 0;
 }
 
