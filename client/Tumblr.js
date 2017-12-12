@@ -36,7 +36,7 @@ function formatResponse(response, offset) {
 
 /**
  * Grabs search suggestions from Tumblr api response and displays them on main page
- * @param {*} err 
+ * @param {*} err - error response from Tumblr api
  * @param {*object} response - contains all of the data received from the Tumblr server 
  */
 function populateSearchList(err, response) {
@@ -186,9 +186,7 @@ class Tumblr extends platform.Platform {
      * This method gets the search suggestions for a particular search input
      */
     getSearch() {
-        console.log("in getSearch");
         var searchText = document.getElementById('accountUrl').value;
-        console.log(searchText);
 
         var searchList = document.getElementById('search-list');
         searchList.innerHTML = '';
