@@ -271,13 +271,16 @@ function addContentToWindow(content) {
     let outer = document.createElement("div");
     outer.className = "lurkr-content";
 
+    let main = document.createElement("div");
+    main.className = "content-main";
+
     // <h3>Platform: user</h3>
     let title = document.createElement("h3");
     title.innerHTML = PlatformPrintableNames[content.platform] + ": " + content.accountName;
 
     // <div>[embedded stuff goes here]</div>
-    let inner = document.createElement("div");
-    Platforms[content.platform].embed(content, inner);
+    let embed = document.createElement("div");
+    Platforms[content.platform].embed(content, embed);
 
     // <p>Sun Dec 10 2017 (3 hours ago)</p>
     let time = document.createElement("p");
@@ -290,12 +293,14 @@ function addContentToWindow(content) {
     link.innerHTML = content.url;
 
     let footer = document.createElement('div');
-    footer.className = "footer";
+    footer.className = "content-footer";
     footer.appendChild(time);
     footer.appendChild(link);
 
-    outer.appendChild(title);
-    outer.appendChild(inner);
+    main.appendChild(title);
+    main.appendChild(embed);
+
+    outer.appendChild(main);
     outer.appendChild(footer);
 
     contentFeed.appendChild(outer);
