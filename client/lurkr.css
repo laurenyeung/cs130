@@ -40,3 +40,21 @@ ul{
   list-style:none;
   padding:0;
 }
+
+
+.tumblr-post {
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  padding: 1.25rem;
+
+  /*Center tumblr-posts. Doesnt look that good
+  margin: auto;
+  display: block;
+  */
+}
+
+.footer {
+  padding: 0.75rem 1.25rem;
+  background-color: rgba(0, 0, 0, 0.03);
+  border-top: 1px solid rgba(0, 0, 0, 0.125);
+}

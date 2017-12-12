@@ -284,9 +284,19 @@ function addContentToWindow(content) {
     time.className = "lurkr-timeStr";
     time.innerHTML = createTimeStr(content.timestamp);
 
+    // <p>https://....com</p>
+    let link = document.createElement("a");
+    link.setAttribute("href", content.url);
+    link.innerHTML = content.url;
+
+    let footer = document.createElement('div');
+    footer.className = "footer";
+    footer.appendChild(time);
+    footer.appendChild(link);
+
     outer.appendChild(title);
     outer.appendChild(inner);
-    outer.appendChild(time);
+    outer.appendChild(footer);
 
     contentFeed.appendChild(outer);
 }

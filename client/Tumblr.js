@@ -141,7 +141,7 @@ class Tumblr extends platform.Platform {
             case "chat":
                 for (let i in content.post.dialogue) {
                     post += "<p>";
-                    post += "<b>" + content.post.dialogue[i].label + "</b>" + content.post.dialogue[i].phrase;
+                    post += "<b>" + content.post.dialogue[i].label + " </b>" + content.post.dialogue[i].phrase;
                     post += "</p>";
                 }
                 break;
@@ -174,17 +174,10 @@ class Tumblr extends platform.Platform {
             default:
                 post += "Error: Unknown Tumblr post type";
         }
-
-        let link = document.createElement('a');
-        link.setAttribute('href', content.url);
-        link.innerHTML = content.url;
-
-        //let timestamp = document.createElement('p');
-        //timestamp.innerHTML = "Timestamp: " + content.timestamp;
+//        post += "<p>Content type: " + content.post.type + "</p>";
 
         let div = where;
         div.insertAdjacentHTML( 'beforeend', post );
-        div.appendChild(link);
         div.setAttribute('class', 'tumblr-post');
         document.getElementById('contentFeed').appendChild(div);
     }
