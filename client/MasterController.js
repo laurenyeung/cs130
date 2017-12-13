@@ -225,7 +225,9 @@ function onRecvContent(err, res, key, accountName) {
         // tag on accountName for each content
         // FIXME: this is a sort of hack for getting the account name in the title
         for (let i = 0; i < res.length; ++i)
-            res[i].accountName = accountName;
+            if (res[i].accountName == null) {
+                res[i].accountName = accountName;
+            }
 
         // insert in reverse sorted order (oldest first)
         res.sort((a, b) => { return a.timestamp - b.timestamp; });

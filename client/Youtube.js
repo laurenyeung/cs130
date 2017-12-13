@@ -26,7 +26,8 @@ function formatResponse(response) {
             'timestamp': Date.parse(item.snippet.publishedAt)/1000,
             'title': item.snippet.title,
             'description': item.snippet.description,
-            'platform': "youtube"
+            'platform': "youtube",
+            'accountName': item.snippet.channelTitle
         };
         contentList.push(content);
     }
