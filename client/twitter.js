@@ -1,9 +1,10 @@
 /*jshint esversion: 6 */
 
-// platform-youtube.js - defines the Youtube implementation of the platform class 
-// Use youtube api here
+// platform-twitter.js - defines the Twitter implementation of the platform class 
+// Use twitter api here
 var platform = require('./platform.js');
 const xhr = require('./xhr.js');
+const api_key = 'jlTC5jlmNIzBIZNLHReXfP8uS';
 const placeholder = "Search Twitter by Username";
 // var request = require('request');
 // var cheerio = require('cheerio');

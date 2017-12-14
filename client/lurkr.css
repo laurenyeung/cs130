@@ -8,6 +8,10 @@ body {
   border-bottom: 1px solid #808080;
 }
 
+#lurkr-below-header {
+  height:100vh;
+}
+
 #lurkr-left {
   border-right: 1px solid #808080;
   padding: 1em;
@@ -105,5 +109,4 @@ li:hover .remove-sub-link {
 #addSubscriptionButton {
   width: 100%;
 }
-
 

@@ -370,6 +370,9 @@ function onPlatformChanged() {
     let dropDown = document.getElementById("platform");
     let accountId = document.getElementById("accountId");
 
+    var searchList = document.getElementById('search-list');
+    searchList.innerHTML = '';
+
     if (dropDown.value != "") {
         accountId.value = defaultAccount[dropDown.value];
         accountId.onkeyup = Platforms[dropDown.value].getSearch;
@@ -377,9 +380,6 @@ function onPlatformChanged() {
         var input = document.getElementById('accountId');
         input.placeholder = Platforms[dropDown.value].getPlaceholder();
     }
-
-    var searchList = document.getElementById('search-list');
-    searchList.innerHTML = '';
 }
 
 /**
