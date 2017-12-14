@@ -9,7 +9,7 @@
 const platform = require('./platform.js');
 const xhr = require('./xhr.js');
 const api_key = 'dwx5GBbm3Pghx2Dn8P78tfnXRSJFcYdXHNr3bpD4ffpXTzb1uD';
-const placeholder = "Search Tumblr by tag";
+const placeholder = "Search Tumblr by Tag";
 
 /**
  * Grabs the useful information from the api response

@@ -9,6 +9,7 @@
 let apiKey = "AIzaSyDQTSeTpYobZJ_dvQd_Ps_MCP90gXtjyXA";
 const platform = require('./platform.js');
 const xhr = require('./xhr.js');
+const placeholder = "Search Youtube by Username";
 
 /**
  * Grabs the useful information from the api response
@@ -39,6 +40,13 @@ function formatResponse(response) {
  * defines the Youtube implementation of the platform class
  */
 class Youtube extends platform.Platform {
+     /**
+     * Return the placeholder text that should appear in the search bar for a specific placeholder
+     * @returns {String} - Platform's placeholder txt
+     */
+    getPlaceholder() {
+        return placeholder;
+    }
     
      /**
      * This method gets the content from a particular account

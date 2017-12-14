@@ -379,6 +379,8 @@ function onPlatformChanged() {
         input.placeholder = Platforms[dropDown.value].getPlaceholder();
     }
 
+    var searchList = document.getElementById('search-list');
+    searchList.innerHTML = '';
 }
 
 /**
