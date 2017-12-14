@@ -18,10 +18,6 @@ body {
 }
 
 .lurkr-content {
-  /*
-  this looks ugly
-  border-bottom: 1px solid #c0c0c0;
-  */
   position: relative;
   display: -ms-flexbox;
   display: flex;
@@ -96,4 +92,18 @@ ul{
   font-weight: bold;
   text-decoration: none;
 }
+
+.remove-sub-link {
+  visibility: hidden;
+  color: #a0a0a0 !important;
+}
+
+li:hover .remove-sub-link {
+  visibility: visible;
+}
+
+#addSubscriptionButton {
+  width: 100%;
+}
+
 
