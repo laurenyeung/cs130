@@ -118,7 +118,7 @@ class Youtube extends platform.Platform {
      * @returns {string} The URL of the account (e.g. youtube channel)
      */
     getAccountUrl(accountId) {
-        return "https://youtube.com/channel/" + accountId;
+        return "https://youtube.com/user/" + accountId;
     }
 }
 
