@@ -48,9 +48,9 @@ class Youtube extends platform.Platform {
         return placeholder;
     }
     
-     /**
-     * This method gets the content from a particular account
-     * @param  {string} accountId - the ID of the account we are getting content from
+    /**
+     * This method gets the content from a particular account.
+     * @param  {string} accountName - the name of the account we are getting content from
      * @param  {module:client/platform~Content} after - Defines the piece of content to
      *   start searching after. For example, if we had previously received the first 10
      *   results in `var content`, then to get the next 10 results we would pass in `content[9]`
@@ -59,16 +59,21 @@ class Youtube extends platform.Platform {
      * @param  {module:client/platform~callback} callback - Called when the content has been
      *   retrieved. The `results` argument is of type {@link module:client/platform~Content|Content}.
      */
-    getContent(accountId, after, maxResults, callback) {
-        let channelId = accountId;
-        let url = "https://www.googleapis.com/youtube/v3/search?order=date&part=snippet&channelId=" + 
-            channelId + "&maxResults=" + maxResults + "&key=" + apiKey;
-        if (after != null)
-            url += "&publishedBefore=" +
-                encodeURIComponent(new Date((after.timestamp - 1)*1000).toISOString());
-
-        xhr.send("GET", url, null, (err, res) => {
-            callback(err, err ? undefined : formatResponse(res));
+    getContent(accountName, after, maxResults, callback) {
+        let channelRequestUrl = "https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&q=" + 
+                accountName + "&key=" + apiKey;
+        // get the channelId associated with the passed in accountName
+        xhr.send("GET", channelRequestUrl, null, (err, res) => {
+            //just take the first result of the channel search
+            let channelId = res.items[0].id.channelId;
+            let contentRequestUrl = "https://www.googleapis.com/youtube/v3/search?order=date&part=snippet&channelId=" + 
+                channelId + "&maxResults=" + maxResults + "&key=" + apiKey;
+            if (after != null)
+                contentRequestUrl += "&publishedBefore=" +
+                    encodeURIComponent(new Date((after.timestamp - 1)*1000).toISOString());
+            xhr.send("GET", contentRequestUrl, null, (err, res) => {
+                callback(err, err ? undefined : formatResponse(res));
+            });
         });
     }
 
