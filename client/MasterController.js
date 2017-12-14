@@ -446,7 +446,9 @@ function addToSubscriptionsList(pname, subs) {
 
         let link = document.createElement("a");
         link.innerText = s.accountId;   // TODO: platform.getHumanReadableName(s.accountId);
-        link.href = platform.getAccountUrl(s.accountId);
+        platform.getAccountUrl(s.accountId, (err, res) => {
+            link.href = res;
+        });
         td1.appendChild(link);
         tr.appendChild(td1);
         

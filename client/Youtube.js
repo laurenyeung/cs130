@@ -71,6 +71,7 @@ class Youtube extends platform.Platform {
             if (after != null)
                 contentRequestUrl += "&publishedBefore=" +
                     encodeURIComponent(new Date((after.timestamp - 1)*1000).toISOString());
+            // get the content
             xhr.send("GET", contentRequestUrl, null, (err, res) => {
                 callback(err, err ? undefined : formatResponse(res));
             });
@@ -100,25 +101,22 @@ class Youtube extends platform.Platform {
         document.getElementById('contentFeed').appendChild(div);
     }
 
-    // /**
-    //  * This method embeds a given url to the application at the bottom of the page.
-    //  * @param  {String} contentUrl - the content url to be embedded
-    //  */
-    // embed(contentUrl) {
-    //     let iframe = document.createElement('iframe');
-    //     iframe.src = "https://www.youtube.com/embed/" + contentUrl[0].videoId;
-    //     iframe.width = "560";
-    //     iframe.height = "315";
-    //     document.body.appendChild(iframe);
-    // }
-
     /**
-     * Converts an account ID into a URL
-     * @param {string} accountId - The ID of the account
-     * @returns {string} The URL of the account (e.g. youtube channel)
+     * Converts an account name into a an channel ID to be used in building a url to that channel
+     * @param {string} accountName - The name of the account
+     * @param  {module:client/platform~callback} callback - This function is called when the channel Id has been
+     *   retrieved. The `results` argument is of type {string}
      */
-    getAccountUrl(accountId) {
-        return "https://youtube.com/user/" + accountId;
+    getAccountUrl(accountName, callback) {
+        let channelRequestUrl = "https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&q=" + 
+                accountName + "&key=" + apiKey;
+        // get the channelId associated with the passed in accountName
+        xhr.send("GET", channelRequestUrl, null, (err, res) => {
+            //just take the first result of the channel search
+            let channelId = res.items[0].id.channelId;
+            let channelUrl = "https://youtube.com/channel/" + channelId;
+            callback(err, err ? undefined : channelUrl);
+        });
     }
 }
 
