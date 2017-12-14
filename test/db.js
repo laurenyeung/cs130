@@ -78,8 +78,8 @@ describe('Database', () => {
                         assert(res[0].platform == "a" || res[0].platform == "b");
                         assert(res[1].platform == "a" || res[1].platform == "b");
                         assert(res[0].platform != res[1].platform);
-                        assert(res[0].platform == res[0].accountUrl);
-                        assert(res[1].platform == res[1].accountUrl);
+                        assert(res[0].platform == res[0].accountId);
+                        assert(res[1].platform == res[1].accountId);
 
                         done();
                     });
