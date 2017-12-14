@@ -96,3 +96,17 @@ ul{
   font-weight: bold;
   text-decoration: none;
 }
+
+.remove-sub-link {
+  visibility: hidden;
+  color: #a0a0a0 !important;
+}
+
+li:hover .remove-sub-link {
+  visibility: visible;
+}
+
+#addSubscriptionButton {
+  width: 100%;
+}
+

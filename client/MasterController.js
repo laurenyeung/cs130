@@ -87,7 +87,6 @@ ProfileManager.setInitCallback(init);
 function setButtonBehaviors() {
     document.getElementById("platform").onchange = onPlatformChanged;
     document.getElementById("addSubscriptionButton").onclick = onAddSub;
-    document.getElementById("removeSubscriptionButton").onclick = onRemoveSub;
     document.getElementById("logOutButton").onclick = ProfileManager.logout;
 }
 
@@ -396,18 +395,6 @@ function onAddSub() {
     });
 }
 
-/**
- * Called when the user wants to delete an existing subscription
- */
-function onRemoveSub() {
-    console.log("User clicked removeSubscriptions");
-    ProfileManager.getUserId(function(userId) {
-        var platform = document.getElementById("platform").value;
-        var accountId = document.getElementById("accountId").value;
-        Backend.removeSubscription(userId, platform, accountId, callback);
-    });
-}
-
 // event listener for scrolling
 $(window).on("scroll", function() {
     var scrollHeight = $(document).height();
@@ -419,11 +406,14 @@ $(window).on("scroll", function() {
     }
 });
 
-// helper for the next function
-function createDiv(className) {
-    let div = document.createElement("div");
-    div.className = className;
-    return div;
+
+// helper function because javascript closures capture by reference
+function makeRemoveSubCallback(platform, accountId) {
+    return function() {
+        ProfileManager.getUserId(function(userId) {
+            Backend.removeSubscription(userId, platform, accountId, callback);
+        });
+    };
 }
 
 // called to add a group of subscriptions to the subscriptions list
@@ -432,8 +422,8 @@ function addToSubscriptionsList(pname, subs) {
     let printablePname = PlatformPrintableNames[pname];
     let sl = document.getElementById("subscriptionsList");
 
-    let group = createDiv("lurkr-sub-list-group");
-    let title = createDiv("lurkr-sub-list-group-title");
+    let group = document.createElement("div"); group.className="lurkr-sub-list-group";
+    let title = document.createElement("div"); title.className="lurkr-sub-list-group-title";
     let a = document.createElement("a");
     a.id = "subscriptionsListTitle-" + pname;
     a.setAttribute("data-toggle", "collapse");
@@ -449,10 +439,28 @@ function addToSubscriptionsList(pname, subs) {
     // add individual subscriptions
     for (s of subs) {
         let listItem = document.createElement("li");
+        let table = document.createElement("table");
+        let tr = document.createElement("tr");
+        let td1 = document.createElement("td");
+        td1.width = "100%";
+
         let link = document.createElement("a");
         link.innerText = s.accountId;   // TODO: platform.getHumanReadableName(s.accountId);
         link.href = platform.getAccountUrl(s.accountId);
-        listItem.appendChild(link);
+        td1.appendChild(link);
+        tr.appendChild(td1);
+        
+        let td2 = document.createElement("td");
+        let a = document.createElement("a");
+        a.className = "remove-sub-link";
+        a.innerText = "[delete]";
+        a.href = "#";
+        a.onclick = makeRemoveSubCallback(pname, s.accountId);
+        td2.appendChild(a);
+        tr.appendChild(td2);
+
+        table.appendChild(tr);
+        listItem.appendChild(table);
         list.appendChild(listItem);
     }
 
