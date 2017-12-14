@@ -8,6 +8,10 @@ body {
   border-bottom: 1px solid #808080;
 }
 
+#lurkr-below-header {
+  height:100vh;
+}
+
 #lurkr-left {
   border-right: 1px solid #808080;
   padding: 1em;
@@ -18,10 +22,6 @@ body {
 }
 
 .lurkr-content {
-  /*
-  this looks ugly
-  border-bottom: 1px solid #c0c0c0;
-  */
   position: relative;
   display: -ms-flexbox;
   display: flex;
@@ -96,4 +96,3 @@ ul{
   font-weight: bold;
   text-decoration: none;
 }
-

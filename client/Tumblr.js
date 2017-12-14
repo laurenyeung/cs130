@@ -53,13 +53,21 @@ function populateSearchList(err, response) {
             if (!(response[i].blog_name in uniqueSet)) {
                 uniqueSet[response[i].blog_name] = true;
                 var option = document.createElement('li');
-                var textnode = document.createTextNode(response[i].blog_name);
-                option.appendChild(textnode);
+                var a = document.createElement('a');
+                a.setAttribute('href', '#')
+                a.innerText = response[i].blog_name;
+                a.onclick = function() {
+                    document.getElementById('accountId').value = this.innerText;
+                };
+//                var textnode = document.createTextNode(response[i].blog_name);
+//                option.appendChild(textnode);
+                option.appendChild(a);
                 searchList.appendChild(option);
             }
         }
     }
 }
+
 
 /**
  * defines the Tumblr implementation of the platform class
