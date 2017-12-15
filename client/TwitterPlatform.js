@@ -62,7 +62,7 @@ class TwitterPlatform extends platform.Platform {
      * @param  {module:client/platform~callback} callback - This function is called when the channel Id has been
      *   retrieved. The `results` argument is of type {string}
      */
-    getAccountUrl(accountId) {
+    getAccountUrl(accountId, callback) {
         callback(null, "https://twitter.com/" + accountId);
     }
 }
