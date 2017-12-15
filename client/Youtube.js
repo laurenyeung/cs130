@@ -121,5 +121,6 @@ class Youtube extends platform.Platform {
 }
 
 module.exports = {
-    Youtube: Youtube
+    Youtube: Youtube,
+    formatResponse
 };
