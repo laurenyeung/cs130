@@ -5,17 +5,21 @@
 var platform = require('./platform.js');
 var Twitter = require('twitter-node-client').Twitter;
 const xhr = require('./xhr.js');
-const api_key = 'jlTC5jlmNIzBIZNLHReXfP8uS';
-const api_secret = 'dNIE3oFVdIFCz4ZVbTMpks9P6tOcIk1Hr6lrM0k2xG6dLyc4A7'
 const placeholder = "Search Twitter by Username";
 
-// var request = require('request');
-// var cheerio = require('cheerio');
+var config = {
+        "consumerKey": "jlTC5jlmNIzBIZNLHReXfP8uS",
+       "consumerSecret": "dNIE3oFVdIFCz4ZVbTMpks9P6tOcIk1Hr6lrM0k2xG6dLyc4A7",
+       "accessToken": "931011969699557376-XgvNxi5W4N1qcAYnk6XBi9P431vBh2O",
+       "accessTokenSecret": "mAZ94v83r4E36GfDTcgiicDB6pcZ7pQqrDo5KFYLkyGS0",
+       "callBackUrl": ""
+    }
+
 
 //Callback functions
     var error = function (err, response, body) {
-        console.log('ERROR [%s]', err);
-    };
+    console.log('ERROR [%s]', JSON.stringify(err));
+};
     var success = function (data) {
         console.log('Data [%s]', data);
     };
@@ -48,8 +52,8 @@ class TwitterPlatform extends platform.Platform {
        // xhr.send("GET", url, null, (err, res) => {
         //    callback(err, err ? undefined : formatResponse(res.response, offset));
 
-        var twitter = new Twitter();
-        twitter.getUserTimeline({ screen_name: 'realDonaldTrump', count: maxResults}, error, success);
+        var twitter = new Twitter(config);
+        twitter.getUserTimeline({ screen_name: 'realDonaldTrump', count: 2}, error, success);
     }
 
     /**
