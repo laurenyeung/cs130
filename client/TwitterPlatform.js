@@ -19,6 +19,7 @@ var config = {
 //Callback functions
     var error = function (err, response, body) {
     console.log('ERROR [%s]', JSON.stringify(err));
+    console.log("twitter failure");
 };
     var success = function (data) {
         console.log('Data [%s]', data);
@@ -53,7 +54,7 @@ class TwitterPlatform extends platform.Platform {
         //    callback(err, err ? undefined : formatResponse(res.response, offset));
 
         var twitter = new Twitter(config);
-        twitter.getUserTimeline({ screen_name: 'realDonaldTrump', count: 2}, error, success);
+        twitter.getUserTimeline({ screen_name: 'realDonaldTrump', count: maxResults}, error, success);
     }
 
     /**
