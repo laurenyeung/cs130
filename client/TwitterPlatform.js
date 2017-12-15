@@ -12,6 +12,14 @@ const placeholder = "Search Twitter by Username";
 // var request = require('request');
 // var cheerio = require('cheerio');
 
+//Callback functions
+    var error = function (err, response, body) {
+        console.log('ERROR [%s]', err);
+    };
+    var success = function (data) {
+        console.log('Data [%s]', data);
+    };
+
 class TwitterPlatform extends platform.Platform {
     /**
      * Return the placeholder text that should appear in the search bar for a specific placeholder
@@ -41,7 +49,7 @@ class TwitterPlatform extends platform.Platform {
         //    callback(err, err ? undefined : formatResponse(res.response, offset));
 
         var twitter = new Twitter();
-        twitter.getUserTimeline({ screen_name: 'realDonaldTrump', count: '5'}, error, success);
+        twitter.getUserTimeline({ screen_name: 'realDonaldTrump', count: maxResults}, error, success);
     }
 
     /**
