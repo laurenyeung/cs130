@@ -3,10 +3,12 @@
 // platform-twitter.js - defines the Twitter implementation of the platform class 
 // Use twitter api here
 var platform = require('./platform.js');
+var Twitter = require('twitter-node-client').Twitter;
 const xhr = require('./xhr.js');
 const api_key = 'jlTC5jlmNIzBIZNLHReXfP8uS';
 const api_secret = 'dNIE3oFVdIFCz4ZVbTMpks9P6tOcIk1Hr6lrM0k2xG6dLyc4A7'
 const placeholder = "Search Twitter by Username";
+
 // var request = require('request');
 // var cheerio = require('cheerio');
 
@@ -33,10 +35,13 @@ class Twitter extends platform.Platform {
     getContent(accountId, start, maxResults, callback) {
         
         //GET https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=twitterapi&count=2
-        var url = 'https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=' + accountId + '&count=5';
+      //  var url = 'https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=' + accountId + '&count=5';
 
-        xhr.send("GET", url, null, (err, res) => {
-            callback(err, err ? undefined : formatResponse(res.response, offset));
+       // xhr.send("GET", url, null, (err, res) => {
+        //    callback(err, err ? undefined : formatResponse(res.response, offset));
+
+        var twitter = new Twitter();
+        twitter.getUserTimeline({ screen_name: 'realDonaldTrump', count: '5'}, error, success);
     }
 
     /**
