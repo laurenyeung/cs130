@@ -8,7 +8,7 @@
 
 const Backend = require('./backend.js');
 const Youtube = require('./Youtube');
-const Twitter = require('./twitter.js');
+const TwitterPlatform = require('./TwitterPlatform.js');
 const Tumblr = require('./Tumblr.js');
 const ProfileManager = require('./ProfileManager.js');
 
@@ -18,7 +18,7 @@ const RESULTS_PER_PAGE = 10;
 // object keys must match up with the "platform" argument sent to/from the back-end
 var Platforms = {
     youtube: new Youtube.Youtube(),
-    twitter: new Twitter.Twitter(),
+    twitter: new TwitterPlatform.TwitterPlatform(),
     tumblr:  new Tumblr.Tumblr(),
 };
 
