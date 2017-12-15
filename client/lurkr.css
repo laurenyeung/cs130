@@ -110,3 +110,9 @@ li:hover .remove-sub-link {
   width: 100%;
 }
 
+/* make the arrows for the collapsing groups on the left side look consistent on all browsers */
+@import url('https://fonts.googleapis.com/css?family=Arimo');
+.lurkr-arrow {
+  font-family: 'Arimo', sans-serif;
+}
+
