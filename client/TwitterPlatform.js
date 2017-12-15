@@ -3,13 +3,19 @@
 // platform-twitter.js - defines the Twitter implementation of the platform class 
 // Use twitter api here
 var platform = require('./platform.js');
+var Twitter = require('twitter-node-client').Twitter;
 const xhr = require('./xhr.js');
-const api_key = 'jlTC5jlmNIzBIZNLHReXfP8uS';
 const placeholder = "Search Twitter by Username";
-// var request = require('request');
-// var cheerio = require('cheerio');
 
-class Twitter extends platform.Platform {
+var config = {
+ +        "consumerKey": "jlTC5jlmNIzBIZNLHReXfP8uS",
+ +       "consumerSecret": "dNIE3oFVdIFCz4ZVbTMpks9P6tOcIk1Hr6lrM0k2xG6dLyc4A7",
+ +       "accessToken": "931011969699557376-XgvNxi5W4N1qcAYnk6XBi9P431vBh2O",
+ +       "accessTokenSecret": "mAZ94v83r4E36GfDTcgiicDB6pcZ7pQqrDo5KFYLkyGS0",
+ +       "callBackUrl": ""
+ +    }
+
+class TwitterPlatform extends platform.Platform {
     /**
      * Return the placeholder text that should appear in the search bar for a specific placeholder
      * @returns {String} - Platform's placeholder txt
@@ -54,5 +60,5 @@ class Twitter extends platform.Platform {
 }
 
 module.exports = {
-    Twitter: Twitter
+    TwitterPlatform: TwitterPlatform
 };
