@@ -392,13 +392,18 @@ function onAddSub() {
     });
 }
 
+function getDocHeight() {
+    var D = document;
+    return Math.max(
+        D.body.scrollHeight, D.documentElement.scrollHeight,
+        D.body.offsetHeight, D.documentElement.offsetHeight,
+        D.body.clientHeight, D.documentElement.clientHeight);
+}
+
 // event listener for scrolling
 $(window).on("scroll", function() {
-    var scrollHeight = $(document).height();
-    var scrollPosition = $(window).height() + $(window).scrollTop();
-
     // if scrolled to the bottom, get more content
-    if ((scrollHeight - scrollPosition) / scrollHeight === 0) {
+    if ($(window).scrollTop() + $(window).height() == getDocHeight()) {
         updateContent();
     }
 });
