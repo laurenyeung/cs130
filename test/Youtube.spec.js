@@ -5,8 +5,9 @@ var Youtube = require("../client/Youtube");
 
 describe('Youtube', () => {
 
+	let youtube = new Youtube.Youtube();
+
 	describe('formatResponse', () => {
-		
 		it('should return an array of content objects created from the response argument', () => {
 			let response = {
 				"items": [
@@ -36,6 +37,12 @@ describe('Youtube', () => {
 				}
 			]
 			assert.deepEqual(contentList, expectedResult);
+		});
+	});
+
+	describe('getPlaceHolder', () => {
+		it('should return the correct placeholder text', () => {
+			assert.equal(youtube.getPlaceholder(), "Search Youtube by Username");
 		});
 	});
 });
