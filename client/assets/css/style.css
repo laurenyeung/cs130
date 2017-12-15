@@ -380,6 +380,7 @@ html,body{
     text-align: center;
     background: #fff;
     border: 1px solid #ccc;
+    vertical-align: middle;
 }
 
 .login-container::before,.login-container::after{
@@ -413,9 +414,14 @@ html,body{
     background-size: cover;
 }
 
+.fb-login-button {
+	margin: auto;
+	width: 50px;
+}
+
 .form-box input{
     width: 100%;
-    padding: 10px;
+    padding: 20px;
     text-align: center;
     height:40px;
     border: 1px solid #ccc;;
