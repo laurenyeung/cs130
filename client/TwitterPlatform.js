@@ -12,7 +12,7 @@ const placeholder = "Search Twitter by Username";
 // var request = require('request');
 // var cheerio = require('cheerio');
 
-class Twitter extends platform.Platform {
+class TwitterPlatform extends platform.Platform {
     /**
      * Return the placeholder text that should appear in the search bar for a specific placeholder
      * @returns {String} - Platform's placeholder txt
@@ -64,5 +64,5 @@ class Twitter extends platform.Platform {
 }
 
 module.exports = {
-    Twitter: Twitter
+    TwitterPlatform: TwitterPlatform
 };
