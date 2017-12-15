@@ -5,6 +5,7 @@
 var platform = require('./platform.js');
 const xhr = require('./xhr.js');
 const api_key = 'jlTC5jlmNIzBIZNLHReXfP8uS';
+const api_secret = 'dNIE3oFVdIFCz4ZVbTMpks9P6tOcIk1Hr6lrM0k2xG6dLyc4A7'
 const placeholder = "Search Twitter by Username";
 // var request = require('request');
 // var cheerio = require('cheerio');
@@ -30,7 +31,12 @@ class Twitter extends platform.Platform {
      *   retrieved. The `results` argument is of type {@link module:client/platform~Content|Content}.
      */
     getContent(accountId, start, maxResults, callback) {
-        throw "Platform not implemented";
+        
+        //GET https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=twitterapi&count=2
+        var url = 'https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=' + accountId + '&count=5';
+
+        xhr.send("GET", url, null, (err, res) => {
+            callback(err, err ? undefined : formatResponse(res.response, offset));
     }
 
     /**
