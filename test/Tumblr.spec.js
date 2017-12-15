@@ -2,6 +2,8 @@
 
 var assert = require("assert");
 var Tumblr = require("../client/Tumblr.js");
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
 
 var response = {
     "blog": {
@@ -60,6 +62,22 @@ var post =
         "video_type": "youtube",
     };
 
+const { window } = new JSDOM(
+    `<!DOCTYPE html>
+    <body>
+        <div class="container-fluid">
+            <div class="col-sm-9" id="lurkr-main">
+                <p>Hello world</p>
+                <div id="contentFeed">
+                </div>
+            </div>
+        </div>
+    </body>
+    </html>`
+);
+global.document = window.document;
+global.window = window;
+
 describe('Tumblr', () => {
     let tumblr = new Tumblr.Tumblr();
     
@@ -85,5 +103,28 @@ describe('Tumblr', () => {
         });
     });
 
+    describe('#embed()', () => {
+        it('should  embed the given platform content into the main page', () => {
+            let content = {
+                'index': 0,
+                'platform': "tumblr",
+                'url': "http://test.tumblr.com/post/113776881077",
+                'timestamp': 1426502674,
+                'post': post
+            };
+
+            let div = document.createElement("div");
+            tumblr.embed(content, div);
+            let contentFeed = document.getElementById("contentFeed");
+
+            //Get the string representation of contentFeed
+            var tmp = document.createElement("div");
+            tmp.appendChild(contentFeed);
+
+            var expected = `<div id="contentFeed">
+                <div class="tumblr-post"><p><iframe width="250" height="141" id="youtube_iframe" src="https://www.youtube.com/embed/xPFJIHE3E54?feature=oembed&amp;enablejsapi=1&amp;origin=https://safe.txmblr.com&amp;wmode=opaque" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen=""></iframe></p></div></div>`;
+            assert.deepEqual(tmp.innerHTML, expected);
+        });
+    });
 
 });
