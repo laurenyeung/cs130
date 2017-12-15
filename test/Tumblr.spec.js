@@ -120,10 +120,12 @@ describe('Tumblr', () => {
             //Get the string representation of contentFeed
             var tmp = document.createElement("div");
             tmp.appendChild(contentFeed);
+            //Remove newlines and tabs
+            var actual = tmp.innerHTML.split('\t').join('');
+            actual = actual.split('\n').join('');
 
-            var expected = `<div id="contentFeed">
-                <div class="tumblr-post"><p><iframe width="250" height="141" id="youtube_iframe" src="https://www.youtube.com/embed/xPFJIHE3E54?feature=oembed&amp;enablejsapi=1&amp;origin=https://safe.txmblr.com&amp;wmode=opaque" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen=""></iframe></p></div></div>`;
-            assert.deepEqual(tmp.innerHTML, expected);
+            var expected = `<div id="contentFeed"><div class="tumblr-post"><p><iframe width="250" height="141" id="youtube_iframe" src="https://www.youtube.com/embed/xPFJIHE3E54?feature=oembed&amp;enablejsapi=1&amp;origin=https://safe.txmblr.com&amp;wmode=opaque" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen=""></iframe></p></div></div>`;
+            assert.deepEqual(actual, expected);
         });
     });
 
