@@ -66,7 +66,7 @@ class Youtube extends platform.Platform {
         xhr.send("GET", channelRequestUrl, null, (err, res) => {
             //just take the first result of the channel search
             let channelId = res.items[0].id.channelId;
-            let contentRequestUrl = "https://www.googleapis.com/youtube/v3/search?order=date&part=snippet&channelId=" + 
+            let contentRequestUrl = "https://www.googleapis.com/youtube/v3/search?type=video&order=date&part=snippet&channelId=" + 
                 channelId + "&maxResults=" + maxResults + "&key=" + apiKey;
             if (after != null)
                 contentRequestUrl += "&publishedBefore=" +
