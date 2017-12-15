@@ -424,11 +424,16 @@ function addToSubscriptionsList(pname, subs) {
 
     let group = document.createElement("div"); group.className="lurkr-sub-list-group";
     let title = document.createElement("div"); title.className="lurkr-sub-list-group-title";
+
+    let arrow = document.createElement("span"); arrow.className="lurkr-arrow";
+    arrow.innerText = "\u25bc";
+    title.appendChild(arrow);
+
     let a = document.createElement("a");
     a.id = "subscriptionsListTitle-" + pname;
     a.setAttribute("data-toggle", "collapse");
     a.setAttribute("href", "#subscriptionsList-" + pname);
-    a.innerText = "\u25bc" + printablePname;
+    a.innerText = printablePname;
     title.appendChild(a);
     group.appendChild(title);
 
@@ -441,9 +446,10 @@ function addToSubscriptionsList(pname, subs) {
         let listItem = document.createElement("li");
         let table = document.createElement("table");
         let tr = document.createElement("tr");
+
+        // link to creator's channel/page
         let td1 = document.createElement("td");
         td1.width = "100%";
-
         let link = document.createElement("a");
         link.innerText = s.accountId;   // TODO: platform.getHumanReadableName(s.accountId);
         platform.getAccountUrl(s.accountId, (err, res) => {
@@ -451,7 +457,8 @@ function addToSubscriptionsList(pname, subs) {
         });
         td1.appendChild(link);
         tr.appendChild(td1);
-        
+       
+        // remove subscription link
         let td2 = document.createElement("td");
         let a = document.createElement("a");
         a.className = "remove-sub-link";
@@ -469,12 +476,12 @@ function addToSubscriptionsList(pname, subs) {
     group.appendChild(list);
     sl.appendChild(group);
 
-    // event listeners so that we can change the arrow
-    $("#subscriptionsList-" + pname).on("hide.bs.collapse", () => {
-        document.getElementById("subscriptionsListTitle-" + pname).innerText = "\u25ba" + printablePname;
+    // event listeners so that we can change the arrow on expand or collapse
+    $("#" + list.id).on("hide.bs.collapse", () => {
+        arrow.innerText = "\u25ba";
     });
-    $("#subscriptionsList-" + pname).on("show.bs.collapse", () => {
-        document.getElementById("subscriptionsListTitle-" + pname).innerText = "\u25bc" + printablePname;
+    $("#" + list.id).on("show.bs.collapse", () => {
+        arrow.innerText = "\u25bc";
     });
 }
 
