@@ -71,10 +71,7 @@ function resetContentState() {
 function init() {
     resetContent();
     setButtonBehaviors();
-    onPlatformChanged();    // temporary: fill in default accountId
-    // getAllSubscriptions();
-    // getContent();
-    // sortContent();
+    onPlatformChanged();
 }
 
 // Have ProfileManager call init() once facebook is done loading. Do this
@@ -363,7 +360,7 @@ function createTimeStr(timestamp) {
 function onPlatformChanged() {
     // set a default channel for now
     const defaultAccount = {
-        youtube: "UCLegnNLfivOIBlM97QUwefQ",
+        youtube: "ESPN",
         tumblr: "citriccomics",
         twitter: ""
     };
