@@ -55,9 +55,10 @@ class Platform {
     /**
      * Converts an account ID into a URL
      * @param {string} accountId - The ID of the account
-     * @returns {string} The URL of the account (e.g. youtube channel)
+     * @param  {module:client/platform~callback} callback - This function is called when the channel Id has been
+     *   retrieved. The `results` argument is of type {string}
      */
-    getAccountUrl(accountId) {
+    getAccountUrl(accountId, callback) {
         throw "Platform not implemented";
     }
 }
