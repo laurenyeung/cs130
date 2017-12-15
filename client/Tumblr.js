@@ -217,5 +217,6 @@ class Tumblr extends platform.Platform {
 }
 
 module.exports = {
-    Tumblr: Tumblr
+    Tumblr: Tumblr,
+    formatResponse
 };
