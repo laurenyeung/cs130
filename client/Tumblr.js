@@ -36,8 +36,8 @@ function formatResponse(response, offset) {
 
 /**
  * Grabs search suggestions from Tumblr api response and displays them on main page
- * @param {*} err - error response from Tumblr api
- * @param {*object} response - contains all of the data received from the Tumblr server 
+ * @param {object} err - error response from Tumblr api
+ * @param {object} response - contains all of the data received from the Tumblr server 
  */
 function populateSearchList(err, response) {
     //console.log(response);
